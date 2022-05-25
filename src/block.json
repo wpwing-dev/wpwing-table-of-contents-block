@@ -5,8 +5,8 @@
 	"version": "5.0.8",
 	"title": "WPWing TOC",
 	"category": "layout",
-	"keywords": [ "TOC", "Table of Contents", "SimpleTOC", "Inhaltsverzeichnis", "Index" ],
-	"icon": "simpletocicon",
+	"keywords": [ "TOC", "Table of Contents" ],
+	"icon": "smiley",
 	"description": "Adds a Table of Contents.",
 	"attributes": {
 		"no_title": {
@@ -37,7 +37,7 @@
 	"supports": {
 		"align": [ "wide" , "full"]
 	},
-	"textdomain": "simpletoc",
+	"textdomain": "wpwing-toc",
 	"editorScript": "file:index.js",
 	"editorStyle": "file:editor.css"
 }

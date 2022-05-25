@@ -17,61 +17,33 @@
 
 /**
  * Initalise frontend and backend and register block
- **/
-
-function register_wpwing_toc_block() {
-  wp_set_script_translations( 'wpwing-toc-editor-script', 'simpletoc' );
-
-  add_filter( 'plugin_row_meta', __NAMESPACE__ . '\\wpwing_toc_plugin_meta', 10, 2 );
+ */
+function wpwing_toc_register_block() {
+  add_filter( 'plugin_row_meta', 'wpwing_toc_plugin_meta', 10, 2 );
 
   register_block_type( __DIR__ . '/build', [
-    'render_callback' => __NAMESPACE__ . '\\render_callback',
+    'render_callback' => 'wpwing_toc_render_callback',
   ] );
 }
 
-add_action( 'init', 'register_wpwing_toc_block' );
+add_action( 'init', 'wpwing_toc_register_block' );
 
 /**
- * Filter to add plugins to the TOC list for Rank Math plugin
- *
- * @param array TOC plugins.
+ * Add meta information in plugin list
  */
-
-add_filter( 'rank_math/researches/toc_plugins', function ( $toc_plugins ) {
-  $toc_plugins['simpletoc/plugin.php'] = 'SimpleTOC';
-  return $toc_plugins;
-} );
-
-add_filter( 'the_content', 'simpletoc_addIDstoContent', 1 );
-
-function simpletoc_addIDstoContent( $content ) {
-
-  if ( has_block( 'simpletoc/toc', get_the_ID() ) ) {
-
-    $blocks = parse_blocks( $content );
-
-    foreach ( $blocks as &$block ) {
-
-      if ( isset( $block['blockName'] ) && $block['blockName'] === 'core/heading' && isset( $block['innerHTML'] ) && isset( $block['innerContent'] ) && isset( $block['innerContent'][0] ) ) {
-        $block['innerHTML']       = addAnchorAttribute( $block['innerHTML'] );
-        $block['innerContent'][0] = addAnchorAttribute( $block['innerContent'][0] );
-      }
-
-    }
-    $content = serialize_blocks( $blocks );
-
+function wpwing_toc_plugin_meta( $links, $file ) {
+  if ( false !== strpos( $file, 'wpwing-table-of-contens-block' ) ) {
+    $links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block">' . __( 'Support', 'wpwing-toc' ) . '</a>'] );
+    $links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block/reviews/#new-post">' . __( 'Write a review', 'wpwing-toc' ) . '&nbsp;⭐️⭐️⭐️⭐️⭐️</a>'] );
   }
 
-  return $content;
+  return $links;
 }
 
 /**
  * Render block output
- *
  */
-
-function render_callback( $attributes ) {
-
+function wpwing_toc_render_callback( $attributes ) {
   $is_backend = defined( 'REST_REQUEST' ) && true === REST_REQUEST && 'edit' === filter_input( INPUT_GET, 'context' );
 
   $alignclass = '';
@@ -88,7 +60,7 @@ function render_callback( $attributes ) {
   $pre_html  = '';
   $post_html = '';
   if ( $className != '' ) {
-    $pre_html  = '<div class="simpletoc ' . $className . '">';
+    $pre_html  = '<div class="wpwing-toc ' . $className . '">';
     $post_html = '</div>';
   }
 
@@ -99,18 +71,18 @@ function render_callback( $attributes ) {
     $html = '';
     if ( $is_backend == true ) {
       if ( $attributes['no_title'] == false ) {
-        $html = '<h2 class="simpletoc-title ' . $alignclass . '">' . __( 'Table of Contents', 'simpletoc' ) . '</h2>';
+        $html = '<h2 class="wpwing-toc-title ' . $alignclass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
       }
 
-      $html .= '<p class="components-notice is-warning ' . $alignclass . '">' . __( 'No blocks found.', 'simpletoc' ) . ' ' . __( 'Save or update post first.', 'simpletoc' ) . '</p>';
+      $html .= '<p class="components-notice is-warning ' . $alignclass . '">' . __( 'No blocks found.', 'wpwing-toc' ) . ' ' . __( 'Save or update post first.', 'wpwing-toc' ) . '</p>';
     }
     return $html;
   }
 
-  $headings = array_reverse( filter_headings_recursive( $blocks ) );
+  $headings = array_reverse( wpwing_toc_filter_headings_recursive( $blocks ) );
 
   // enrich headings with pages as a data-attribute
-  $headings = simpletoc_add_pagenumber( $blocks, $headings );
+  $headings = wpwing_toc_add_pagenumber( $blocks, $headings );
 
   $headings_clean = array_map( 'trim', $headings );
 
@@ -119,22 +91,55 @@ function render_callback( $attributes ) {
     if ( $is_backend == true ) {
 
       if ( $attributes['no_title'] == false ) {
-        $html = '<h2 class="simpletoc-title ' . $alignclass . '">' . __( 'Table of Contents', 'simpletoc' ) . '</h2>';
+        $html = '<h2 class="wpwing-toc-title ' . $alignclass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
       }
 
-      $html .= '<p class="components-notice is-warning ' . $alignclass . '">' . __( 'No headings found.', 'simpletoc' ) . ' ' . __( 'Save or update post first.', 'simpletoc' ) . '</p>';
+      $html .= '<p class="components-notice is-warning ' . $alignclass . '">' . __( 'No headings found.', 'wpwing-toc' ) . ' ' . __( 'Save or update post first.', 'wpwing-toc' ) . '</p>';
     }
     return $html;
   }
 
-  $toclist = generateToc( $headings_clean, $attributes );
+  $toclist = wpwing_toc_generate_toc( $headings_clean, $attributes );
 
   $output = $pre_html . $toclist . $post_html;
 
   return $output;
 }
 
-function simpletoc_add_pagenumber( $blocks, $headings ) {
+/**
+ * Return all headings with a recursive walk through all blocks.
+ * This includes groups and reusable block with groups within reusable blocks.
+ */
+function wpwing_toc_filter_headings_recursive( $blocks ) {
+  $arr = [];
+
+  foreach ( $blocks as $block => $innerBlock ) {
+    if ( is_array( $innerBlock ) ) {
+      if ( isset( $innerBlock['attrs']['ref'] ) ) {
+        // search in reusable blocks
+        $e_arr = parse_blocks( get_post( $innerBlock['attrs']['ref'] )->post_content );
+        $arr   = array_merge( wpwing_toc_filter_headings_recursive( $e_arr ), $arr );
+      } else {
+        // search in groups
+        $arr = array_merge( wpwing_toc_filter_headings_recursive( $innerBlock ), $arr );
+      }
+    } else {
+      if ( isset( $blocks['blockName'] ) && $blocks['blockName'] === 'core/heading' && $innerBlock !== 'core/heading' ) {
+        // make sure its a headline.
+        if ( preg_match( "/(<h1|<h2|<h3|<h4|<h5|<h6)/i", $innerBlock ) ) {
+          $arr[] = $innerBlock;
+        }
+      }
+    }
+  }
+
+  return $arr;
+}
+
+/**
+ * Headings with pages as a data-attribute
+ */
+function wpwing_toc_add_pagenumber( $blocks, $headings ) {
   $pages = 1;
 
   foreach ( $blocks as $block => $innerBlock ) {
@@ -153,78 +158,36 @@ function simpletoc_add_pagenumber( $blocks, $headings ) {
       }
     }
   }
+
   return $headings;
 }
 
 /**
- * Return all headings with a recursive walk through all blocks.
- * This includes groups and reusable block with groups within reusable blocks.
+ * Add IDs to the H1-6 content
  */
+function wpwing_toc_add_ids_to_content( $content ) {
+  if ( has_block( 'wpwing/toc', get_the_ID() ) ) {
+    $blocks = parse_blocks( $content );
 
-function filter_headings_recursive( $blocks ) {
-  $arr = [];
-
-  foreach ( $blocks as $block => $innerBlock ) {
-
-    if ( is_array( $innerBlock ) ) {
-
-      if ( isset( $innerBlock['attrs']['ref'] ) ) {
-        // search in reusable blocks
-        $e_arr = parse_blocks( get_post( $innerBlock['attrs']['ref'] )->post_content );
-        $arr   = array_merge( filter_headings_recursive( $e_arr ), $arr );
-      } else {
-        // search in groups
-        $arr = array_merge( filter_headings_recursive( $innerBlock ), $arr );
-      }
-    } else {
-
-      if ( isset( $blocks['blockName'] ) && $blocks['blockName'] === 'core/heading' && $innerBlock !== 'core/heading' ) {
-        // make sure its a headline.
-        if ( preg_match( "/(<h1|<h2|<h3|<h4|<h5|<h6)/i", $innerBlock ) ) {
-          $arr[] = $innerBlock;
-        }
+    foreach ( $blocks as &$block ) {
+      if ( isset( $block['blockName'] ) && $block['blockName'] === 'core/heading' && isset( $block['innerHTML'] ) && isset( $block['innerContent'] ) && isset( $block['innerContent'][0] ) ) {
+        $block['innerHTML']       = wpwing_toc_add_anchor_attribute( $block['innerHTML'] );
+        $block['innerContent'][0] = wpwing_toc_add_anchor_attribute( $block['innerContent'][0] );
       }
     }
+
+    $content = serialize_blocks( $blocks );
   }
 
-  return $arr;
+  return $content;
 }
 
-/**
- * Remove all problematic characters for toc links
- */
+add_filter( 'the_content', 'wpwing_toc_add_ids_to_content', 1 );
 
-function simpletoc_sanitize_string( $string ) {
-  // remove punctuation
-  $zero_punctuation = preg_replace( "/\p{P}/u", "", $string );
-  // remove non-breaking spaces
-  $html_wo_nbs = str_replace( "&nbsp;", " ", $zero_punctuation );
-  // remove umlauts and accents
-  $string_without_accents = remove_accents( $html_wo_nbs );
-  // Sanitizes a title, replacing whitespace and a few other characters with dashes.
-  $sanitized_string = sanitize_title_with_dashes( $string_without_accents );
-  // Encode for use in an url
-  $urlencoded = urlencode( $sanitized_string );
-  return $urlencoded;
-}
-
-function simpletoc_plugin_meta( $links, $file ) {
-
-  if ( false !== strpos( $file, 'simpletoc' ) ) {
-    $links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/simpletoc">' . __( 'Support', 'simpletoc' ) . '</a>'] );
-    $links = array_merge( $links, ['<a href="https://marc.tv/out/donate">' . __( 'Donate', 'simpletoc' ) . '</a>'] );
-    $links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/simpletoc/reviews/#new-post">' . __( 'Write a review', 'simpletoc' ) . '&nbsp;⭐️⭐️⭐️⭐️⭐️</a>'] );
-  }
-
-  return $links;
-}
-
-function addAnchorAttribute( $html ) {
-
+function wpwing_toc_add_anchor_attribute( $html ) {
   // remove non-breaking space entites from input HTML
   $html_wo_nbs = str_replace( "&nbsp;", " ", $html );
 
-  // Thank you Nick Diego
   if ( ! $html_wo_nbs ) {
     return $html;
   }
@@ -241,7 +204,7 @@ function addAnchorAttribute( $html ) {
   foreach ( $tags as $tag ) {
     // Set id attribute
     $heading_text = strip_tags( $html );
-    $anchor       = simpletoc_sanitize_string( $heading_text );
+    $anchor       = wpwing_toc_sanitize_string( $heading_text );
     $tag->setAttribute( "id", $anchor );
   }
 
@@ -251,8 +214,7 @@ function addAnchorAttribute( $html ) {
   return $content;
 }
 
-function generateToc( $headings, $attributes ) {
-
+function wpwing_toc_generate_toc( $headings, $attributes ) {
   $list         = '';
   $html         = '';
   $min_depth    = 6;
@@ -293,7 +255,6 @@ function generateToc( $headings, $attributes ) {
   }
 
   foreach ( $headings as $line => $headline ) {
-
     $title = strip_tags( $headline );
     $page  = '';
     $dom   = new \DOMDocument();
@@ -306,7 +267,7 @@ function generateToc( $headings, $attributes ) {
       $absolute_url = get_permalink();
     }
 
-    $link       = simpletoc_sanitize_string( $title );
+    $link       = wpwing_toc_sanitize_string( $title );
     $this_depth = (int) $headings[$line][2];
     if ( isset( $headings[$line + 1][2] ) ) {
       $next_depth = (int) $headings[$line + 1][2];
@@ -315,7 +276,7 @@ function generateToc( $headings, $attributes ) {
     }
 
     // skip this heading because a max depth is set.
-    if ( $this_depth > $attributes['max_level'] or strpos( $headline, 'class="simpletoc-hidden' ) > 0 ) {
+    if ( $this_depth > $attributes['max_level'] or strpos( $headline, 'class="wpwing-toc-hidden' ) > 0 ) {
       goto closelist;
     }
 
@@ -354,9 +315,56 @@ function generateToc( $headings, $attributes ) {
   }
 
   if ( $attributes['no_title'] == false ) {
-    $html = "<h2 class=\"simpletoc-title\">" . __( "Table of Contents", "simpletoc" ) . "</h2>";
+    $html = "<h2 class=\"wpwing-toc-title\">" . __( "Table of Contents", "wpwing-toc" ) . "</h2>";
   }
-  $html .= "<" . $listtype . " class=\"simpletoc-list\" " . $styles . "  " . $alignclass . ">\n" . $list . "</li></" . $listtype . ">";
+  $html .= "<" . $listtype . " class=\"wpwing-toc-list\" " . $styles . "  " . $alignclass . ">\n" . $list . "</li></" . $listtype . ">";
 
   return $html;
+}
+
+/**
+ * Remove all problematic characters for toc links
+ */
+function wpwing_toc_sanitize_string( $string ) {
+  // remove punctuation
+  $zero_punctuation = preg_replace( "/\p{P}/u", "", $string );
+  // remove non-breaking spaces
+  $html_wo_nbs = str_replace( "&nbsp;", " ", $zero_punctuation );
+  // remove umlauts and accents
+  $string_without_accents = remove_accents( $html_wo_nbs );
+  // Sanitizes a title, replacing whitespace and a few other characters with dashes.
+  $sanitized_string = sanitize_title_with_dashes( $string_without_accents );
+  // Encode for use in an url
+  $urlencoded = urlencode( $sanitized_string );
+
+  return $urlencoded;
+}
+
+/**
+ * Filter to add plugins to the TOC list for Rank Math plugin
+ *
+ * @param array TOC plugins.
+ */
+add_filter( 'rank_math/researches/toc_plugins', function ( $toc_plugins ) {
+  $toc_plugins['wpwing-table-of-contens-block/wpwing-table-of-contens-block.php'] = 'WPWingTOC';
+
+  return $toc_plugins;
+} );
+
+/**
+ * For test and debug, log function to view any data in wp-content/debug.log
+ * uses: log_it($variable);
+ *
+ * @since 1.0.0
+ */
+if ( ! function_exists( 'log_it' ) ) {
+  function log_it( $message ) {
+    if ( WP_DEBUG === true ) {
+      if ( is_array( $message ) || is_object( $message ) ) {
+        error_log( "\r\n" . print_r( $message, true ) );
+      } else {
+        error_log( $message );
+      }
+    }
+  }
 }

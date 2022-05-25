@@ -13,16 +13,16 @@
     "packages-update": "wp-scripts packages-update"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^23.0.0",
+    "@wordpress/scripts": "^23.1.0",
     "ansi-regex": ">=6.0.1",
-    "markdown-it": ">=12.3.2",
-    "nanoid": ">=3.1.31",
-    "node-fetch": ">=2.6.7",
+    "markdown-it": ">=13.0.1",
+    "nanoid": ">=3.3.4",
+    "node-fetch": ">=3.2.4",
     "nth-check": ">=2.0.1",
-    "postcss": ">=8.4.5"
+    "postcss": ">=8.4.14"
   },
   "dependencies": {
-    "@wordpress/i18n": "^4.8.0",
-    "@wordpress/server-side-render": "^3.6.0"
+    "@wordpress/i18n": "^4.9.0",
+    "@wordpress/server-side-render": "^3.7.0"
   }
 }
