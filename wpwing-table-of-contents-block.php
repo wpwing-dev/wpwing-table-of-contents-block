@@ -8,6 +8,7 @@
  * Requires at least: 5.8
  * Requires PHP:      7.0
  * Author:            WPWing
+ * Author URI: 				https://wpwing.com/
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       wpwing-toc
@@ -33,8 +34,8 @@ add_action( 'init', 'wpwing_toc_register_block' );
  * Add meta information in plugin list
  */
 function wpwing_toc_plugin_meta( $links, $file ) {
-  if ( false !== strpos( $file, 'wpwing-table-of-contens-block' ) ) {
-    $links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block">' . __( 'Support', 'wpwing-toc' ) . '</a>'] );
+  if ( false !== strpos( $file, 'wpwing-table-of-contents-block' ) ) {
+    $links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block/">' . __( 'Support', 'wpwing-toc' ) . '</a>'] );
     $links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block/reviews/#new-post">' . __( 'Write a review', 'wpwing-toc' ) . '&nbsp;⭐️⭐️⭐️⭐️⭐️</a>'] );
   }
 
@@ -90,7 +91,6 @@ function wpwing_toc_render_callback( $attributes ) {
   if ( empty( $headings_clean ) ) {
     $html = '';
     if ( $is_backend == true ) {
-
       if ( $attributes['no_title'] == false ) {
         $html = '<h2 class="wpwing-toc-title ' . $alignclass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
       }
@@ -144,7 +144,6 @@ function wpwing_toc_add_pagenumber( $blocks, $headings ) {
   $pages = 1;
 
   foreach ( $blocks as $block => $innerBlock ) {
-
     // count nextpage blocks
     if ( isset( $blocks[$block]['blockName'] ) && $blocks[$block]['blockName'] === 'core/nextpage' ) {
       $pages++;

@@ -12,7 +12,6 @@ License URI:				https://www.gnu.org/licenses/gpl-3.0.html
 
 Adds a custom Table of Contents Gutenberg block.
 
-
 == Description ==
 
 Add a Table of Contents block to your posts and pages. The TOC is a nested list of links to all headings found in the post or page. To use it, simply add a block and search for "TOC".
@@ -42,6 +41,9 @@ You can hide the headline "Table of Contents" from the blocks' sidebar and add y
 * GeneratePress and Rank Math support.
 * Works with all popular AMP plugins.
 
+= About **WPWing** =
+
+WPWing is a startup company that creates quality WordPress/WooCommerce plugins/add-ons you searching for.
 
 == Installation ==
 
@@ -49,7 +51,6 @@ You can hide the headline "Table of Contents" from the blocks' sidebar and add y
 
 1. Upload the plugin files to the `/wp-content/plugins/wpwing-table-of-contents-block` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
-
 
 == Frequently Asked Questions ==
 
@@ -61,14 +62,15 @@ Hide the headline in the sidebar options of "WPWing Table of Contents Block" and
 
 Select the block and select "group" in the context menu. Apply "background color", "link color" and "text color" to this group. "WPWing Table of Contents Block" will inherit these styles. You would like to use this styled "WPWing Table of Contents Block" group next time you write a post? Convert it to a reusable block.
 
-
 == Screenshots ==
 
-1. Table of Content block in Gutenberg editor
-2. Table of Content in the post
-
+1. Editor with Table of Contents block
+2. Block inserter section
+3. Block editor section
+4. Block settings section
 
 == Changelog ==
 
-= 1.0.0 =
-* Release
+= 1.0.0 - 08/06/2022 =
+
+* Initial release
