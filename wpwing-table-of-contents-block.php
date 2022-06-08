@@ -1,18 +1,19 @@
 <?php
 
 /**
- * Plugin Name:       WPWing - Table of Contents Block
+ * Plugin Name:       WPWing Table Of Contents Block
  * Plugin URI:        https://wpwing.com/
  * Description:       Adds a basic "Table of Contents" Gutenberg block.
  * Version:           1.0.0
- * Requires at least: 5.0
+ * Requires at least: 5.8
  * Requires PHP:      7.0
  * Author:            WPWing
- * Author URI:        https://wpwing.com/
- * License:           GPL v2 or later
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.html
+ * License:           GPL-2.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       wpwing-toc
  * Domain Path:       /languages
+ *
+ * @package           create-block
  */
 
 /**
@@ -186,15 +187,15 @@ add_filter( 'the_content', 'wpwing_toc_add_ids_to_content', 1 );
 
 function wpwing_toc_add_anchor_attribute( $html ) {
   // remove non-breaking space entites from input HTML
-  $html_wo_nbs = str_replace( "&nbsp;", " ", $html );
+  $html_wo_nbsp = str_replace( "&nbsp;", " ", $html );
 
-  if ( ! $html_wo_nbs ) {
+  if ( ! $html_wo_nbsp ) {
     return $html;
   }
 
   libxml_use_internal_errors( TRUE );
   $dom = new \DOMDocument();
-  @$dom->loadHTML( $html_wo_nbs, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+  @$dom->loadHTML( $html_wo_nbsp, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 
   // use xpath to select the Heading html tags.
   $xpath = new \DOMXPath( $dom );
@@ -329,9 +330,9 @@ function wpwing_toc_sanitize_string( $string ) {
   // remove punctuation
   $zero_punctuation = preg_replace( "/\p{P}/u", "", $string );
   // remove non-breaking spaces
-  $html_wo_nbs = str_replace( "&nbsp;", " ", $zero_punctuation );
+  $html_wo_nbsp = str_replace( "&nbsp;", " ", $zero_punctuation );
   // remove umlauts and accents
-  $string_without_accents = remove_accents( $html_wo_nbs );
+  $string_without_accents = remove_accents( $html_wo_nbsp );
   // Sanitizes a title, replacing whitespace and a few other characters with dashes.
   $sanitized_string = sanitize_title_with_dashes( $string_without_accents );
   // Encode for use in an url

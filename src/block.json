@@ -1,12 +1,12 @@
 {
-	"$schema": "https://json.schemastore.org/block.json",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "wpwing/toc",
-	"version": "5.0.8",
-	"title": "WPWing TOC",
+	"version": "1.0.0",
+	"title": "WPWing Table Of Contents Block",
 	"category": "layout",
 	"keywords": [ "TOC", "Table of Contents" ],
-	"icon": "smiley",
+	"icon": "list-view",
 	"description": "Adds a Table of Contents.",
 	"attributes": {
 		"no_title": {
@@ -38,6 +38,7 @@
 		"align": [ "wide" , "full"]
 	},
 	"textdomain": "wpwing-toc",
-	"editorScript": "file:index.js",
-	"editorStyle": "file:editor.css"
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
 }

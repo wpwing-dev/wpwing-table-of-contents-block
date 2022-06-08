@@ -1,26 +1,28 @@
 {
-  "name": "wpwing-toc",
-  "version": "1.0.0",
-  "author": "WPWing",
-  "description": "",
-  "main": "build/index.js",
-  "license": "GPL-2.0-or-later",
-  "scripts": {
-    "start": "wp-scripts start",
-    "build": "wp-scripts build",
-    "format": "wp-scripts format",
-    "format:src": "wp-scripts format ./src",
-    "packages-update": "wp-scripts packages-update"
-  },
-  "devDependencies": {
-    "@wordpress/scripts": "^23.1.0",
-    "ansi-regex": ">=6.0.1",
+	"name": "wpwing-table-of-contents-block",
+	"version": "1.0.0",
+	"description": "Add a Table of Contents block to your posts and pages.",
+	"author": "WPWing",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^23.2.0",
+		"ansi-regex": ">=6.0.1",
     "markdown-it": ">=13.0.1",
     "nanoid": ">=3.3.4",
     "node-fetch": ">=3.2.4",
     "nth-check": ">=2.0.1",
     "postcss": ">=8.4.14"
-  },
+	},
   "dependencies": {
     "@wordpress/i18n": "^4.9.0",
     "@wordpress/server-side-render": "^3.7.0"

@@ -4,5 +4,5 @@
  * editor into `post_content`.
  */
 export default function save({ attributes }) {
-  return null;
+	return null;
 }
