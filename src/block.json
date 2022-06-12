@@ -5,7 +5,7 @@
 	"version": "1.0.0",
 	"title": "WPWing Table Of Contents Block",
 	"category": "layout",
-	"keywords": [ "TOC", "Table of Contents" ],
+	"keywords": [ "TOC", "Table of Contents", "WPWing" ],
 	"icon": "list-view",
 	"description": "Adds a Table of Contents.",
 	"attributes": {

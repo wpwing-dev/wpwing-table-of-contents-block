@@ -1,4 +1,4 @@
-=== WPWing Table Of Contents Block ===
+=== WPWing Table Of Contents Block for Gutenberg ===
 
 Contributors:				wpwing, voboghure
 Donate link:				https://wpwing.com/
@@ -14,9 +14,15 @@ Adds a custom Table of Contents Gutenberg block.
 
 == Description ==
 
-Add a Table of Contents block to your posts and pages. The TOC is a nested list of links to all headings found in the post or page. To use it, simply add a block and search for "TOC".
+Add an SEO-friendly Table of Contents(TOC) block to your posts and pages, which scans headings through the content and creates the TOC automatically. The TOC is a nested list of links to all headings found in the post or page. To use it, simply add a block and search for "TOC".
 
 You can hide the headline "Table of Contents" from the blocks' sidebar and add your own by using a normal heading block.
+
+⚙️ Completely Customizable: You can customize and pick the heading tags which you want to appear on your Table of Contents.
+
+⚡ Super Lightweight: No extra resources are used and it’s highly optimized to automatically add a Table of Contents inside your post or pages.
+
+🧑‍💻 Dedicated Support: We’ve got an extraordinary support team ready to help you. Ask your questions in the support forum, we’ll get back to you immediately.
 
 = Features =
 
@@ -41,7 +47,7 @@ You can hide the headline "Table of Contents" from the blocks' sidebar and add y
 * GeneratePress and Rank Math support.
 * Works with all popular AMP plugins.
 
-= About **WPWing** =
+= About WPWing =
 
 WPWing is a startup company that creates quality WordPress/WooCommerce plugins/add-ons you searching for.
 

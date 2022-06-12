@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name:       WPWing Table Of Contents Block
+ * Plugin Name:       WPWing Table Of Contents Block for Gutenberg
  * Plugin URI:        https://wpwing.com/
  * Description:       Adds a basic "Table of Contents" Gutenberg block.
  * Version:           1.0.0
@@ -19,6 +19,8 @@
 
 /**
  * Initalise frontend and backend and register block
+ *
+ * @since 1.0.0
  */
 function wpwing_toc_register_block() {
   add_filter( 'plugin_row_meta', 'wpwing_toc_plugin_meta', 10, 2 );
@@ -32,6 +34,8 @@ add_action( 'init', 'wpwing_toc_register_block' );
 
 /**
  * Add meta information in plugin list
+ *
+ * @since 1.0.0
  */
 function wpwing_toc_plugin_meta( $links, $file ) {
   if ( false !== strpos( $file, 'wpwing-table-of-contents-block' ) ) {
@@ -44,6 +48,8 @@ function wpwing_toc_plugin_meta( $links, $file ) {
 
 /**
  * Render block output
+ *
+ * @since 1.0.0
  */
 function wpwing_toc_render_callback( $attributes ) {
   $is_backend = defined( 'REST_REQUEST' ) && true === REST_REQUEST && 'edit' === filter_input( INPUT_GET, 'context' );
@@ -66,16 +72,17 @@ function wpwing_toc_render_callback( $attributes ) {
     $post_html = '</div>';
   }
 
+	// Get all the blocks from post content
   $post   = get_post();
   $blocks = parse_blocks( $post->post_content );
 
+	// If no block found
   if ( empty( $blocks ) ) {
     $html = '';
     if ( $is_backend == true ) {
       if ( $attributes['no_title'] == false ) {
         $html = '<h2 class="wpwing-toc-title ' . $alignclass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
       }
-
       $html .= '<p class="components-notice is-warning ' . $alignclass . '">' . __( 'No blocks found.', 'wpwing-toc' ) . ' ' . __( 'Save or update post first.', 'wpwing-toc' ) . '</p>';
     }
     return $html;
@@ -110,6 +117,8 @@ function wpwing_toc_render_callback( $attributes ) {
 /**
  * Return all headings with a recursive walk through all blocks.
  * This includes groups and reusable block with groups within reusable blocks.
+ *
+ * @since 1.0.0
  */
 function wpwing_toc_filter_headings_recursive( $blocks ) {
   $arr = [];
@@ -139,6 +148,8 @@ function wpwing_toc_filter_headings_recursive( $blocks ) {
 
 /**
  * Headings with pages as a data-attribute
+ *
+ * @since 1.0.0
  */
 function wpwing_toc_add_pagenumber( $blocks, $headings ) {
   $pages = 1;
@@ -164,6 +175,8 @@ function wpwing_toc_add_pagenumber( $blocks, $headings ) {
 
 /**
  * Add IDs to the H1-6 content
+ *
+ * @since 1.0.0
  */
 function wpwing_toc_add_ids_to_content( $content ) {
   if ( has_block( 'wpwing/toc', get_the_ID() ) ) {
@@ -214,6 +227,11 @@ function wpwing_toc_add_anchor_attribute( $html ) {
   return $content;
 }
 
+/**
+ * Generate final Table of Contents
+ *
+ * @since 1.0.0
+ */
 function wpwing_toc_generate_toc( $headings, $attributes ) {
   $list         = '';
   $html         = '';
@@ -324,6 +342,8 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 
 /**
  * Remove all problematic characters for toc links
+ *
+ * @since 1.0.0
  */
 function wpwing_toc_sanitize_string( $string ) {
   // remove punctuation
