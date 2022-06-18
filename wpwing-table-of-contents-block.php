@@ -4,8 +4,9 @@
  * Plugin Name:       WPWing Table Of Contents Block for Gutenberg
  * Plugin URI:        https://wpwing.com/
  * Description:       Adds a basic "Table of Contents" Gutenberg block.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Requires at least: 5.8
+ * Tested up to: 			6.0
  * Requires PHP:      7.0
  * Author:            WPWing
  * Author URI: 				https://wpwing.com/
@@ -54,23 +55,23 @@ function wpwing_toc_plugin_meta( $links, $file ) {
 function wpwing_toc_render_callback( $attributes ) {
   $is_backend = defined( 'REST_REQUEST' ) && true === REST_REQUEST && 'edit' === filter_input( INPUT_GET, 'context' );
 
-  $alignclass = '';
+  $alignClass = '';
   if ( isset( $attributes['align'] ) ) {
     $align      = $attributes['align'];
-    $alignclass = 'align' . $align;
+    $alignClass = 'align' . $align;
   }
 
-  $className = '';
-  if ( isset( $attributes['className'] ) ) {
-    $className = strip_tags( htmlspecialchars( $attributes['className'] ) );
-  }
+  // $className = '';
+  // if ( isset( $attributes['className'] ) ) {
+  //   $className = strip_tags( htmlspecialchars( $attributes['className'] ) );
+  // }
 
-  $pre_html  = '';
-  $post_html = '';
-  if ( $className != '' ) {
-    $pre_html  = '<div class="wpwing-toc ' . $className . '">';
-    $post_html = '</div>';
-  }
+  // $pre_html  = '';
+  // $post_html = '';
+  // if ( $className != '' ) {
+  //   $pre_html  = '<div class="wpwing-toc ' . $className . '">';
+  //   $post_html = '</div>';
+  // }
 
 	// Get all the blocks from post content
   $post   = get_post();
@@ -81,9 +82,9 @@ function wpwing_toc_render_callback( $attributes ) {
     $html = '';
     if ( $is_backend == true ) {
       if ( $attributes['no_title'] == false ) {
-        $html = '<h2 class="wpwing-toc-title ' . $alignclass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
+        $html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
       }
-      $html .= '<p class="components-notice is-warning ' . $alignclass . '">' . __( 'No blocks found.', 'wpwing-toc' ) . ' ' . __( 'Save or update post first.', 'wpwing-toc' ) . '</p>';
+      $html .= '<p class="components-notice is-warning ' . $alignClass . '">' . __( 'No blocks found.', 'wpwing-toc' ) . ' ' . __( 'Save or update post first.', 'wpwing-toc' ) . '</p>';
     }
     return $html;
   }
@@ -99,19 +100,20 @@ function wpwing_toc_render_callback( $attributes ) {
     $html = '';
     if ( $is_backend == true ) {
       if ( $attributes['no_title'] == false ) {
-        $html = '<h2 class="wpwing-toc-title ' . $alignclass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
+        $html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
       }
 
-      $html .= '<p class="components-notice is-warning ' . $alignclass . '">' . __( 'No headings found.', 'wpwing-toc' ) . ' ' . __( 'Save or update post first.', 'wpwing-toc' ) . '</p>';
+      $html .= '<p class="components-notice is-warning ' . $alignClass . '">' . __( 'No headings found.', 'wpwing-toc' ) . ' ' . __( 'Save or update post first.', 'wpwing-toc' ) . '</p>';
     }
     return $html;
   }
 
-  $toclist = wpwing_toc_generate_toc( $headings_clean, $attributes );
+  return wpwing_toc_generate_toc( $headings_clean, $attributes );
+  // $toclist = wpwing_toc_generate_toc( $headings_clean, $attributes );
 
-  $output = $pre_html . $toclist . $post_html;
+  // $output = $pre_html . $toclist . $post_html;
 
-  return $output;
+  // return $output;
 }
 
 /**
@@ -242,10 +244,10 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
   $link_class   = '';
   $styles       = '';
 
-  $alignclass = '';
+  $alignClass = '';
   if ( isset( $attributes['align'] ) ) {
     $align      = $attributes['align'];
-    $alignclass = 'align' . $align;
+    $alignClass = 'align' . $align;
   }
 
   if ( $attributes['remove_indent'] == true ) {
@@ -335,7 +337,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
   if ( $attributes['no_title'] == false ) {
     $html = "<h2 class=\"wpwing-toc-title\">" . __( "Table of Contents", "wpwing-toc" ) . "</h2>";
   }
-  $html .= "<" . $listtype . " class=\"wpwing-toc-list\" " . $styles . "  " . $alignclass . ">\n" . $list . "</li></" . $listtype . ">";
+  $html .= "<" . $listtype . " class=\"wpwing-toc-list\" " . $styles . "  " . $alignClass . ">\n" . $list . "</li></" . $listtype . ">";
 
   return $html;
 }

@@ -6,7 +6,7 @@ Tags:								TOC, Table of Contents, Navigation, SEO, Gutenberg
 Requires at least:	4.8
 Tested up to:				6.0
 Requires PHP:				7.0
-Stable tag:					1.0.0
+Stable tag:					1.0.1
 License:						GPL-3.0-or-later
 License URI:				https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -76,6 +76,11 @@ Select the block and select "group" in the context menu. Apply "background color
 4. Block settings section
 
 == Changelog ==
+
+= 1.0.1 - 18/06/2022 =
+
+* Update: Refactor & depricated code.
+* Few minor improvements.
 
 = 1.0.0 - 08/06/2022 =
 
