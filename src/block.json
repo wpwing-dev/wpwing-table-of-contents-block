@@ -2,13 +2,17 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "wpwing/toc",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"title": "WPWing Table Of Contents",
-	"category": "layout",
+	"category": "widgets",
 	"keywords": [ "TOC", "Table of Contents", "WPWing" ],
 	"icon": "list-view",
 	"description": "Adds a Table of Contents.",
 	"attributes": {
+		"max_level": {
+			"type": "integer",
+			"default": 6
+		},
 		"no_title": {
 			"type": "boolean",
 			"default": false
@@ -21,17 +25,13 @@
 			"type": "boolean",
 			"default": false
 		},
-		"add_smooth": {
-			"type": "boolean",
-			"default": false
-		},
 		"use_absolute_urls": {
 			"type": "boolean",
 			"default": false
 		},
-		"max_level": {
-			"type": "integer",
-			"default": 6
+		"add_smooth": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"supports": {

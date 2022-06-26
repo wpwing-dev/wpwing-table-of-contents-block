@@ -6,7 +6,7 @@ Tags:								TOC, Table of Contents, Navigation, SEO, Gutenberg
 Requires at least:	4.8
 Tested up to:				6.0
 Requires PHP:				7.0
-Stable tag:					1.0.1
+Stable tag:					1.0.2
 License:						GPL-3.0-or-later
 License URI:				https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -49,7 +49,7 @@ You can hide the headline "Table of Contents" from the blocks' sidebar and add y
 
 = About WPWing =
 
-WPWing is a startup company that creates quality WordPress/WooCommerce plugins/add-ons you searching for.
+WPWing is a startup that creates quality WordPress/WooCommerce plugins/add-ons you searching for.
 
 == Installation ==
 
@@ -60,13 +60,13 @@ WPWing is a startup company that creates quality WordPress/WooCommerce plugins/a
 
 == Frequently Asked Questions ==
 
-= How do I change the TOC heading 'Table of Contents' to some other words? =
+= How do I change the TOC heading "WPWing Table of Contents Block" to some other words? =
 
-Hide the headline in the sidebar options of "WPWing Table of Contents Block" and add your own heading.
+Hide the headline in the sidebar options of "WPWing Table of Contents Block". Now add the core heading block before the "WPWing Table of Contents Block".
 
-= How do I add a background color to "WPWing Table of Contents Block" using Gutenberg groups? =
+= How do I add a background color to "WPWing Table of Contents Block"? =
 
-Select the block and select "group" in the context menu. Apply "background color", "link color" and "text color" to this group. "WPWing Table of Contents Block" will inherit these styles. You would like to use this styled "WPWing Table of Contents Block" group next time you write a post? Convert it to a reusable block.
+Use Gutenberg groups and add "WPWing Table of Contents Block" in it. Apply "background color", "link color" and "text color" to this group. "WPWing Table of Contents Block" will inherit these styles. Would you like to use this styled "WPWing Table of Contents Block" group next time you write a post? Convert it to a reusable block.
 
 == Screenshots ==
 
@@ -74,12 +74,20 @@ Select the block and select "group" in the context menu. Apply "background color
 2. Block inserter section
 3. Block editor section
 4. Block settings section
+5. Output block with default settings
+6. Output block using Group and background color
 
 == Changelog ==
 
+= 1.0.2 - 26/06/2022 =
+
+* Update: Change block category to widgets.
+* Fix: Refactor code.
+* Few minor improvements.
+
 = 1.0.1 - 18/06/2022 =
 
-* Update: Refactor & depricated code.
+* Fix: Refactor & mark deprecated some code.
 * Few minor improvements.
 
 = 1.0.0 - 08/06/2022 =

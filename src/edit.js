@@ -15,6 +15,15 @@ import { useBlockProps } from "@wordpress/block-editor";
 export default function Edit({ attributes, setAttributes }) {
 	const blockProps = useBlockProps();
 
+	const {
+		no_title,
+		use_ol,
+		remove_indent,
+		add_smooth,
+		use_absolute_urls,
+		max_level,
+	} = attributes;
+
 	return (
 		<div {...blockProps}>
 			<InspectorControls>
@@ -24,7 +33,7 @@ export default function Edit({ attributes, setAttributes }) {
 							<SelectControl
 								label={__("Maximum Level", "wpwing-toc")}
 								help={__("Maximum depth of the headings.", "wpwing-toc")}
-								value={attributes.max_level}
+								value={max_level}
 								options={[
 									{
 										label:
@@ -63,10 +72,8 @@ export default function Edit({ attributes, setAttributes }) {
 									'Disable the "Table of contents" block heading and add your own heading block.',
 									"wpwing-toc"
 								)}
-								checked={attributes.no_title}
-								onChange={() =>
-									setAttributes({ no_title: !attributes.no_title })
-								}
+								checked={no_title}
+								onChange={() => setAttributes({ no_title: !no_title })}
 							/>
 						</PanelRow>
 						<PanelRow>
@@ -76,8 +83,8 @@ export default function Edit({ attributes, setAttributes }) {
 									"Replace the <ul> tag with an <ol> tag. This adds decimal numbers to each heading in the TOC.",
 									"wpwing-toc"
 								)}
-								checked={attributes.use_ol}
-								onChange={() => setAttributes({ use_ol: !attributes.use_ol })}
+								checked={use_ol}
+								onChange={() => setAttributes({ use_ol: !use_ol })}
 							/>
 						</PanelRow>
 						<PanelRow>
@@ -87,9 +94,9 @@ export default function Edit({ attributes, setAttributes }) {
 									"No bullet points or numbers at the first level.",
 									"wpwing-toc"
 								)}
-								checked={attributes.remove_indent}
+								checked={remove_indent}
 								onChange={() =>
-									setAttributes({ remove_indent: !attributes.remove_indent })
+									setAttributes({ remove_indent: !remove_indent })
 								}
 							/>
 						</PanelRow>
@@ -100,10 +107,10 @@ export default function Edit({ attributes, setAttributes }) {
 									"Adds the permalink url to the fragment.",
 									"wpwing-toc"
 								)}
-								checked={attributes.use_absolute_urls}
+								checked={use_absolute_urls}
 								onChange={() =>
 									setAttributes({
-										use_absolute_urls: !attributes.use_absolute_urls,
+										use_absolute_urls: !use_absolute_urls,
 									})
 								}
 							/>
@@ -115,10 +122,10 @@ export default function Edit({ attributes, setAttributes }) {
 									'Add the css class "smooth-scroll" to the links. This enables smooth scrolling in some themes like GeneratePress.',
 									"wpwing-toc"
 								)}
-								checked={attributes.add_smooth}
+								checked={add_smooth}
 								onChange={() =>
 									setAttributes({
-										add_smooth: !attributes.add_smooth,
+										add_smooth: !add_smooth,
 									})
 								}
 							/>
