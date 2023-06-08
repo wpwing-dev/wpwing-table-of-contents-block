@@ -2,12 +2,12 @@
 
 Contributors:				wpwing, voboghure
 Donate link:				https://wpwing.com/
-Tags:								TOC, Table of Contents, Navigation, SEO, Gutenberg
-Requires at least:	4.8
+Tags:						TOC, Table of Contents, Navigation, SEO, Gutenberg
+Requires at least:			4.8
 Tested up to:				6.0
 Requires PHP:				7.0
 Stable tag:					1.0.2
-License:						GPL-3.0-or-later
+License:					GPL-3.0-or-later
 License URI:				https://www.gnu.org/licenses/gpl-3.0.html
 
 Adds a custom Table of Contents Gutenberg block.
