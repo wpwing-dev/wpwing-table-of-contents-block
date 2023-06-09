@@ -4,9 +4,9 @@ Contributors:				wpwing, voboghure
 Donate link:				https://wpwing.com/
 Tags:						TOC, Table of Contents, Navigation, SEO, Gutenberg
 Requires at least:			4.8
-Tested up to:				6.0
+Tested up to:				6.2
 Requires PHP:				7.0
-Stable tag:					1.0.2
+Stable tag:					1.0.3
 License:					GPL-3.0-or-later
 License URI:				https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -78,6 +78,13 @@ Use Gutenberg groups and add "WPWing Table of Contents Block" in it. Apply "back
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.0.3 - 09/06/2022 =
+
+* Update: Change block name.
+* Update: NPM package.
+* Fix: Remove unused code.
+* Few minor improvements.
 
 = 1.0.2 - 26/06/2022 =
 

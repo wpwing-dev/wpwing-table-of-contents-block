@@ -12,7 +12,7 @@
  * Author URI:			https://wpwing.com/
  * License:				GPL-3.0-or-later
  * License URI:			https://www.gnu.org/licenses/gpl-3.0.html
- * Text Domain:			wpwing-toc
+ * Text Domain:			wpwing-table-of-contents-block
  * Domain Path:			/languages
  *
  * @package           create-block
@@ -40,8 +40,8 @@ add_action( 'init', 'wpwing_toc_register_block' );
  */
 function wpwing_toc_plugin_meta( $links, $file ) {
 	if ( false !== strpos( $file, 'wpwing-table-of-contents-block' ) ) {
-		$links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block/">' . __( 'Support', 'wpwing-toc' ) . '</a>'] );
-		$links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block/reviews/#new-post">' . __( 'Write a review', 'wpwing-toc' ) . '&nbsp;⭐️⭐️⭐️⭐️⭐️</a>'] );
+		$links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block/">' . __( 'Support', 'wpwing-table-of-contents-block' ) . '</a>'] );
+		$links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block/reviews/#new-post">' . __( 'Write a review', 'wpwing-table-of-contents-block' ) . '&nbsp;⭐️⭐️⭐️⭐️⭐️</a>'] );
 	}
 
 	return $links;
@@ -61,18 +61,6 @@ function wpwing_toc_render_callback( $attributes ) {
 		$alignClass = 'align' . $align;
 	}
 
-	// $className = '';
-	// if ( isset( $attributes['className'] ) ) {
-	//   $className = strip_tags( htmlspecialchars( $attributes['className'] ) );
-	// }
-
-	// $pre_html  = '';
-	// $post_html = '';
-	// if ( $className != '' ) {
-	//   $pre_html  = '<div class="wpwing-toc ' . $className . '">';
-	//   $post_html = '</div>';
-	// }
-
 	// Get all the blocks from post content
 	$post   = get_post();
 	$blocks = parse_blocks( $post->post_content );
@@ -82,9 +70,9 @@ function wpwing_toc_render_callback( $attributes ) {
 		$html = '';
 		if ( $is_backend == true ) {
 			if ( $attributes['no_title'] == false ) {
-				$html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
+				$html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
 			}
-			$html .= '<p class="components-notice is-warning ' . $alignClass . '">' . __( 'No blocks found.', 'wpwing-toc' ) . ' ' . __( 'Save or update post first.', 'wpwing-toc' ) . '</p>';
+			$html .= '<p class="components-notice is-warning ' . $alignClass . '">' . __( 'No blocks found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
 		}
 
 		return $html;
@@ -92,7 +80,7 @@ function wpwing_toc_render_callback( $attributes ) {
 
 	$headings = array_reverse( wpwing_toc_filter_headings_recursive( $blocks ) );
 
-	// enrich headings with pages as a data-attribute
+	// Enrich headings with pages as a data-attribute
 	$headings = wpwing_toc_add_pagenumber( $blocks, $headings );
 
 	$headings_clean = array_map( 'trim', $headings );
@@ -101,21 +89,16 @@ function wpwing_toc_render_callback( $attributes ) {
 		$html = '';
 		if ( $is_backend == true ) {
 			if ( $attributes['no_title'] == false ) {
-				$html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-toc' ) . '</h2>';
+				$html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
 			}
 
-			$html .= '<p class="components-notice is-warning ' . $alignClass . '">' . __( 'No headings found.', 'wpwing-toc' ) . ' ' . __( 'Save or update post first.', 'wpwing-toc' ) . '</p>';
+			$html .= '<p class="components-notice is-warning ' . $alignClass . '">' . __( 'No headings found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
 		}
 
 		return $html;
 	}
 
 	return wpwing_toc_generate_toc( $headings_clean, $attributes );
-	// $toclist = wpwing_toc_generate_toc( $headings_clean, $attributes );
-
-	// $output = $pre_html . $toclist . $post_html;
-
-	// return $output;
 }
 
 /**
@@ -130,16 +113,16 @@ function wpwing_toc_filter_headings_recursive( $blocks ) {
 	foreach ( $blocks as $block => $innerBlock ) {
 		if ( is_array( $innerBlock ) ) {
 			if ( isset( $innerBlock['attrs']['ref'] ) ) {
-				// search in reusable blocks
+				// Search in reusable blocks
 				$e_arr = parse_blocks( get_post( $innerBlock['attrs']['ref'] )->post_content );
 				$arr   = array_merge( wpwing_toc_filter_headings_recursive( $e_arr ), $arr );
 			} else {
-				// search in groups
+				// Search in groups
 				$arr = array_merge( wpwing_toc_filter_headings_recursive( $innerBlock ), $arr );
 			}
 		} else {
 			if ( isset( $blocks['blockName'] ) && $blocks['blockName'] === 'core/heading' && $innerBlock !== 'core/heading' ) {
-				// make sure its a headline.
+				// Make sure its a headline.
 				if ( preg_match( "/(<h1|<h2|<h3|<h4|<h5|<h6)/i", $innerBlock ) ) {
 					$arr[] = $innerBlock;
 				}
@@ -159,13 +142,13 @@ function wpwing_toc_add_pagenumber( $blocks, $headings ) {
 	$pages = 1;
 
 	foreach ( $blocks as $block => $innerBlock ) {
-		// count nextpage blocks
+		// Count nextpage blocks
 		if ( isset( $blocks[$block]['blockName'] ) && $blocks[$block]['blockName'] === 'core/nextpage' ) {
 			$pages++;
 		}
 
 		if ( isset( $blocks[$block]['blockName'] ) && $blocks[$block]["blockName"] === 'core/heading' ) {
-			// make sure its a headline.
+			// Make sure its a headline.
 			foreach ( $headings as $heading => &$innerHeading ) {
 				if ( $innerHeading == $blocks[$block]["innerHTML"] ) {
 					$innerHeading = preg_replace( "/(<h1|<h2|<h3|<h4|<h5|<h6)/i", '$1 data-page="' . $pages . '"', $blocks[$block]["innerHTML"] );
@@ -202,7 +185,7 @@ function wpwing_toc_add_ids_to_content( $content ) {
 add_filter( 'the_content', 'wpwing_toc_add_ids_to_content', 1 );
 
 function wpwing_toc_add_anchor_attribute( $html ) {
-	// remove non-breaking space entites from input HTML
+	// Remove non-breaking space entites from input HTML
 	$html_wo_nbsp = str_replace( "&nbsp;", " ", $html );
 
 	if (  ! $html_wo_nbsp ) {
@@ -213,7 +196,7 @@ function wpwing_toc_add_anchor_attribute( $html ) {
 	$dom = new \DOMDocument ();
 	@$dom->loadHTML( $html_wo_nbsp, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 
-	// use xpath to select the Heading html tags.
+	// Use xpath to select the Heading html tags.
 	$xpath = new \DOMXPath ( $dom );
 	$tags  = $xpath->evaluate( "//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]" );
 
@@ -270,7 +253,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 
 	foreach ( $headings as $line => $headline ) {
 		if ( $min_depth > $headings[$line][2] ) {
-			// search for lowest level
+			// Search for lowest level
 			$min_depth    = (int) $headings[$line][2];
 			$inital_depth = $min_depth;
 		}
@@ -297,16 +280,16 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			$next_depth = '';
 		}
 
-		// skip this heading because a max depth is set.
+		// Skip this heading because a max depth is set.
 		if ( $this_depth > $attributes['max_level'] or strpos( $headline, 'class="wpwing-toc-hidden' ) > 0 ) {
 			goto closelist;
 		}
 
-		// start list
+		// Start list
 		if ( $this_depth == $min_depth ) {
 			$list .= "<li>\n";
 		} else {
-			// we are not as base level. Start opening levels until base is reached.
+			// We are not as base level. Start opening levels until base is reached.
 			for ( $min_depth; $min_depth < $this_depth; $min_depth++ ) {
 				$list .= "\n\t\t<" . $listtype . "><li>\n";
 			}
@@ -315,10 +298,10 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		$list .= "<a " . $link_class . " href=\"" . $absolute_url . esc_html( $page ) . "#" . $link . "\">" . $title . "</a>";
 
 		closelist:
-		// close lists
-		// check if this is not the last heading
+		// Close lists
+		// Check if this is not the last heading
 		if ( $line != count( $headings ) - 1 ) {
-			// do we need to close the door behind us?
+			// Do we need to close the door behind us?
 			if ( $min_depth > $next_depth ) {
 				// If yes, how many times?
 				for ( $min_depth; $min_depth > $next_depth; $min_depth-- ) {
@@ -328,7 +311,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			if ( $min_depth == $next_depth ) {
 				$list .= "</li>";
 			}
-			// last heading
+			// Last heading
 		} else {
 			for ( $inital_depth; $inital_depth < $this_depth; $inital_depth++ ) {
 				$list .= "</li></" . $listtype . ">\n";
@@ -350,11 +333,11 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
  * @since 1.0.0
  */
 function wpwing_toc_sanitize_string( $string ) {
-	// remove punctuation
+	// Remove punctuation
 	$zero_punctuation = preg_replace( "/\p{P}/u", "", $string );
-	// remove non-breaking spaces
+	// Remove non-breaking spaces
 	$html_wo_nbsp = str_replace( "&nbsp;", " ", $zero_punctuation );
-	// remove umlauts and accents
+	// Remove umlauts and accents
 	$string_without_accents = remove_accents( $html_wo_nbsp );
 	// Sanitizes a title, replacing whitespace and a few other characters with dashes.
 	$sanitized_string = sanitize_title_with_dashes( $string_without_accents );
