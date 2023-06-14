@@ -1,4 +1,4 @@
-=== WPWing Table Of Contents Block for Gutenberg ===
+=== Table Of Contents Block for Gutenberg ===
 
 Contributors:				wpwing, voboghure
 Donate link:				https://wpwing.com/
@@ -14,9 +14,9 @@ Adds a custom Table of Contents Gutenberg block.
 
 == Description ==
 
-Add an SEO-friendly Table of Contents(TOC) block to your posts and pages, which scans headings through the content and creates the TOC automatically. The TOC is a nested list of links to all headings found in the post or page. To use it, simply add a block and search for "TOC".
+Add an SEO-friendly Table of Contents(TOC) block to your posts and pages, which scans headings through the content and creates the TOC automatically. The TOC is a nested list of links to all headings found in the post or page. To use it, simply add the "Table of Contents" block. You can search for "TOC" to get this block.
 
-You can hide the headline "Table of Contents" from the blocks' sidebar and add your own by using a normal heading block.
+You can hide the headline "Table of Contents" from the block's sidebar and add your own by using a normal heading block.
 
 ⚙️ Completely Customizable: You can customize and pick the heading tags which you want to appear on your Table of Contents.
 
@@ -26,11 +26,11 @@ You can hide the headline "Table of Contents" from the blocks' sidebar and add y
 
 = Features =
 
-* Zero-configuration: Add the "WPWing Table of Contents Block" block to your post and that's it.
+* Zero-configuration: Add the "Table of Contents" block to your post and that's it.
 * Minimal and valid HTML output.
 * No JavaScript added.
 * Designed for Gutenberg.
-* Style "WPWing Table of Contents Block" with Gutenberg's native group styling options.
+* Style "Table of Contents" with Gutenberg's native group styling options.
 * Inherits the style of your theme.
 
 = Customization =
@@ -53,20 +53,20 @@ WPWing is a startup that creates quality WordPress/WooCommerce plugins/add-ons y
 
 == Installation ==
 
-"WPWing Table of Contents Block" can be found and installed via the Plugin menu within WordPress administration (Plugins -> Add New). Alternatively, it can be downloaded from WordPress.org and installed manually...
+"Table of Contents" can be found and installed via the Plugin menu within WordPress administration (Plugins -> Add New). Alternatively, it can be downloaded from WordPress.org and installed manually...
 
 1. Upload the plugin files to the `/wp-content/plugins/wpwing-table-of-contents-block` directory, or install the plugin through the WordPress plugins screen directly.
 1. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Frequently Asked Questions ==
 
-= How do I change the TOC heading "WPWing Table of Contents Block" to some other words? =
+= How do I change the TOC heading "Table of Contents" to some other words? =
 
-Hide the headline in the sidebar options of "WPWing Table of Contents Block". Now add the core heading block before the "WPWing Table of Contents Block".
+Hide the headline in the sidebar options of "Table of Contents". Now add the core heading block before the "Table of Contents".
 
-= How do I add a background color to "WPWing Table of Contents Block"? =
+= How do I add a background color to the "Table of Contents"? =
 
-Use Gutenberg groups and add "WPWing Table of Contents Block" in it. Apply "background color", "link color" and "text color" to this group. "WPWing Table of Contents Block" will inherit these styles. Would you like to use this styled "WPWing Table of Contents Block" group next time you write a post? Convert it to a reusable block.
+Use Gutenberg groups and add "Table of Contents" in it. Apply "background color", "link color" and "text color" to this group. "Table of Contents" will inherit these styles. Would you like to use this styled "Table of Contents" group next time you write a post? Convert it to a reusable block.
 
 == Screenshots ==
 
@@ -79,10 +79,10 @@ Use Gutenberg groups and add "WPWing Table of Contents Block" in it. Apply "back
 
 == Changelog ==
 
-= 1.0.3 - 09/06/2022 =
+= 1.0.3 - 14/06/2022 =
 
 * Update: Change block name.
-* Update: NPM package.
+* Update: NPM packages.
 * Fix: Remove unused code.
 * Few minor improvements.
 
