@@ -3,10 +3,10 @@
 Contributors:				wpwing, voboghure
 Donate link:				https://wpwing.com/
 Tags:						TOC, Table of Contents, Navigation, SEO, Gutenberg
-Requires at least:			4.8
-Tested up to:				6.2
+Requires at least:			5.8
+Tested up to:				6.4
 Requires PHP:				7.0
-Stable tag:					1.0.3
+Stable tag:					1.0.4
 License:					GPL-3.0-or-later
 License URI:				https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -78,6 +78,11 @@ Use Gutenberg groups and add "Table of Contents" in it. Apply "background color"
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.0.4 - 02/02/2024 =
+
+* Update: NPM packages.
+* Few minor improvements.
 
 = 1.0.3 - 14/06/2022 =
 

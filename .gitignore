@@ -33,3 +33,4 @@ node_modules/
 DOC/
 build/
 .DS_Store
+package-lock.json
