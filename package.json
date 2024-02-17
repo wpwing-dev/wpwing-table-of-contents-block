@@ -1,9 +1,9 @@
 {
 	"name": "wpwing-table-of-contents-block",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Add a Table of Contents block to your posts and pages.",
 	"author": "WPWing",
-	"license": "GPL-2.0-or-later",
+	"license": "GPL-3.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build",

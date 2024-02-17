@@ -1,14 +1,14 @@
 === Table Of Contents Block for Gutenberg ===
 
-Contributors:				wpwing, voboghure
-Donate link:				https://wpwing.com/
-Tags:						TOC, Table of Contents, Navigation, SEO, Gutenberg
-Requires at least:			5.8
-Tested up to:				6.4
-Requires PHP:				7.0
-Stable tag:					1.0.4
-License:					GPL-3.0-or-later
-License URI:				https://www.gnu.org/licenses/gpl-3.0.html
+Contributors:		wpwing, voboghure
+Donate link:		https://wpwing.com/
+Tags:				TOC, Table of Contents, Navigation, SEO, Gutenberg
+Stable tag:			1.0.5
+Requires at least:	5.8
+Tested up to:		6.4
+Requires PHP:		7.1
+License:			GPL-3.0-or-later
+License URI:		https://www.gnu.org/licenses/gpl-3.0.html
 
 Adds a custom Table of Contents Gutenberg block.
 
@@ -18,7 +18,7 @@ Add an SEO-friendly Table of Contents(TOC) block to your posts and pages, which 
 
 You can hide the headline "Table of Contents" from the block's sidebar and add your own by using a normal heading block.
 
-⚙️ Completely Customizable: You can customize and pick the heading tags which you want to appear on your Table of Contents.
+⚙️ Completely Customizable: You can customize and pick the heading tags that you want to appear on your Table of Contents.
 
 ⚡ Super Lightweight: No extra resources are used and it’s highly optimized to automatically add a Table of Contents inside your post or pages.
 
@@ -79,9 +79,15 @@ Use Gutenberg groups and add "Table of Contents" in it. Apply "background color"
 
 == Changelog ==
 
+= 1.0.5 - 18/02/2024 =
+
+* Bump version update.
+* Few minor improvements.
+
 = 1.0.4 - 02/02/2024 =
 
 * Update: NPM packages.
+* Update: Compatibility with the latest WordPress.
 * Few minor improvements.
 
 = 1.0.3 - 14/06/2022 =

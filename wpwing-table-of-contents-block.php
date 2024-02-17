@@ -4,10 +4,10 @@
  * Plugin Name:			Table Of Contents Block for Gutenberg
  * Plugin URI:			https://wpwing.com/
  * Description:			Adds a basic "Table of Contents" Gutenberg block.
- * Version:				1.0.4
+ * Version:				1.0.5
  * Requires at least:	5.8
  * Tested up to:		6.4
- * Requires PHP:		7.0
+ * Requires PHP:		7.1
  * Author:				WPWing
  * Author URI:			https://wpwing.com/
  * License:				GPL-3.0-or-later
@@ -34,7 +34,7 @@ function wpwing_toc_register_block() {
 add_action( 'init', 'wpwing_toc_register_block' );
 
 /**
- * Add meta information in plugin list
+ * Add meta information in plugin list4
  *
  * @since 1.0.0
  */
