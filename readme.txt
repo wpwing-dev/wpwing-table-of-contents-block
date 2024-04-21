@@ -1,16 +1,16 @@
-=== Table Of Contents Block for Gutenberg ===
+=== Table Of Contents Block ===
 
 Contributors:		wpwing, voboghure
 Donate link:		https://wpwing.com/
 Tags:				TOC, Table of Contents, Navigation, SEO, Gutenberg
-Stable tag:			1.0.5
+Stable tag:			1.0.6
 Requires at least:	5.8
-Tested up to:		6.4
+Tested up to:		6.5
 Requires PHP:		7.1
 License:			GPL-3.0-or-later
 License URI:		https://www.gnu.org/licenses/gpl-3.0.html
 
-Adds a custom Table of Contents Gutenberg block.
+Adds a custom Table of Contents block.
 
 == Description ==
 
@@ -78,6 +78,12 @@ Use Gutenberg groups and add "Table of Contents" in it. Apply "background color"
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.0.6 - 22/04/2024 =
+
+* Update: Compatibility with WP 6.5
+* Fix: Update text domain in js file
+* Few minor improvements.
 
 = 1.0.5 - 18/02/2024 =
 

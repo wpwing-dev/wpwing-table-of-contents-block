@@ -31,32 +31,39 @@ export default function Edit({ attributes, setAttributes }) {
 					<PanelBody>
 						<PanelRow>
 							<SelectControl
-								label={__("Maximum Level", "wpwing-toc")}
-								help={__("Maximum depth of the headings.", "wpwing-toc")}
+								label={__("Maximum Level", "wpwing-table-of-contents-block")}
+								help={__(
+									"Maximum depth of the headings.",
+									"wpwing-table-of-contents-block",
+								)}
 								value={max_level}
 								options={[
 									{
 										label:
-											__("Including", "wpwing-toc") +
+											__("Including", "wpwing-table-of-contents-block") +
 											" H6 (" +
-											__("Show all", "wpwing-toc") +
+											__("Show all", "wpwing-table-of-contents-block") +
 											")",
 										value: "6",
 									},
 									{
-										label: __("Including", "wpwing-toc") + " H5",
+										label:
+											__("Including", "wpwing-table-of-contents-block") + " H5",
 										value: "5",
 									},
 									{
-										label: __("Including", "wpwing-toc") + " H4",
+										label:
+											__("Including", "wpwing-table-of-contents-block") + " H4",
 										value: "4",
 									},
 									{
-										label: __("Including", "wpwing-toc") + " H3",
+										label:
+											__("Including", "wpwing-table-of-contents-block") + " H3",
 										value: "3",
 									},
 									{
-										label: __("Including", "wpwing-toc") + " H2",
+										label:
+											__("Including", "wpwing-table-of-contents-block") + " H2",
 										value: "2",
 									},
 								]}
@@ -67,10 +74,10 @@ export default function Edit({ attributes, setAttributes }) {
 						</PanelRow>
 						<PanelRow>
 							<ToggleControl
-								label={__("Remove heading", "wpwing-toc")}
+								label={__("Remove heading", "wpwing-table-of-contents-block")}
 								help={__(
 									'Disable the "Table of contents" block heading and add your own heading block.',
-									"wpwing-toc"
+									"wpwing-table-of-contents-block",
 								)}
 								checked={no_title}
 								onChange={() => setAttributes({ no_title: !no_title })}
@@ -78,10 +85,13 @@ export default function Edit({ attributes, setAttributes }) {
 						</PanelRow>
 						<PanelRow>
 							<ToggleControl
-								label={__("Use an ordered list", "wpwing-toc")}
+								label={__(
+									"Use an ordered list",
+									"wpwing-table-of-contents-block",
+								)}
 								help={__(
 									"Replace the <ul> tag with an <ol> tag. This adds decimal numbers to each heading in the TOC.",
-									"wpwing-toc"
+									"wpwing-table-of-contents-block",
 								)}
 								checked={use_ol}
 								onChange={() => setAttributes({ use_ol: !use_ol })}
@@ -89,10 +99,13 @@ export default function Edit({ attributes, setAttributes }) {
 						</PanelRow>
 						<PanelRow>
 							<ToggleControl
-								label={__("Remove list indent", "wpwing-toc")}
+								label={__(
+									"Remove list indent",
+									"wpwing-table-of-contents-block",
+								)}
 								help={__(
 									"No bullet points or numbers at the first level.",
-									"wpwing-toc"
+									"wpwing-table-of-contents-block",
 								)}
 								checked={remove_indent}
 								onChange={() =>
@@ -102,10 +115,13 @@ export default function Edit({ attributes, setAttributes }) {
 						</PanelRow>
 						<PanelRow>
 							<ToggleControl
-								label={__("Use absolute urls", "wpwing-toc")}
+								label={__(
+									"Use absolute urls",
+									"wpwing-table-of-contents-block",
+								)}
 								help={__(
 									"Adds the permalink url to the fragment.",
-									"wpwing-toc"
+									"wpwing-table-of-contents-block",
 								)}
 								checked={use_absolute_urls}
 								onChange={() =>
@@ -117,10 +133,13 @@ export default function Edit({ attributes, setAttributes }) {
 						</PanelRow>
 						<PanelRow>
 							<ToggleControl
-								label={__("Smooth scrolling support", "wpwing-toc")}
+								label={__(
+									"Smooth scrolling support",
+									"wpwing-table-of-contents-block",
+								)}
 								help={__(
 									'Add the css class "smooth-scroll" to the links. This enables smooth scrolling in some themes like GeneratePress.',
-									"wpwing-toc"
+									"wpwing-table-of-contents-block",
 								)}
 								checked={add_smooth}
 								onChange={() =>
@@ -133,16 +152,21 @@ export default function Edit({ attributes, setAttributes }) {
 					</PanelBody>
 				</Panel>
 			</InspectorControls>
+
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
 						className="components-icon-button components-toolbar__control"
-						label={__("Update table of contents", "wpwing-toc")}
+						label={__(
+							"Update table of contents",
+							"wpwing-table-of-contents-block",
+						)}
 						onClick={() => setAttributes({ updated: Date.now() })}
 						icon="update"
 					/>
 				</ToolbarGroup>
 			</BlockControls>
+
 			<ServerSideRender block="wpwing/toc" attributes={attributes} />
 		</div>
 	);
