@@ -82,6 +82,7 @@ Use Gutenberg groups and add "Table of Contents" in it. Apply "background color"
 = 1.0.6 - 22/04/2024 =
 
 * Update: Compatibility with WP 6.5
+* Update: Name and description update
 * Fix: Update text domain in js file
 * Few minor improvements.
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name:			Table Of Contents Block for Gutenberg
+ * Plugin Name:			Table Of Contents Block
  * Plugin URI:			https://wpwing.com/
  * Description:			Adds a basic "Table of Contents" Gutenberg block.
  * Version:				1.0.6
