@@ -100,10 +100,20 @@ function wpwing_toc_render_callback( $attributes ) {
 	}
 
 	if ( $attributes['add_smooth'] === true ) {
-		wp_add_inline_style( 'wpwing-toc-style', 'html{scroll-behavior:smooth}' );
+		add_action( 'wp_footer', 'wpwing_toc_print_smooth_scroll_style' );
 	}
 
 	return wpwing_toc_generate_toc( $headings_clean, $attributes );
+}
+
+/**
+ * Print smooth scroll CSS in the footer when the toggle is enabled.
+ * Named function so add_action deduplicates it if multiple TOC blocks are on the page.
+ *
+ * @since 1.0.0
+ */
+function wpwing_toc_print_smooth_scroll_style() {
+	echo '<style>html{scroll-behavior:smooth}</style>';
 }
 
 /**
