@@ -1,0 +1,29 @@
+# Development dependencies
+node_modules/
+
+# Source files (not needed in distribution — only build/ output is)
+src/
+
+# Git metadata
+.git/
+.gitignore
+
+# Editor config
+.editorconfig
+
+# npm files
+package.json
+package-lock.json
+
+# Documentation (GitHub-only)
+readme.md
+DOC/
+
+# Build output folder
+dist/
+
+# This file
+.distignore
+
+# Previous zip artifacts
+*.zip

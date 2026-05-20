@@ -32,7 +32,7 @@ function wpwing_toc_register_block() {
 add_action( 'init', 'wpwing_toc_register_block' );
 
 /**
- * Add meta information in plugin list4
+ * Add meta information in plugin list
  *
  * @since 1.0.0
  */
@@ -60,7 +60,10 @@ function wpwing_toc_render_callback( $attributes ) {
 	}
 
 	// Get all the blocks from post content
-	$post   = get_post();
+	$post = get_post();
+	if ( ! $post ) {
+		return '';
+	}
 	$blocks = parse_blocks( $post->post_content );
 
 	// If no block found
@@ -68,9 +71,9 @@ function wpwing_toc_render_callback( $attributes ) {
 		$html = '';
 		if ( $is_backend === true ) {
 			if ( $attributes['no_title'] === false ) {
-				$html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
+				$html = '<h2 class="wpwing-toc-title ' . esc_attr( $alignClass ) . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
 			}
-			$html .= '<p class="components-notice is-warning ' . $alignClass . '">' . __( 'No blocks found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
+			$html .= '<p class="components-notice is-warning ' . esc_attr( $alignClass ) . '">' . __( 'No blocks found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
 		}
 
 		return $html;
@@ -87,10 +90,10 @@ function wpwing_toc_render_callback( $attributes ) {
 		$html = '';
 		if ( $is_backend === true ) {
 			if ( $attributes['no_title'] === false ) {
-				$html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
+				$html = '<h2 class="wpwing-toc-title ' . esc_attr( $alignClass ) . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
 			}
 
-			$html .= '<p class="components-notice is-warning ' . $alignClass . '">' . __( 'No headings found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
+			$html .= '<p class="components-notice is-warning ' . esc_attr( $alignClass ) . '">' . __( 'No headings found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
 		}
 
 		return $html;
@@ -116,8 +119,11 @@ function wpwing_toc_filter_headings_recursive( $blocks ) {
 		if ( is_array( $innerBlock ) ) {
 			if ( isset( $innerBlock['attrs']['ref'] ) ) {
 				// Search in reusable blocks
-				$e_arr = parse_blocks( get_post( $innerBlock['attrs']['ref'] )->post_content );
-				$arr   = array_merge( wpwing_toc_filter_headings_recursive( $e_arr ), $arr );
+				$reusable_post = get_post( $innerBlock['attrs']['ref'] );
+				if ( $reusable_post ) {
+					$e_arr = parse_blocks( $reusable_post->post_content );
+					$arr   = array_merge( wpwing_toc_filter_headings_recursive( $e_arr ), $arr );
+				}
 			} else {
 				// Search in groups
 				$arr = array_merge( wpwing_toc_filter_headings_recursive( $innerBlock ), $arr );
@@ -152,7 +158,7 @@ function wpwing_toc_add_pagenumber( $blocks, $headings ) {
 		if ( isset( $blocks[$block]['blockName'] ) && $blocks[$block]["blockName"] === 'core/heading' ) {
 			// Make sure its a headline.
 			foreach ( $headings as $heading => &$innerHeading ) {
-				if ( $innerHeading == $blocks[$block]["innerHTML"] ) {
+				if ( $innerHeading === $blocks[$block]["innerHTML"] ) {
 					$innerHeading = preg_replace( "/(<h1|<h2|<h3|<h4|<h5|<h6)/i", '$1 data-page="' . $pages . '"', $blocks[$block]["innerHTML"] );
 				}
 			}
@@ -194,12 +200,13 @@ function wpwing_toc_add_anchor_attribute( $html ) {
 		return $html;
 	}
 
-	libxml_use_internal_errors( TRUE );
-	$dom = new \DOMDocument ();
-	@$dom->loadHTML( $html_wo_nbsp, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+	libxml_use_internal_errors( true );
+	$dom = new \DOMDocument();
+	$dom->loadHTML( $html_wo_nbsp, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+	libxml_clear_errors();
 
 	// Use xpath to select the Heading html tags.
-	$xpath = new \DOMXPath ( $dom );
+	$xpath = new \DOMXPath( $dom );
 	$tags  = $xpath->evaluate( "//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]" );
 
 	// Loop through all the found tags
@@ -222,14 +229,14 @@ function wpwing_toc_add_anchor_attribute( $html ) {
  * @since 1.0.0
  */
 function wpwing_toc_generate_toc( $headings, $attributes ) {
-	$list         = '';
-	$html         = '';
-	$min_depth    = 6;
-	$listtype     = 'ul';
-	$absolute_url = '';
-	$inital_depth = 6;
-	$link_class   = '';
-	$styles       = '';
+	$list          = '';
+	$html          = '';
+	$min_depth     = 6;
+	$listtype      = 'ul';
+	$absolute_url  = '';
+	$initial_depth = 6;
+	$link_class    = '';
+	$styles        = '';
 
 	$alignClass = '';
 	if ( isset( $attributes['align'] ) ) {
@@ -257,16 +264,18 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		if ( $min_depth > $headings[$line][2] ) {
 			// Search for lowest level
 			$min_depth    = (int) $headings[$line][2];
-			$inital_depth = $min_depth;
+			$initial_depth = $min_depth;
 		}
 	}
 
 	foreach ( $headings as $line => $headline ) {
 		$title = strip_tags( $headline );
 		$page  = '';
-		$dom   = new \DOMDocument ();
-		@$dom->loadHTML( $headline, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
-		$xpath = new \DOMXPath ( $dom );
+		libxml_use_internal_errors( true );
+		$dom = new \DOMDocument();
+		$dom->loadHTML( $headline, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+		libxml_clear_errors();
+		$xpath = new \DOMXPath( $dom );
 		$nodes = $xpath->query( '//*/@data-page' );
 
 		if ( isset( $nodes[0] ) && $nodes[0]->nodeValue > 1 ) {
@@ -295,12 +304,12 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 				}
 			}
 
-			$list .= "<a " . $link_class . " href=\"" . $absolute_url . esc_html( $page ) . "#" . $link . "\">" . esc_html( $title ) . "</a>";
+			$list .= "<a" . ( $link_class ? ' ' . $link_class : '' ) . " href=\"" . $absolute_url . esc_html( $page ) . "#" . $link . "\">" . esc_html( $title ) . "</a>";
 		}
 
 		// Close lists
 		// Check if this is not the last heading
-		if ( $line != count( $headings ) - 1 ) {
+		if ( $line !== count( $headings ) - 1 ) {
 			// Do we need to close the door behind us?
 			if ( $min_depth > $next_depth ) {
 				// If yes, how many times?
@@ -308,21 +317,22 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 					$list .= "</li></" . $listtype . ">\n";
 				}
 			}
-			if ( $min_depth == $next_depth ) {
+			if ( $min_depth === $next_depth ) {
 				$list .= "</li>";
 			}
 			// Last heading
 		} else {
-			for ( $inital_depth; $inital_depth < $this_depth; $inital_depth++ ) {
+			for ( $initial_depth; $initial_depth < $this_depth; $initial_depth++ ) {
 				$list .= "</li></" . $listtype . ">\n";
 			}
 		}
 	}
 
 	if ( $attributes['no_title'] === false ) {
-		$html = "<h2 class=\"wpwing-toc-title\">" . __( "Table of Contents", "wpwing-toc" ) . "</h2>";
+		$html = "<h2 class=\"wpwing-toc-title\">" . __( "Table of Contents", "wpwing-table-of-contents-block" ) . "</h2>";
 	}
-	$html .= "<" . $listtype . " class=\"wpwing-toc-list\" " . $styles . "  " . $alignClass . ">\n" . $list . "</li></" . $listtype . ">";
+	$list_class = 'wpwing-toc-list' . ( $alignClass ? ' ' . $alignClass : '' );
+	$html .= "<" . $listtype . " class=\"" . esc_attr( $list_class ) . "\"" . ( $styles ? ' ' . $styles : '' ) . ">\n" . $list . "</li></" . $listtype . ">";
 
 	return $html;
 }

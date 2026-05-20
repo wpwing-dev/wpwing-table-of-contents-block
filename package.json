@@ -12,6 +12,7 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
+		"dist": "npm run build && npm run plugin-zip && mkdir -p dist && mv wpwing-table-of-contents-block.zip dist/",
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {

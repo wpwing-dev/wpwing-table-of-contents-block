@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "wpwing/toc",
 	"version": "1.0.7",
 	"title": "Table Of Contents",
@@ -38,6 +38,7 @@
 			"default": 0
 		}
 	},
+	"example": {},
 	"supports": {
 		"align": [ "wide" , "full"]
 	},
