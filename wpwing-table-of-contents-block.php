@@ -66,8 +66,8 @@ function wpwing_toc_render_callback( $attributes ) {
 	// If no block found
 	if ( empty( $blocks ) ) {
 		$html = '';
-		if ( $is_backend == true ) {
-			if ( $attributes['no_title'] == false ) {
+		if ( $is_backend === true ) {
+			if ( $attributes['no_title'] === false ) {
 				$html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
 			}
 			$html .= '<p class="components-notice is-warning ' . $alignClass . '">' . __( 'No blocks found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
@@ -85,8 +85,8 @@ function wpwing_toc_render_callback( $attributes ) {
 
 	if ( empty( $headings_clean ) ) {
 		$html = '';
-		if ( $is_backend == true ) {
-			if ( $attributes['no_title'] == false ) {
+		if ( $is_backend === true ) {
+			if ( $attributes['no_title'] === false ) {
 				$html = '<h2 class="wpwing-toc-title ' . $alignClass . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
 			}
 
@@ -94,6 +94,10 @@ function wpwing_toc_render_callback( $attributes ) {
 		}
 
 		return $html;
+	}
+
+	if ( $attributes['add_smooth'] === true ) {
+		wp_add_inline_style( 'wpwing-toc-style', 'html{scroll-behavior:smooth}' );
 	}
 
 	return wpwing_toc_generate_toc( $headings_clean, $attributes );
@@ -207,7 +211,7 @@ function wpwing_toc_add_anchor_attribute( $html ) {
 	}
 
 	// Save the HTML changes
-	$content = utf8_decode( $dom->saveHTML( $dom->documentElement ) );
+	$content = $dom->saveHTML( $dom->documentElement );
 
 	return $content;
 }
@@ -233,19 +237,19 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		$alignClass = 'align' . $align;
 	}
 
-	if ( $attributes['remove_indent'] == true ) {
+	if ( $attributes['remove_indent'] === true ) {
 		$styles = 'style="padding-left:0;list-style:none;"';
 	}
 
-	if ( $attributes['add_smooth'] == true ) {
+	if ( $attributes['add_smooth'] === true ) {
 		$link_class = 'class="smooth-scroll"';
 	}
 
-	if ( $attributes['use_ol'] == true ) {
+	if ( $attributes['use_ol'] === true ) {
 		$listtype = 'ol';
 	}
 
-	if ( $attributes['use_absolute_urls'] == true ) {
+	if ( $attributes['use_absolute_urls'] === true ) {
 		$absolute_url = get_permalink();
 	}
 
@@ -278,24 +282,22 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			$next_depth = '';
 		}
 
-		// Skip this heading because a max depth is set.
-		if ( $this_depth > $attributes['max_level'] or strpos( $headline, 'class="wpwing-toc-hidden' ) > 0 ) {
-			goto closelist;
-		}
+		$skip = $this_depth > (int) $attributes['max_level'] || strpos( $headline, 'class="wpwing-toc-hidden' ) !== false;
 
-		// Start list
-		if ( $this_depth == $min_depth ) {
-			$list .= "<li>\n";
-		} else {
-			// We are not as base level. Start opening levels until base is reached.
-			for ( $min_depth; $min_depth < $this_depth; $min_depth++ ) {
-				$list .= "\n\t\t<" . $listtype . "><li>\n";
+		if ( ! $skip ) {
+			// Start list
+			if ( $this_depth === $min_depth ) {
+				$list .= "<li>\n";
+			} else {
+				// We are not as base level. Start opening levels until base is reached.
+				for ( $min_depth; $min_depth < $this_depth; $min_depth++ ) {
+					$list .= "\n\t\t<" . $listtype . "><li>\n";
+				}
 			}
+
+			$list .= "<a " . $link_class . " href=\"" . $absolute_url . esc_html( $page ) . "#" . $link . "\">" . esc_html( $title ) . "</a>";
 		}
 
-		$list .= "<a " . $link_class . " href=\"" . $absolute_url . esc_html( $page ) . "#" . $link . "\">" . $title . "</a>";
-
-		closelist:
 		// Close lists
 		// Check if this is not the last heading
 		if ( $line != count( $headings ) - 1 ) {
@@ -317,7 +319,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		}
 	}
 
-	if ( $attributes['no_title'] == false ) {
+	if ( $attributes['no_title'] === false ) {
 		$html = "<h2 class=\"wpwing-toc-title\">" . __( "Table of Contents", "wpwing-toc" ) . "</h2>";
 	}
 	$html .= "<" . $listtype . " class=\"wpwing-toc-list\" " . $styles . "  " . $alignClass . ">\n" . $list . "</li></" . $listtype . ">";
@@ -351,7 +353,7 @@ function wpwing_toc_sanitize_string( $string ) {
  * @param array TOC plugins.
  */
 add_filter( 'rank_math/researches/toc_plugins', function ( $toc_plugins ) {
-	$toc_plugins['wpwing-table-of-contens-block/wpwing-table-of-contens-block.php'] = 'WPWingTOC';
+	$toc_plugins['wpwing-table-of-contents-block/wpwing-table-of-contents-block.php'] = 'WPWingTOC';
 
 	return $toc_plugins;
 } );
