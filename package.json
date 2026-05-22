@@ -1,7 +1,7 @@
 {
 	"name": "wpwing-table-of-contents-block",
-	"version": "1.0.7",
-	"description": "Add a Table of Contents block to your posts and pages.",
+	"version": "1.0.8",
+	"description": "Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.",
 	"author": "WPWing",
 	"license": "GPL-3.0-or-later",
 	"main": "build/index.js",

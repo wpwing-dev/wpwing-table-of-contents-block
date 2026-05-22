@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Plugin Name:			Table Of Contents Block
+ * Plugin Name:			Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:			https://wpwing.com/
- * Description:			Adds a basic "Table of Contents" Gutenberg block.
- * Version:				1.0.7
+ * Description:			Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
+ * Version:				1.0.8
  * Requires at least:	5.8
- * Tested up to:		6.8
+ * Tested up to:		7.0
  * Requires PHP:		7.1
  * Author:				WPWing
  * Author URI:			https://wpwing.com/

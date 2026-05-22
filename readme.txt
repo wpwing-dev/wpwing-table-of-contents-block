@@ -1,72 +1,70 @@
-=== Table Of Contents Block ===
+=== Table of Contents (TOC) Block - Fast & SEO Friendly ===
 
 Contributors:		wpwing, voboghure
 Donate link:		https://wpwing.com/
-Tags:				TOC, Table of Contents, Navigation, SEO, Gutenberg
-Stable tag:			1.0.7
+Tags:				TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
+Stable tag:			1.0.8
 Requires at least:	5.8
-Tested up to:		6.8
+Tested up to:		7.0
 Requires PHP:		7.1
 License:			GPL-3.0-or-later
 License URI:		https://www.gnu.org/licenses/gpl-3.0.html
 
-Adds a custom Table of Contents block.
+Instantly add an SEO-friendly, automated, and hyper-fast Table of Contents block to your posts and pages. Fully optimized for Gutenberg and Core Web Vitals.
 
 == Description ==
 
-Add an SEO-friendly Table of Contents(TOC) block to your posts and pages, which scans headings through the content and creates the TOC automatically. The TOC is a nested list of links to all headings found in the post or page. To use it, simply add the "Table of Contents" block. You can search for "TOC" to get this block.
+Boost your site’s SEO and maximize reader engagement with the **Table of Contents (TOC) Block - Fast & SEO Friendly**.
 
-You can hide the headline "Table of Contents" from the block's sidebar and add your own by using a normal heading block.
+Long articles can overwhelm readers, causing them to leave your site early. This plugin automatically scans your content headings and generates a clean, nested list of anchor links. This allows users to jump directly to the section they need, decreasing bounce rates and satisfying search engines like Google.
 
-⚙️ Completely Customizable: You can customize and pick the heading tags that you want to appear on your Table of Contents.
+Unlike clunky legacy plugins, our Table of Contents block is custom-built for the modern WordPress Gutenberg editor. It adds **zero JavaScript** to your frontend, keeping your website lightning-fast and ensuring you score perfectly on Core Web Vitals.
 
-⚡ Super Lightweight: No extra resources are used and it’s highly optimized to automatically add a Table of Contents inside your post or pages.
+### ⚡ Super Lightweight & Performance-First
+We know page speed matters for SEO. Our block generates minimal, valid HTML and injects absolutely no extra resources or external scripts. It's built to perform seamlessly without adding bloat to your database or frontend.
 
-🧑‍💻 Dedicated Support: We’ve got an extraordinary support team ready to help you. Ask your questions in the support forum, we’ll get back to you immediately.
+### 🎨 Complete Customization Control
+Unlike plugins that lock basic layout settings behind a pro version, you get full control over your layout directly inside the native block settings:
+* **Style Natively:** Easily add background colors, custom padding, and text colors by wrapping the TOC inside standard Gutenberg groups.
+* **Flexible Layouts:** Full native block support for both Wide Width and Full Width settings to match your theme.
+* **Depth Control:** Choose exactly which headings to include by restricting the maximum depth (e.g., show only H2 and H3, hide H4+).
+* **HTML Flexibility:** Choose between an Ordered (numbered) or Unordered (bulleted) HTML list structure for better semantic SEO.
+* **Tidy Formatting:** Toggle list indents on or off with a simple click to keep deep nesting looking clean.
+* **Header Freedom:** Disable the built-in H2 headline of the TOC block entirely from the sidebar, allowing you to write your own personalized introduction using standard heading blocks.
 
-= Features =
+### 🚀 Key Features At A Glance
+* **100% Automated:** Scans content instantly to generate accurate internal jump links.
+* **Pure Performance:** Zero JavaScript added to the frontend—fully optimized for page speed.
+* **Designed for Gutenberg:** Integrates natively into the WordPress block editor experience.
+* **Responsive Layouts:** Inherits theme styles fluidly for perfect rendering on mobile devices.
 
-* Zero-configuration: Add the "Table of Contents" block to your post and that's it.
-* Minimal and valid HTML output.
-* No JavaScript added.
-* Designed for Gutenberg.
-* Style "Table of Contents" with Gutenberg's native group styling options.
-* Inherits the style of your theme.
+### 🔌 Ultimate Compatibility
+We ensure our block plays nicely with your entire WordPress stack.
+* Fully supports **Rank Math** and top-tier SEO plugins for schema optimization.
+* Works seamlessly with the **GeneratePress** theme and major page frameworks.
+* 100% compatible with popular **AMP plugins** for mobile-first rendering.
 
-= Customization =
-
-* Add background and text color with Gutenberg groups.
-* Native block support for wide and full width.
-* Control the maximum depth of the headings.
-* Choose between an ordered and unordered HTML list.
-* Toggle list indent.
-* Disable the h2 heading of the TOC block and add your own.
-
-= Compatibility =
-
-* GeneratePress and Rank Math support.
-* Works with all popular AMP plugins.
-
-= About WPWing =
-
-WPWing is a startup that creates quality WordPress/WooCommerce plugins/add-ons you searching for.
+### 🧑‍💻 Dedicated Startup Support
+At WPWing, we are committed to building high-quality, lightweight utility plugins for WordPress and WooCommerce. Our dedicated support team responds rapidly to the support forums to help you resolve any issues instantly.
 
 == Installation ==
 
-"Table of Contents" can be found and installed via the Plugin menu within WordPress administration (Plugins -> Add New). Alternatively, it can be downloaded from WordPress.org and installed manually...
-
-1. Upload the plugin files to the `/wp-content/plugins/wpwing-table-of-contents-block` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
+1. Log into your WordPress dashboard, navigate to **Plugins > Add New**.
+2. Search for `Table of Contents (TOC) Block - Fast & SEO Friendly`.
+3. Click **Install Now** and then **Activate**.
+4. Alternatively, upload the plugin files directly to the `/wp-content/plugins/` directory.
+5. Open any post or page in the Gutenberg editor, type `/toc` or search for "Table of Contents", and add the block anywhere you like!
 
 == Frequently Asked Questions ==
 
-= How do I change the TOC heading "Table of Contents" to some other words? =
+= How do I change the default "Table of Contents" text? =
+It's simple! Select the block, look at the sidebar options on the right, and toggle off the default headline. You can then insert a standard WordPress Heading block right above the TOC and type whatever you prefer (e.g., "What's Inside", "Quick Navigation").
 
-Hide the headline in the sidebar options of "Table of Contents". Now add the core heading block before the "Table of Contents".
+= How can I add a background color or border to the block? =
+Because this plugin utilizes native Gutenberg styling, simply click the three dots on the block toolbar and select **Group**. Once grouped, you can use the native block editor sidebar to add background colors, text colors, paddings, and borders to the entire group.
 
-= How do I add a background color to the "Table of Contents"? =
-
-Use Gutenberg groups and add "Table of Contents" in it. Apply "background color", "link color" and "text color" to this group. "Table of Contents" will inherit these styles. Would you like to use this styled "Table of Contents" group next time you write a post? Convert it to a reusable block.
+= Does this plugin add extra scripts or bloat to my site? =
+Absolutely not. The plugin generates lightweight, valid, and semantic HTML structure. It does not load any external JavaScript, keeping your page load times completely unaffected.
 
 == Screenshots ==
 
@@ -78,6 +76,16 @@ Use Gutenberg groups and add "Table of Contents" in it. Apply "background color"
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.0.8 - 22/05/2026 =
+
+* Fix: Several PHP fatal errors that could occur in certain edge cases (widgets, templates, reusable blocks).
+* Fix: Rank Math SEO integration was not being detected due to a plugin slug typo.
+* Fix: Smooth scroll CSS was incorrectly applied site-wide even when the option was disabled.
+* Security: Improved output escaping in the rendered TOC HTML.
+* Improvement: Modernized block editor sidebar markup.
+* Improvement: Various internal code quality and reliability improvements.
+* Compatibility: Tested and confirmed compatible with WordPress 7.0.
 
 = 1.0.7 - 28/07/2025 =
 
