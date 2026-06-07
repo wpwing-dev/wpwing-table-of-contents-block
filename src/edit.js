@@ -100,7 +100,7 @@ export default function Edit({ attributes, setAttributes }) {
 					{ levelError && (
 						<Notice status="warning" isDismissible={false}>
 							{ __(
-								"Minimum level is deeper than maximum level - the TOC will be empty.",
+								"Minimum level is deeper than maximum - the TOC will be empty.",
 								"wpwing-table-of-contents-block",
 							) }
 						</Notice>
@@ -139,6 +139,14 @@ export default function Edit({ attributes, setAttributes }) {
 						checked={collapsible}
 						onChange={() => setAttributes( { collapsible: ! collapsible } )}
 					/>
+					{ no_title && collapsible && (
+						<Notice status="info" isDismissible={false}>
+							{ __(
+								'Without a TOC title, the toggle button will appear as an icon only. Consider adding a Custom Title in the Content panel.',
+								"wpwing-table-of-contents-block",
+							) }
+						</Notice>
+					) }
 					<ToggleControl
 						label={__( "Numbered list", "wpwing-table-of-contents-block" )}
 						help={__(
@@ -227,7 +235,9 @@ export default function Edit({ attributes, setAttributes }) {
 				</ToolbarGroup>
 			</BlockControls>
 
-			<ServerSideRender block="wpwing/toc" attributes={attributes} />
+			{ ! levelError && (
+				<ServerSideRender block="wpwing/toc" attributes={attributes} />
+			) }
 		</div>
 	);
 }

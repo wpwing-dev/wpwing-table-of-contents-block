@@ -31,6 +31,10 @@ function wpwing_toc_register_block() {
 
 add_action( 'init', 'wpwing_toc_register_block' );
 
+function wpwing_toc_get_align_class( $attributes ) {
+	return isset( $attributes['align'] ) ? 'align' . $attributes['align'] : '';
+}
+
 /**
  * Add meta information in plugin list
  *
@@ -53,11 +57,7 @@ function wpwing_toc_plugin_meta( $links, $file ) {
 function wpwing_toc_render_callback( $attributes ) {
 	$is_backend = defined( 'REST_REQUEST' ) && true === REST_REQUEST && 'edit' === filter_input( INPUT_GET, 'context' );
 
-	$alignClass = '';
-	if ( isset( $attributes['align'] ) ) {
-		$align      = $attributes['align'];
-		$alignClass = 'align' . $align;
-	}
+	$alignClass = wpwing_toc_get_align_class( $attributes );
 
 	// Get all the blocks from post content
 	$post = get_post();
@@ -101,12 +101,12 @@ function wpwing_toc_render_callback( $attributes ) {
 		return $html;
 	}
 
-	if ( $attributes['add_smooth'] === true ) {
+	if ( $attributes['add_smooth'] === true && ! $is_backend ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_smooth_scroll_style' );
 	}
 
-	if ( ! empty( $attributes['collapsible'] ) ) {
-		add_action( 'wp_footer', 'wpwing_toc_print_collapsible_script' );
+	if ( ( ! empty( $attributes['collapsible'] ) || ! empty( $attributes['show_back_to_top'] ) ) && ! $is_backend ) {
+		add_action( 'wp_footer', 'wpwing_toc_print_frontend_script' );
 	}
 
 	return wpwing_toc_generate_toc( $headings_clean, $attributes );
@@ -123,12 +123,12 @@ function wpwing_toc_print_smooth_scroll_style() {
 }
 
 /**
- * Print collapsible toggle JS in the footer when the option is enabled.
+ * Print interactive feature JS in the footer (collapsible toggle + back to top).
  * Named function so add_action deduplicates it if multiple TOC blocks are on the page.
  *
  * @since 1.1.0
  */
-function wpwing_toc_print_collapsible_script() {
+function wpwing_toc_print_frontend_script() {
 	?>
 	<script>
 	(function () {
@@ -142,6 +142,13 @@ function wpwing_toc_print_collapsible_script() {
 					list.hidden = expanded;
 				});
 			}
+		});
+
+		document.querySelectorAll('.wpwing-toc-back-top').forEach(function (link) {
+			link.addEventListener('click', function (e) {
+				e.preventDefault();
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			});
 		});
 	})();
 	</script>
@@ -217,19 +224,26 @@ function wpwing_toc_add_pagenumber( $blocks, $headings ) {
  */
 function wpwing_toc_add_ids_to_content( $content ) {
 	if ( has_block( 'wpwing/toc', get_the_ID() ) ) {
-		$blocks = parse_blocks( $content );
-
-		foreach ( $blocks as &$block ) {
-			if ( isset( $block['blockName'] ) && $block['blockName'] === 'core/heading' && isset( $block['innerHTML'] ) && isset( $block['innerContent'] ) && isset( $block['innerContent'][0] ) ) {
-				$block['innerHTML']       = wpwing_toc_add_anchor_attribute( $block['innerHTML'] );
-				$block['innerContent'][0] = wpwing_toc_add_anchor_attribute( $block['innerContent'][0] );
-			}
-		}
-
+		$blocks  = parse_blocks( $content );
+		$blocks  = wpwing_toc_add_ids_to_blocks( $blocks );
 		$content = serialize_blocks( $blocks );
 	}
 
 	return $content;
+}
+
+// Recursively walk all blocks (including nested groups) and add anchor IDs to headings.
+function wpwing_toc_add_ids_to_blocks( array $blocks ) {
+	foreach ( $blocks as &$block ) {
+		if ( isset( $block['blockName'] ) && $block['blockName'] === 'core/heading' && ! empty( $block['innerHTML'] ) && isset( $block['innerContent'][0] ) ) {
+			$block['innerHTML']       = wpwing_toc_add_anchor_attribute( $block['innerHTML'] );
+			$block['innerContent'][0] = wpwing_toc_add_anchor_attribute( $block['innerContent'][0] );
+		} elseif ( ! empty( $block['innerBlocks'] ) ) {
+			$block['innerBlocks'] = wpwing_toc_add_ids_to_blocks( $block['innerBlocks'] );
+		}
+	}
+
+	return $blocks;
 }
 
 add_filter( 'the_content', 'wpwing_toc_add_ids_to_content', 1 );
@@ -251,12 +265,9 @@ function wpwing_toc_add_anchor_attribute( $html ) {
 	$xpath = new \DOMXPath( $dom );
 	$tags  = $xpath->evaluate( "//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]" );
 
-	// Loop through all the found tags
 	foreach ( $tags as $tag ) {
-		// Set id attribute
-		$heading_text = strip_tags( $html );
-		$anchor       = wpwing_toc_sanitize_string( $heading_text );
-		$tag->setAttribute( "id", $anchor );
+		$anchor = wpwing_toc_sanitize_string( $tag->textContent );
+		$tag->setAttribute( 'id', $anchor );
 	}
 
 	// Save the HTML changes
@@ -288,10 +299,8 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	$show_back_to_top = ! empty( $attributes['show_back_to_top'] );
 	$list_id          = $collapsible ? 'wpwing-toc-list-' . $toc_instance : '';
 
-	$alignClass = '';
-	if ( isset( $attributes['align'] ) ) {
-		$alignClass = 'align' . $attributes['align'];
-	}
+	$alignClass    = wpwing_toc_get_align_class( $attributes );
+	$heading_count = count( $headings );
 
 	foreach ( $headings as $line => $headline ) {
 		$level = (int) $headings[$line][2];
@@ -338,10 +347,10 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 				}
 			}
 
-			$list .= "<a" . ( $link_class ? ' ' . $link_class : '' ) . " href=\"" . $absolute_url . esc_html( $page ) . "#" . $link . "\">" . esc_html( $title ) . "</a>";
+			$list .= "<a" . ( $link_class ? ' ' . $link_class : '' ) . " href=\"" . esc_url( $absolute_url ) . esc_attr( $page ) . "#" . $link . "\">" . esc_html( $title ) . "</a>";
 		}
 
-		if ( $line !== count( $headings ) - 1 ) {
+		if ( $line !== $heading_count - 1 ) {
 			if ( $min_depth > $next_depth ) {
 				for ( $min_depth; $min_depth > $next_depth; $min_depth-- ) {
 					$list .= "</li></" . $listtype . ">\n";
@@ -426,20 +435,3 @@ add_filter( 'rank_math/researches/toc_plugins', function ( $toc_plugins ) {
 	return $toc_plugins;
 } );
 
-/**
- * For test and debug, log function to view any data in wp-content/debug.log
- * uses: log_it($variable);
- *
- * @since 1.0.0
- */
-if (  ! function_exists( 'log_it' ) ) {
-	function log_it( $message ) {
-		if ( WP_DEBUG === true ) {
-			if ( is_array( $message ) || is_object( $message ) ) {
-				error_log( "\r\n" . print_r( $message, true ) );
-			} else {
-				error_log( $message );
-			}
-		}
-	}
-}
