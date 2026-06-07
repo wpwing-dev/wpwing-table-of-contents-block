@@ -1,6 +1,6 @@
 # Table of Contents (TOC) Block — Fast & SEO Friendly
 
-![Version](https://img.shields.io/badge/version-1.0.9-blue) ![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b) ![PHP](https://img.shields.io/badge/PHP-7.1%2B-777bb4) ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-green)
+![Version](https://img.shields.io/badge/version-1.1.0-blue) ![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b) ![PHP](https://img.shields.io/badge/PHP-7.1%2B-777bb4) ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-green)
 
 Automatically generate a clean, nested Table of Contents from your post headings — with zero frontend JavaScript. Built natively for the WordPress Gutenberg block editor and fully optimized for Core Web Vitals.
 
@@ -10,15 +10,18 @@ Automatically generate a clean, nested Table of Contents from your post headings
 
 ## Features
 
-- **Zero JavaScript** on the frontend — no performance overhead
-- **Automated** — scans content headings and generates anchor links instantly
-- **Depth control** — choose minimum and maximum heading levels to include (H2–H6)
-- **Custom TOC title** — set your own heading text directly from the sidebar
+- **Zero JavaScript** on the frontend - no performance overhead (collapsible toggle is the only opt-in JS, ~15 lines)
+- **Automated** - scans content headings and generates anchor links instantly
+- **Depth control** - choose minimum and maximum heading levels to include (H2-H6)
+- **Custom TOC title** - set your own heading text directly from the sidebar
+- **Collapsible** - optional show/hide toggle button so readers can collapse the TOC
+- **Style presets** - Default or Boxed, selectable from the sidebar
+- **"Back to top" link** - optional link below the TOC that scrolls readers back to the top
 - **Ordered or unordered** list output for semantic flexibility
 - **Toggle indentation** for deeply nested heading structures
-- **Optional built-in headline** — disable to write your own heading block
-- **Accessible markup** — semantic `<nav>` wrapper with `aria-label` for screen readers
-- **Native Gutenberg styling** — use Group blocks to add colors, padding, and borders
+- **Optional built-in headline** - disable to write your own heading block
+- **Accessible markup** - semantic `<nav>` wrapper with `aria-label` for screen readers
+- **Native Gutenberg styling** - use Group blocks to add colors, padding, and borders
 - **Wide & Full Width** alignment support
 - Compatible with **Rank Math**, **GeneratePress**, and **AMP plugins**
 

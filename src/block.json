@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "wpwing/toc",
-	"version": "1.0.9",
+	"version": "1.1.0",
 	"title": "Table Of Contents",
 	"category": "widgets",
 	"keywords": [ "TOC", "Table of Contents", "WPWing" ],
@@ -38,6 +38,18 @@
 			"default": false
 		},
 		"add_smooth": {
+			"type": "boolean",
+			"default": false
+		},
+		"collapsible": {
+			"type": "boolean",
+			"default": false
+		},
+		"style_preset": {
+			"type": "string",
+			"default": "default"
+		},
+		"show_back_to_top": {
 			"type": "boolean",
 			"default": false
 		},

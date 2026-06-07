@@ -3,7 +3,7 @@
 Contributors:		wpwing, voboghure
 Donate link:		https://wpwing.com/
 Tags:				TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:			1.0.9
+Stable tag:			1.1.0
 Requires at least:	5.8
 Tested up to:		7.0
 Requires PHP:		7.1
@@ -76,6 +76,17 @@ Absolutely not. The plugin generates lightweight, valid, and semantic HTML struc
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.1.0 - 07/06/2026 =
+
+* New: Collapsible TOC - add a toggle button so readers can show or hide the table of contents with one click.
+* New: Boxed style preset - wrap the TOC in a subtle bordered box with a single click from the sidebar.
+* New: "Back to top" link - optionally show a link below the TOC that scrolls readers back to the top of the page.
+* Improvement: Sidebar settings are now grouped into three clear sections - Content, Display, and Links & Behavior - making them much easier to navigate.
+* Improvement: Renamed confusing labels. "Remove heading" is now "Hide TOC Title", "Remove list indent" is now "Flat list (no indent)", and "Smooth scrolling support" is now "Enable smooth scrolling".
+* Improvement: Added a warning when the minimum heading level is set deeper than the maximum, so you know immediately if the TOC will be empty.
+* Improvement: All sidebar controls now have clear, plain-language descriptions explaining exactly what each option does.
+* Improvement: Added safe default list spacing so the TOC looks consistent across all themes without overriding your theme's styling.
 
 = 1.0.9 - 30/05/2026 =
 

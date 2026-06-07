@@ -1,0 +1,89 @@
+.wpwing-toc {
+	.wpwing-toc-list {
+		margin: 0.5em 0 0;
+		padding-left: 1.5em;
+
+		li {
+			margin: 0.25em 0;
+		}
+	}
+
+	// Boxed preset
+	&.wpwing-toc--boxed {
+		padding: 1.25em 1.5em;
+		border-radius: 4px;
+		box-shadow: 0 0 0 1px rgba(128, 128, 128, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
+	}
+
+	// Collapsible header (title + toggle button row)
+	.wpwing-toc-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5em;
+
+		.wpwing-toc-title {
+			margin: 0;
+		}
+	}
+
+	.wpwing-toc-toggle {
+		flex-shrink: 0;
+		padding: 0.25em;
+		background: none;
+		border: none;
+		color: inherit;
+		cursor: pointer;
+		line-height: 1;
+	}
+
+	// CSS chevron icon - points down when expanded, right when collapsed
+	.wpwing-toc-toggle-icon {
+		display: inline-block;
+		width: 0.5em;
+		height: 0.5em;
+		border-right: 2px solid currentColor;
+		border-bottom: 2px solid currentColor;
+		transform: rotate(45deg);
+		transition: transform 0.2s ease;
+		vertical-align: middle;
+	}
+
+	.wpwing-toc-toggle[aria-expanded="false"] .wpwing-toc-toggle-icon {
+		transform: rotate(-45deg);
+	}
+
+	.wpwing-toc-list[hidden] {
+		display: none;
+	}
+
+	// Back to top link
+	.wpwing-toc-back-top {
+		display: block;
+		margin-top: 0.75em;
+		font-size: 0.875em;
+		text-decoration: none;
+
+		&::before {
+			content: "↑ ";
+		}
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	// Screen reader text utility used by collapsible toggle
+	.screen-reader-text {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(1px, 1px, 1px, 1px);
+		clip-path: inset(50%);
+		border: 0;
+		word-wrap: normal !important;
+	}
+}

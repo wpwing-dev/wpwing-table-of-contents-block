@@ -4,7 +4,7 @@
  * Plugin Name:			Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:			https://wpwing.com/
  * Description:			Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
- * Version:				1.0.9
+ * Version:				1.1.0
  * Requires at least:	5.8
  * Tested up to:		7.0
  * Requires PHP:		7.1
@@ -105,6 +105,10 @@ function wpwing_toc_render_callback( $attributes ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_smooth_scroll_style' );
 	}
 
+	if ( ! empty( $attributes['collapsible'] ) ) {
+		add_action( 'wp_footer', 'wpwing_toc_print_collapsible_script' );
+	}
+
 	return wpwing_toc_generate_toc( $headings_clean, $attributes );
 }
 
@@ -116,6 +120,32 @@ function wpwing_toc_render_callback( $attributes ) {
  */
 function wpwing_toc_print_smooth_scroll_style() {
 	echo '<style>html{scroll-behavior:smooth}</style>';
+}
+
+/**
+ * Print collapsible toggle JS in the footer when the option is enabled.
+ * Named function so add_action deduplicates it if multiple TOC blocks are on the page.
+ *
+ * @since 1.1.0
+ */
+function wpwing_toc_print_collapsible_script() {
+	?>
+	<script>
+	(function () {
+		document.querySelectorAll('.wpwing-toc--collapsible').forEach(function (toc) {
+			var btn  = toc.querySelector('.wpwing-toc-toggle');
+			var list = toc.querySelector('.wpwing-toc-list');
+			if ( btn && list ) {
+				btn.addEventListener('click', function () {
+					var expanded = btn.getAttribute('aria-expanded') === 'true';
+					btn.setAttribute('aria-expanded', String( ! expanded));
+					list.hidden = expanded;
+				});
+			}
+		});
+	})();
+	</script>
+	<?php
 }
 
 /**
@@ -241,35 +271,26 @@ function wpwing_toc_add_anchor_attribute( $html ) {
  * @since 1.0.0
  */
 function wpwing_toc_generate_toc( $headings, $attributes ) {
+	static $toc_instance = 0;
+	$toc_instance++;
+
 	$list          = '';
-	$html          = '';
 	$min_depth     = 6;
-	$listtype      = 'ul';
-	$absolute_url  = '';
 	$initial_depth = 6;
-	$link_class    = '';
-	$styles        = '';
+
+	$listtype     = $attributes['use_ol'] === true ? 'ol' : 'ul';
+	$absolute_url = $attributes['use_absolute_urls'] === true ? get_permalink() : '';
+	$link_class   = $attributes['add_smooth'] === true ? 'class="smooth-scroll"' : '';
+	$styles       = $attributes['remove_indent'] === true ? 'style="padding-left:0;list-style:none;"' : '';
+
+	$collapsible      = ! empty( $attributes['collapsible'] );
+	$style_preset     = isset( $attributes['style_preset'] ) ? $attributes['style_preset'] : 'default';
+	$show_back_to_top = ! empty( $attributes['show_back_to_top'] );
+	$list_id          = $collapsible ? 'wpwing-toc-list-' . $toc_instance : '';
 
 	$alignClass = '';
 	if ( isset( $attributes['align'] ) ) {
-		$align      = $attributes['align'];
-		$alignClass = 'align' . $align;
-	}
-
-	if ( $attributes['remove_indent'] === true ) {
-		$styles = 'style="padding-left:0;list-style:none;"';
-	}
-
-	if ( $attributes['add_smooth'] === true ) {
-		$link_class = 'class="smooth-scroll"';
-	}
-
-	if ( $attributes['use_ol'] === true ) {
-		$listtype = 'ol';
-	}
-
-	if ( $attributes['use_absolute_urls'] === true ) {
-		$absolute_url = get_permalink();
+		$alignClass = 'align' . $attributes['align'];
 	}
 
 	foreach ( $headings as $line => $headline ) {
@@ -278,7 +299,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			continue;
 		}
 		if ( $min_depth > $level ) {
-			$min_depth    = $level;
+			$min_depth     = $level;
 			$initial_depth = $min_depth;
 		}
 	}
@@ -309,11 +330,9 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		$skip = $this_depth < (int) $attributes['min_level'] || $this_depth > (int) $attributes['max_level'] || strpos( $headline, 'class="wpwing-toc-hidden' ) !== false;
 
 		if ( ! $skip ) {
-			// Start list
 			if ( $this_depth === $min_depth ) {
 				$list .= "<li>\n";
 			} else {
-				// We are not as base level. Start opening levels until base is reached.
 				for ( $min_depth; $min_depth < $this_depth; $min_depth++ ) {
 					$list .= "\n\t\t<" . $listtype . "><li>\n";
 				}
@@ -322,12 +341,8 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			$list .= "<a" . ( $link_class ? ' ' . $link_class : '' ) . " href=\"" . $absolute_url . esc_html( $page ) . "#" . $link . "\">" . esc_html( $title ) . "</a>";
 		}
 
-		// Close lists
-		// Check if this is not the last heading
 		if ( $line !== count( $headings ) - 1 ) {
-			// Do we need to close the door behind us?
 			if ( $min_depth > $next_depth ) {
-				// If yes, how many times?
 				for ( $min_depth; $min_depth > $next_depth; $min_depth-- ) {
 					$list .= "</li></" . $listtype . ">\n";
 				}
@@ -335,7 +350,6 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			if ( $min_depth === $next_depth ) {
 				$list .= "</li>";
 			}
-			// Last heading
 		} else {
 			for ( $initial_depth; $initial_depth < $this_depth; $initial_depth++ ) {
 				$list .= "</li></" . $listtype . ">\n";
@@ -345,14 +359,37 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 
 	$effective_title = ! empty( $attributes['title_text'] ) ? $attributes['title_text'] : __( 'Table of Contents', 'wpwing-table-of-contents-block' );
 
-	$html = '<nav class="wpwing-toc' . ( $alignClass ? ' ' . esc_attr( $alignClass ) : '' ) . '" aria-label="' . esc_attr( $effective_title ) . '">';
+	// Build nav class list
+	$nav_classes = array_filter( [
+		'wpwing-toc',
+		$alignClass,
+		'boxed' === $style_preset ? 'wpwing-toc--boxed' : '',
+		$collapsible ? 'wpwing-toc--collapsible' : '',
+	] );
 
-	if ( $attributes['no_title'] === false ) {
+	$html = '<nav class="' . esc_attr( implode( ' ', $nav_classes ) ) . '" aria-label="' . esc_attr( $effective_title ) . '">';
+
+	if ( $collapsible ) {
+		$html .= '<div class="wpwing-toc-header">';
+		if ( $attributes['no_title'] === false ) {
+			$html .= '<h2 class="wpwing-toc-title">' . esc_html( $effective_title ) . '</h2>';
+		}
+		$html .= '<button class="wpwing-toc-toggle" aria-expanded="true" aria-controls="' . esc_attr( $list_id ) . '">';
+		$html .= '<span class="screen-reader-text">' . esc_html__( 'Toggle Table of Contents', 'wpwing-table-of-contents-block' ) . '</span>';
+		$html .= '<span class="wpwing-toc-toggle-icon" aria-hidden="true"></span>';
+		$html .= '</button>';
+		$html .= '</div>';
+	} elseif ( $attributes['no_title'] === false ) {
 		$html .= '<h2 class="wpwing-toc-title">' . esc_html( $effective_title ) . '</h2>';
 	}
 
-	$list_class = 'wpwing-toc-list';
-	$html .= "<" . $listtype . " class=\"" . esc_attr( $list_class ) . "\"" . ( $styles ? ' ' . $styles : '' ) . ">\n" . $list . "</li></" . $listtype . ">";
+	$list_id_attr = $list_id ? ' id="' . esc_attr( $list_id ) . '"' : '';
+	$html .= "<{$listtype} class=\"wpwing-toc-list\"{$list_id_attr}" . ( $styles ? ' ' . $styles : '' ) . ">\n{$list}</li></{$listtype}>";
+
+	if ( $show_back_to_top ) {
+		$html .= '<a href="#" class="wpwing-toc-back-top">' . esc_html__( 'Back to top', 'wpwing-table-of-contents-block' ) . '</a>';
+	}
+
 	$html .= '</nav>';
 
 	return $html;

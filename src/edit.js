@@ -8,6 +8,7 @@ import {
 	ToggleControl,
 	PanelBody,
 	TextControl,
+	Notice,
 } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
@@ -22,168 +23,192 @@ export default function Edit({ attributes, setAttributes }) {
 		min_level,
 		max_level,
 		title_text,
+		collapsible,
+		style_preset,
+		show_back_to_top,
 	} = attributes;
+
+	const levelError = Number( min_level ) > Number( max_level );
 
 	return (
 		<div {...blockProps}>
 			<InspectorControls>
-				<PanelBody title={__("Settings", "wpwing-table-of-contents-block")}>
+				<PanelBody
+					title={__( "Content", "wpwing-table-of-contents-block" )}
+					initialOpen={true}
+				>
 					<TextControl
-						label={__("Custom Title", "wpwing-table-of-contents-block")}
+						label={__( "Custom Title", "wpwing-table-of-contents-block" )}
 						help={__(
 							'Leave empty to use the default "Table of Contents" title.',
 							"wpwing-table-of-contents-block",
 						)}
 						value={title_text}
-						onChange={(value) => setAttributes({ title_text: value })}
+						onChange={( value ) => setAttributes( { title_text: value } )}
+					/>
+					<ToggleControl
+						label={__( "Hide TOC Title", "wpwing-table-of-contents-block" )}
+						help={__(
+							"Hide the title and add your own heading block above the TOC.",
+							"wpwing-table-of-contents-block",
+						)}
+						checked={no_title}
+						onChange={() => setAttributes( { no_title: ! no_title } )}
 					/>
 					<SelectControl
-						label={__("Minimum Level", "wpwing-table-of-contents-block")}
+						label={__( "Minimum Level", "wpwing-table-of-contents-block" )}
 						help={__(
-							"Exclude headings shallower than this level.",
+							"Start the TOC from this heading level.",
 							"wpwing-table-of-contents-block",
 						)}
 						value={min_level}
 						options={[
 							{
-								label:
-									__("From", "wpwing-table-of-contents-block") +
-									" H2 (" +
-									__("Show all", "wpwing-table-of-contents-block") +
-									")",
+								label: __( "H2 (show all)", "wpwing-table-of-contents-block" ),
 								value: "2",
 							},
-							{
-								label:
-									__("From", "wpwing-table-of-contents-block") + " H3",
-								value: "3",
-							},
-							{
-								label:
-									__("From", "wpwing-table-of-contents-block") + " H4",
-								value: "4",
-							},
-							{
-								label:
-									__("From", "wpwing-table-of-contents-block") + " H5",
-								value: "5",
-							},
-							{
-								label:
-									__("From", "wpwing-table-of-contents-block") + " H6",
-								value: "6",
-							},
+							{ label: "H3", value: "3" },
+							{ label: "H4", value: "4" },
+							{ label: "H5", value: "5" },
+							{ label: "H6", value: "6" },
 						]}
-						onChange={(level) =>
-							setAttributes({ min_level: Number(level) })
+						onChange={( level ) =>
+							setAttributes( { min_level: Number( level ) } )
 						}
 					/>
 					<SelectControl
-						label={__("Maximum Level", "wpwing-table-of-contents-block")}
+						label={__( "Maximum Level", "wpwing-table-of-contents-block" )}
 						help={__(
-							"Maximum depth of the headings.",
+							"Stop including headings deeper than this level.",
 							"wpwing-table-of-contents-block",
 						)}
 						value={max_level}
 						options={[
 							{
-								label:
-									__("Including", "wpwing-table-of-contents-block") +
-									" H6 (" +
-									__("Show all", "wpwing-table-of-contents-block") +
-									")",
+								label: __( "H6 (show all)", "wpwing-table-of-contents-block" ),
 								value: "6",
 							},
-							{
-								label:
-									__("Including", "wpwing-table-of-contents-block") + " H5",
-								value: "5",
-							},
-							{
-								label:
-									__("Including", "wpwing-table-of-contents-block") + " H4",
-								value: "4",
-							},
-							{
-								label:
-									__("Including", "wpwing-table-of-contents-block") + " H3",
-								value: "3",
-							},
-							{
-								label:
-									__("Including", "wpwing-table-of-contents-block") + " H2",
-								value: "2",
-							},
+							{ label: "H5", value: "5" },
+							{ label: "H4", value: "4" },
+							{ label: "H3", value: "3" },
+							{ label: "H2", value: "2" },
 						]}
-						onChange={(level) =>
-							setAttributes({ max_level: Number(level) })
+						onChange={( level ) =>
+							setAttributes( { max_level: Number( level ) } )
 						}
 					/>
-					<ToggleControl
-						label={__("Remove heading", "wpwing-table-of-contents-block")}
+					{ levelError && (
+						<Notice status="warning" isDismissible={false}>
+							{ __(
+								"Minimum level is deeper than maximum level - the TOC will be empty.",
+								"wpwing-table-of-contents-block",
+							) }
+						</Notice>
+					) }
+				</PanelBody>
+
+				<PanelBody
+					title={__( "Display", "wpwing-table-of-contents-block" )}
+					initialOpen={false}
+				>
+					<SelectControl
+						label={__( "Style", "wpwing-table-of-contents-block" )}
 						help={__(
-							'Disable the "Table of contents" block heading and add your own heading block.',
+							"Choose a visual style for the TOC.",
 							"wpwing-table-of-contents-block",
 						)}
-						checked={no_title}
-						onChange={() => setAttributes({ no_title: !no_title })}
+						value={style_preset}
+						options={[
+							{
+								label: __( "Default", "wpwing-table-of-contents-block" ),
+								value: "default",
+							},
+							{
+								label: __( "Boxed", "wpwing-table-of-contents-block" ),
+								value: "boxed",
+							},
+						]}
+						onChange={( value ) => setAttributes( { style_preset: value } )}
 					/>
 					<ToggleControl
-						label={__(
-							"Use an ordered list",
+						label={__( "Collapsible", "wpwing-table-of-contents-block" )}
+						help={__(
+							"Add a toggle button so readers can show or hide the TOC.",
 							"wpwing-table-of-contents-block",
 						)}
+						checked={collapsible}
+						onChange={() => setAttributes( { collapsible: ! collapsible } )}
+					/>
+					<ToggleControl
+						label={__( "Numbered list", "wpwing-table-of-contents-block" )}
 						help={__(
-							"Replace the <ul> tag with an <ol> tag. This adds decimal numbers to each heading in the TOC.",
+							"Use a numbered list instead of bullet points.",
 							"wpwing-table-of-contents-block",
 						)}
 						checked={use_ol}
-						onChange={() => setAttributes({ use_ol: !use_ol })}
+						onChange={() => setAttributes( { use_ol: ! use_ol } )}
 					/>
 					<ToggleControl
-						label={__(
-							"Remove list indent",
-							"wpwing-table-of-contents-block",
-						)}
+						label={__( "Flat list (no indent)", "wpwing-table-of-contents-block" )}
 						help={__(
-							"No bullet points or numbers at the first level.",
+							"Remove bullet points and indentation from the first level.",
 							"wpwing-table-of-contents-block",
 						)}
 						checked={remove_indent}
 						onChange={() =>
-							setAttributes({ remove_indent: !remove_indent })
+							setAttributes( { remove_indent: ! remove_indent } )
 						}
 					/>
+				</PanelBody>
+
+				<PanelBody
+					title={__( "Links & Behavior", "wpwing-table-of-contents-block" )}
+					initialOpen={false}
+				>
 					<ToggleControl
 						label={__(
-							"Use absolute urls",
+							'Show "Back to top" link',
 							"wpwing-table-of-contents-block",
 						)}
 						help={__(
-							"Adds the permalink url to the fragment.",
+							"Add a link below the TOC that scrolls back to the top of the page.",
 							"wpwing-table-of-contents-block",
 						)}
-						checked={use_absolute_urls}
+						checked={show_back_to_top}
 						onChange={() =>
-							setAttributes({
-								use_absolute_urls: !use_absolute_urls,
-							})
+							setAttributes( { show_back_to_top: ! show_back_to_top } )
 						}
 					/>
 					<ToggleControl
 						label={__(
-							"Smooth scrolling support",
+							"Enable smooth scrolling",
 							"wpwing-table-of-contents-block",
 						)}
 						help={__(
-							'Add the css class "smooth-scroll" to the links. This enables smooth scrolling in some themes like GeneratePress.',
+							'Adds css class "smooth-scroll" to links and enables scroll-behavior: smooth on the page.',
 							"wpwing-table-of-contents-block",
 						)}
 						checked={add_smooth}
 						onChange={() =>
-							setAttributes({
-								add_smooth: !add_smooth,
-							})
+							setAttributes( {
+								add_smooth: ! add_smooth,
+							} )
+						}
+					/>
+					<ToggleControl
+						label={__(
+							"Use absolute URLs",
+							"wpwing-table-of-contents-block",
+						)}
+						help={__(
+							"Include the full page URL in each anchor link. Useful when sharing direct links to sections.",
+							"wpwing-table-of-contents-block",
+						)}
+						checked={use_absolute_urls}
+						onChange={() =>
+							setAttributes( {
+								use_absolute_urls: ! use_absolute_urls,
+							} )
 						}
 					/>
 				</PanelBody>
@@ -196,7 +221,7 @@ export default function Edit({ attributes, setAttributes }) {
 							"Update table of contents",
 							"wpwing-table-of-contents-block",
 						)}
-						onClick={() => setAttributes({ updated: Date.now() })}
+						onClick={() => setAttributes( { updated: Date.now() } )}
 						icon="update"
 					/>
 				</ToolbarGroup>
