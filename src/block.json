@@ -2,16 +2,24 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "wpwing/toc",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"title": "Table Of Contents",
 	"category": "widgets",
 	"keywords": [ "TOC", "Table of Contents", "WPWing" ],
 	"icon": "list-view",
 	"description": "Automatically generates a fast, SEO-friendly table of contents from your headings.",
 	"attributes": {
+		"min_level": {
+			"type": "integer",
+			"default": 2
+		},
 		"max_level": {
 			"type": "integer",
 			"default": 6
+		},
+		"title_text": {
+			"type": "string",
+			"default": ""
 		},
 		"no_title": {
 			"type": "boolean",

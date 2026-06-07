@@ -7,6 +7,7 @@ import {
 	ToolbarButton,
 	ToggleControl,
 	PanelBody,
+	TextControl,
 } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
@@ -18,13 +19,65 @@ export default function Edit({ attributes, setAttributes }) {
 		remove_indent,
 		add_smooth,
 		use_absolute_urls,
+		min_level,
 		max_level,
+		title_text,
 	} = attributes;
 
 	return (
 		<div {...blockProps}>
 			<InspectorControls>
 				<PanelBody title={__("Settings", "wpwing-table-of-contents-block")}>
+					<TextControl
+						label={__("Custom Title", "wpwing-table-of-contents-block")}
+						help={__(
+							'Leave empty to use the default "Table of Contents" title.',
+							"wpwing-table-of-contents-block",
+						)}
+						value={title_text}
+						onChange={(value) => setAttributes({ title_text: value })}
+					/>
+					<SelectControl
+						label={__("Minimum Level", "wpwing-table-of-contents-block")}
+						help={__(
+							"Exclude headings shallower than this level.",
+							"wpwing-table-of-contents-block",
+						)}
+						value={min_level}
+						options={[
+							{
+								label:
+									__("From", "wpwing-table-of-contents-block") +
+									" H2 (" +
+									__("Show all", "wpwing-table-of-contents-block") +
+									")",
+								value: "2",
+							},
+							{
+								label:
+									__("From", "wpwing-table-of-contents-block") + " H3",
+								value: "3",
+							},
+							{
+								label:
+									__("From", "wpwing-table-of-contents-block") + " H4",
+								value: "4",
+							},
+							{
+								label:
+									__("From", "wpwing-table-of-contents-block") + " H5",
+								value: "5",
+							},
+							{
+								label:
+									__("From", "wpwing-table-of-contents-block") + " H6",
+								value: "6",
+							},
+						]}
+						onChange={(level) =>
+							setAttributes({ min_level: Number(level) })
+						}
+					/>
 					<SelectControl
 						label={__("Maximum Level", "wpwing-table-of-contents-block")}
 						help={__(

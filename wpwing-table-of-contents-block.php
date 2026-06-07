@@ -4,7 +4,7 @@
  * Plugin Name:			Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:			https://wpwing.com/
  * Description:			Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
- * Version:				1.0.8
+ * Version:				1.0.9
  * Requires at least:	5.8
  * Tested up to:		7.0
  * Requires PHP:		7.1
@@ -66,12 +66,14 @@ function wpwing_toc_render_callback( $attributes ) {
 	}
 	$blocks = parse_blocks( $post->post_content );
 
+	$effective_title = ! empty( $attributes['title_text'] ) ? $attributes['title_text'] : __( 'Table of Contents', 'wpwing-table-of-contents-block' );
+
 	// If no block found
 	if ( empty( $blocks ) ) {
 		$html = '';
 		if ( $is_backend === true ) {
 			if ( $attributes['no_title'] === false ) {
-				$html = '<h2 class="wpwing-toc-title ' . esc_attr( $alignClass ) . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
+				$html = '<h2 class="wpwing-toc-title ' . esc_attr( $alignClass ) . '">' . esc_html( $effective_title ) . '</h2>';
 			}
 			$html .= '<p class="components-notice is-warning ' . esc_attr( $alignClass ) . '">' . __( 'No blocks found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
 		}
@@ -90,7 +92,7 @@ function wpwing_toc_render_callback( $attributes ) {
 		$html = '';
 		if ( $is_backend === true ) {
 			if ( $attributes['no_title'] === false ) {
-				$html = '<h2 class="wpwing-toc-title ' . esc_attr( $alignClass ) . '">' . __( 'Table of Contents', 'wpwing-table-of-contents-block' ) . '</h2>';
+				$html = '<h2 class="wpwing-toc-title ' . esc_attr( $alignClass ) . '">' . esc_html( $effective_title ) . '</h2>';
 			}
 
 			$html .= '<p class="components-notice is-warning ' . esc_attr( $alignClass ) . '">' . __( 'No headings found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
@@ -271,9 +273,12 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	}
 
 	foreach ( $headings as $line => $headline ) {
-		if ( $min_depth > $headings[$line][2] ) {
-			// Search for lowest level
-			$min_depth    = (int) $headings[$line][2];
+		$level = (int) $headings[$line][2];
+		if ( $level < (int) $attributes['min_level'] || $level > (int) $attributes['max_level'] ) {
+			continue;
+		}
+		if ( $min_depth > $level ) {
+			$min_depth    = $level;
 			$initial_depth = $min_depth;
 		}
 	}
@@ -301,7 +306,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			$next_depth = '';
 		}
 
-		$skip = $this_depth > (int) $attributes['max_level'] || strpos( $headline, 'class="wpwing-toc-hidden' ) !== false;
+		$skip = $this_depth < (int) $attributes['min_level'] || $this_depth > (int) $attributes['max_level'] || strpos( $headline, 'class="wpwing-toc-hidden' ) !== false;
 
 		if ( ! $skip ) {
 			// Start list
@@ -338,11 +343,17 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		}
 	}
 
+	$effective_title = ! empty( $attributes['title_text'] ) ? $attributes['title_text'] : __( 'Table of Contents', 'wpwing-table-of-contents-block' );
+
+	$html = '<nav class="wpwing-toc' . ( $alignClass ? ' ' . esc_attr( $alignClass ) : '' ) . '" aria-label="' . esc_attr( $effective_title ) . '">';
+
 	if ( $attributes['no_title'] === false ) {
-		$html = "<h2 class=\"wpwing-toc-title\">" . __( "Table of Contents", "wpwing-table-of-contents-block" ) . "</h2>";
+		$html .= '<h2 class="wpwing-toc-title">' . esc_html( $effective_title ) . '</h2>';
 	}
-	$list_class = 'wpwing-toc-list' . ( $alignClass ? ' ' . $alignClass : '' );
+
+	$list_class = 'wpwing-toc-list';
 	$html .= "<" . $listtype . " class=\"" . esc_attr( $list_class ) . "\"" . ( $styles ? ' ' . $styles : '' ) . ">\n" . $list . "</li></" . $listtype . ">";
+	$html .= '</nav>';
 
 	return $html;
 }

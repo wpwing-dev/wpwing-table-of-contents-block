@@ -11,6 +11,10 @@ src/
 # Editor config
 .editorconfig
 
+# Claude Code context
+CLAUDE.md
+.claude/
+
 # npm files
 package.json
 package-lock.json

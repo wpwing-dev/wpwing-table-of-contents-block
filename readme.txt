@@ -3,7 +3,7 @@
 Contributors:		wpwing, voboghure
 Donate link:		https://wpwing.com/
 Tags:				TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:			1.0.8
+Stable tag:			1.0.9
 Requires at least:	5.8
 Tested up to:		7.0
 Requires PHP:		7.1
@@ -76,6 +76,12 @@ Absolutely not. The plugin generates lightweight, valid, and semantic HTML struc
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.0.9 - 30/05/2026 =
+
+* New: Custom Title — set your own TOC heading text directly from the block sidebar.
+* New: Minimum Heading Level — exclude shallow headings (e.g. start from H3, hiding H2s).
+* Improvement: TOC output is now wrapped in a semantic <nav> element with an aria-label for better accessibility and screen reader support.
 
 = 1.0.8 - 22/05/2026 =
 
