@@ -75,7 +75,7 @@ function wpwing_toc_render_callback( $attributes ) {
 			if ( $attributes['no_title'] === false ) {
 				$html = '<h2 class="wpwing-toc-title ' . esc_attr( $alignClass ) . '">' . esc_html( $effective_title ) . '</h2>';
 			}
-			$html .= '<p class="components-notice is-warning ' . esc_attr( $alignClass ) . '">' . __( 'No blocks found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
+			$html .= '<p class="components-notice is-warning ' . esc_attr( $alignClass ) . '">' . __( 'No content found. Save or update the post first.', 'wpwing-table-of-contents-block' ) . '</p>';
 		}
 
 		return $html;
@@ -95,7 +95,7 @@ function wpwing_toc_render_callback( $attributes ) {
 				$html = '<h2 class="wpwing-toc-title ' . esc_attr( $alignClass ) . '">' . esc_html( $effective_title ) . '</h2>';
 			}
 
-			$html .= '<p class="components-notice is-warning ' . esc_attr( $alignClass ) . '">' . __( 'No headings found.', 'wpwing-table-of-contents-block' ) . ' ' . __( 'Save or update post first.', 'wpwing-table-of-contents-block' ) . '</p>';
+			$html .= '<p class="components-notice is-warning ' . esc_attr( $alignClass ) . '">' . __( 'Add Heading blocks to your post and the TOC will appear here.', 'wpwing-table-of-contents-block' ) . '</p>';
 		}
 
 		return $html;
@@ -291,8 +291,8 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 
 	$listtype     = $attributes['use_ol'] === true ? 'ol' : 'ul';
 	$absolute_url = $attributes['use_absolute_urls'] === true ? get_permalink() : '';
-	$link_class   = $attributes['add_smooth'] === true ? 'class="smooth-scroll"' : '';
-	$styles       = $attributes['remove_indent'] === true ? 'style="padding-left:0;list-style:none;"' : '';
+	$link_class   = $attributes['add_smooth'] === true ? 'smooth-scroll' : '';
+	$flat_class   = ! empty( $attributes['remove_indent'] ) ? 'wpwing-toc-list--flat' : '';
 
 	$collapsible      = ! empty( $attributes['collapsible'] );
 	$style_preset     = isset( $attributes['style_preset'] ) ? $attributes['style_preset'] : 'default';
@@ -347,7 +347,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 				}
 			}
 
-			$list .= "<a" . ( $link_class ? ' ' . $link_class : '' ) . " href=\"" . esc_url( $absolute_url ) . esc_attr( $page ) . "#" . $link . "\">" . esc_html( $title ) . "</a>";
+			$list .= "<a" . ( $link_class ? ' class="' . esc_attr( $link_class ) . '"' : '' ) . " href=\"" . esc_url( $absolute_url ) . esc_attr( $page ) . "#" . $link . "\">" . esc_html( $title ) . "</a>";
 		}
 
 		if ( $line !== $heading_count - 1 ) {
@@ -383,7 +383,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		if ( $attributes['no_title'] === false ) {
 			$html .= '<h2 class="wpwing-toc-title">' . esc_html( $effective_title ) . '</h2>';
 		}
-		$html .= '<button class="wpwing-toc-toggle" aria-expanded="true" aria-controls="' . esc_attr( $list_id ) . '">';
+		$html .= '<button type="button" class="wpwing-toc-toggle" aria-expanded="true" aria-controls="' . esc_attr( $list_id ) . '">';
 		$html .= '<span class="screen-reader-text">' . esc_html__( 'Toggle Table of Contents', 'wpwing-table-of-contents-block' ) . '</span>';
 		$html .= '<span class="wpwing-toc-toggle-icon" aria-hidden="true"></span>';
 		$html .= '</button>';
@@ -393,10 +393,12 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	}
 
 	$list_id_attr = $list_id ? ' id="' . esc_attr( $list_id ) . '"' : '';
-	$html .= "<{$listtype} class=\"wpwing-toc-list\"{$list_id_attr}" . ( $styles ? ' ' . $styles : '' ) . ">\n{$list}</li></{$listtype}>";
+	$list_classes = array_filter( [ 'wpwing-toc-list', $flat_class ] );
+	$list_close   = $list ? '</li>' : '';
+	$html .= "<{$listtype} class=\"" . esc_attr( implode( ' ', $list_classes ) ) . "\"{$list_id_attr}>\n{$list}{$list_close}</{$listtype}>";
 
 	if ( $show_back_to_top ) {
-		$html .= '<a href="#" class="wpwing-toc-back-top">' . esc_html__( 'Back to top', 'wpwing-table-of-contents-block' ) . '</a>';
+		$html .= '<a href="#top" class="wpwing-toc-back-top">' . esc_html__( 'Back to top', 'wpwing-table-of-contents-block' ) . '</a>';
 	}
 
 	$html .= '</nav>';

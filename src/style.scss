@@ -6,6 +6,11 @@
 		li {
 			margin: 0.25em 0;
 		}
+
+		&.wpwing-toc-list--flat {
+			padding-left: 0;
+			list-style: none;
+		}
 	}
 
 	// Boxed preset

@@ -61,7 +61,7 @@ export default function Edit({ attributes, setAttributes }) {
 							"Start the TOC from this heading level.",
 							"wpwing-table-of-contents-block",
 						)}
-						value={min_level}
+						value={String(min_level)}
 						options={[
 							{
 								label: __( "H2 (show all)", "wpwing-table-of-contents-block" ),
@@ -82,7 +82,7 @@ export default function Edit({ attributes, setAttributes }) {
 							"Stop including headings deeper than this level.",
 							"wpwing-table-of-contents-block",
 						)}
-						value={max_level}
+						value={String(max_level)}
 						options={[
 							{
 								label: __( "H6 (show all)", "wpwing-table-of-contents-block" ),
