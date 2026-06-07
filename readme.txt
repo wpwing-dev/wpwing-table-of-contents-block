@@ -1,14 +1,14 @@
 === Table of Contents (TOC) Block - Fast & SEO Friendly ===
 
-Contributors:		wpwing, voboghure
-Donate link:		https://wpwing.com/
-Tags:				TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:			1.1.0
-Requires at least:	5.8
-Tested up to:		7.0
-Requires PHP:		7.1
-License:			GPL-3.0-or-later
-License URI:		https://www.gnu.org/licenses/gpl-3.0.html
+Contributors:      wpwing, voboghure
+Donate link:       https://wpwing.com/
+Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
+Stable tag:        1.1.0
+Requires at least: 5.8
+Tested up to:      7.0
+Requires PHP:      7.1
+License:           GPL-3.0-or-later
+License URI:       https://www.gnu.org/licenses/gpl-3.0.html
 
 Instantly add an SEO-friendly, automated, and hyper-fast Table of Contents block to your posts and pages. Fully optimized for Gutenberg and Core Web Vitals.
 
