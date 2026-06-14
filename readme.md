@@ -1,6 +1,6 @@
 # Table of Contents (TOC) Block — Fast & SEO Friendly
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue) ![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b) ![PHP](https://img.shields.io/badge/PHP-7.1%2B-777bb4) ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-green)
+![Version](https://img.shields.io/badge/version-1.2.0-blue) ![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b) ![PHP](https://img.shields.io/badge/PHP-7.1%2B-777bb4) ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-green)
 
 Automatically generate a clean, nested Table of Contents from your post headings — with zero frontend JavaScript. Built natively for the WordPress Gutenberg block editor and fully optimized for Core Web Vitals.
 
@@ -16,14 +16,17 @@ Automatically generate a clean, nested Table of Contents from your post headings
 - **Custom TOC title** - set your own heading text directly from the sidebar
 - **Collapsible** - optional show/hide toggle button so readers can collapse the TOC
 - **Style presets** - Default or Boxed, selectable from the sidebar
+- **Native color picker** - set TOC background and text color directly from the block sidebar
 - **"Back to top" link** - optional link below the TOC that scrolls readers back to the top
+- **Per-section back to top links** - optionally insert a return-to-top link after every heading in the post content
+- **Minimum headings threshold** - automatically hide the TOC if the post has fewer qualifying headings than a number you choose
+- **Exclude headings** - add the CSS class `wpwing-toc-hidden` to any heading block to skip it from the TOC
 - **Ordered or unordered** list output for semantic flexibility
 - **Toggle indentation** for deeply nested heading structures
 - **Optional built-in headline** - disable to write your own heading block
 - **Accessible markup** - semantic `<nav>` wrapper with `aria-label` for screen readers
-- **Native Gutenberg styling** - use Group blocks to add colors, padding, and borders
 - **Wide & Full Width** alignment support
-- Compatible with **Rank Math**, **GeneratePress**, and **AMP plugins**
+- Compatible with **Rank Math**, **Yoast SEO**, **GeneratePress**, and **AMP plugins**
 
 ## Requirements
 
