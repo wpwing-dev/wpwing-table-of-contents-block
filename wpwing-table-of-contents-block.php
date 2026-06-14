@@ -4,7 +4,7 @@
  * Plugin Name:        Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:         https://wpwing.com/
  * Description:        Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
- * Version:            1.1.0
+ * Version:            1.2.0
  * Requires at least:  5.8
  * Tested up to:       7.0
  * Requires PHP:       7.1
@@ -33,6 +33,15 @@ add_action( 'init', 'wpwing_toc_register_block' );
 
 function wpwing_toc_get_align_class( $attributes ) {
 	return isset( $attributes['align'] ) ? 'align' . $attributes['align'] : '';
+}
+
+function wpwing_toc_get_blocks( $post_content ) {
+	static $cache = [];
+	$key = md5( $post_content );
+	if ( ! array_key_exists( $key, $cache ) ) {
+		$cache[ $key ] = parse_blocks( $post_content );
+	}
+	return $cache[ $key ];
 }
 
 /**
@@ -64,7 +73,7 @@ function wpwing_toc_render_callback( $attributes ) {
 	if ( ! $post ) {
 		return '';
 	}
-	$blocks = parse_blocks( $post->post_content );
+	$blocks = wpwing_toc_get_blocks( $post->post_content );
 
 	$effective_title = ! empty( $attributes['title_text'] ) ? $attributes['title_text'] : __( 'Table of Contents', 'wpwing-table-of-contents-block' );
 
@@ -81,7 +90,7 @@ function wpwing_toc_render_callback( $attributes ) {
 		return $html;
 	}
 
-	$headings = array_reverse( wpwing_toc_filter_headings_recursive( $blocks ) );
+	$headings = wpwing_toc_filter_headings_recursive( $blocks );
 
 	// Enrich headings with pages as a data-attribute
 	$headings = wpwing_toc_add_pagenumber( $blocks, $headings );
@@ -101,11 +110,31 @@ function wpwing_toc_render_callback( $attributes ) {
 		return $html;
 	}
 
+	$min_headings = isset( $attributes['min_headings'] ) ? (int) $attributes['min_headings'] : 1;
+	if ( $min_headings > 1 ) {
+		$min_lv   = (int) $attributes['min_level'];
+		$max_lv   = (int) $attributes['max_level'];
+		$eligible = 0;
+		foreach ( $headings_clean as $headline ) {
+			$level = (int) $headline[2];
+			if ( $level >= $min_lv && $level <= $max_lv && strpos( $headline, 'wpwing-toc-hidden' ) === false ) {
+				$eligible++;
+			}
+		}
+		if ( $eligible < $min_headings ) {
+			if ( $is_backend ) {
+				/* translators: 1: current heading count, 2: required minimum */
+				return '<p class="components-notice is-info ' . esc_attr( $alignClass ) . '">' . sprintf( __( 'TOC hidden: %1$d qualifying heading(s) found, minimum required is %2$d.', 'wpwing-table-of-contents-block' ), $eligible, $min_headings ) . '</p>';
+			}
+			return '';
+		}
+	}
+
 	if ( $attributes['add_smooth'] === true && ! $is_backend ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_smooth_scroll_style' );
 	}
 
-	if ( ( ! empty( $attributes['collapsible'] ) || ! empty( $attributes['show_back_to_top'] ) ) && ! $is_backend ) {
+	if ( ( ! empty( $attributes['collapsible'] ) || ! empty( $attributes['show_back_to_top'] ) || ! empty( $attributes['add_back_to_top'] ) ) && ! $is_backend ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_frontend_script' );
 	}
 
@@ -144,10 +173,11 @@ function wpwing_toc_print_frontend_script() {
 			}
 		});
 
+		var smoothEnabled = !! document.querySelector('.wpwing-toc a.smooth-scroll');
 		document.querySelectorAll('.wpwing-toc-back-top').forEach(function (link) {
 			link.addEventListener('click', function (e) {
 				e.preventDefault();
-				window.scrollTo({ top: 0, behavior: 'smooth' });
+				window.scrollTo({ top: 0, behavior: smoothEnabled ? 'smooth' : 'auto' });
 			});
 		});
 	})();
@@ -161,32 +191,25 @@ function wpwing_toc_print_frontend_script() {
  *
  * @since 1.0.0
  */
-function wpwing_toc_filter_headings_recursive( $blocks ) {
+function wpwing_toc_filter_headings_recursive( array $blocks ) {
 	$arr = [];
-
-	foreach ( $blocks as $block => $innerBlock ) {
-		if ( is_array( $innerBlock ) ) {
-			if ( isset( $innerBlock['attrs']['ref'] ) ) {
-				// Search in reusable blocks
-				$reusable_post = get_post( $innerBlock['attrs']['ref'] );
-				if ( $reusable_post ) {
-					$e_arr = parse_blocks( $reusable_post->post_content );
-					$arr   = array_merge( wpwing_toc_filter_headings_recursive( $e_arr ), $arr );
-				}
-			} else {
-				// Search in groups
-				$arr = array_merge( wpwing_toc_filter_headings_recursive( $innerBlock ), $arr );
+	foreach ( $blocks as $block ) {
+		if ( ! is_array( $block ) || ! isset( $block['blockName'] ) ) {
+			continue;
+		}
+		if ( $block['blockName'] === 'core/heading' && ! empty( $block['innerHTML'] ) ) {
+			if ( preg_match( '/(<h[1-6])/i', $block['innerHTML'] ) ) {
+				$arr[] = $block['innerHTML'];
 			}
-		} else {
-			if ( isset( $blocks['blockName'] ) && $blocks['blockName'] === 'core/heading' && $innerBlock !== 'core/heading' ) {
-				// Make sure its a headline.
-				if ( preg_match( "/(<h1|<h2|<h3|<h4|<h5|<h6)/i", $innerBlock ) ) {
-					$arr[] = $innerBlock;
-				}
+		} elseif ( $block['blockName'] === 'core/block' && isset( $block['attrs']['ref'] ) ) {
+			$reusable_post = get_post( $block['attrs']['ref'] );
+			if ( $reusable_post ) {
+				$arr = array_merge( $arr, wpwing_toc_filter_headings_recursive( wpwing_toc_get_blocks( $reusable_post->post_content ) ) );
 			}
+		} elseif ( ! empty( $block['innerBlocks'] ) ) {
+			$arr = array_merge( $arr, wpwing_toc_filter_headings_recursive( $block['innerBlocks'] ) );
 		}
 	}
-
 	return $arr;
 }
 
@@ -195,26 +218,42 @@ function wpwing_toc_filter_headings_recursive( $blocks ) {
  *
  * @since 1.0.0
  */
-function wpwing_toc_add_pagenumber( $blocks, $headings ) {
-	$pages = 1;
-
-	foreach ( $blocks as $block => $innerBlock ) {
-		// Count nextpage blocks
-		if ( isset( $blocks[$block]['blockName'] ) && $blocks[$block]['blockName'] === 'core/nextpage' ) {
-			$pages++;
+function wpwing_toc_add_pagenumber( array $blocks, array $headings, int $pages = 1 ) {
+	foreach ( $blocks as $block ) {
+		if ( ! is_array( $block ) || ! isset( $block['blockName'] ) ) {
+			continue;
 		}
-
-		if ( isset( $blocks[$block]['blockName'] ) && $blocks[$block]["blockName"] === 'core/heading' ) {
-			// Make sure its a headline.
-			foreach ( $headings as $heading => &$innerHeading ) {
-				if ( $innerHeading === $blocks[$block]["innerHTML"] ) {
-					$innerHeading = preg_replace( "/(<h1|<h2|<h3|<h4|<h5|<h6)/i", '$1 data-page="' . $pages . '"', $blocks[$block]["innerHTML"] );
+		if ( $block['blockName'] === 'core/nextpage' ) {
+			$pages++;
+		} elseif ( $block['blockName'] === 'core/heading' && ! empty( $block['innerHTML'] ) ) {
+			foreach ( $headings as &$innerHeading ) {
+				if ( $innerHeading === $block['innerHTML'] ) {
+					$innerHeading = preg_replace( '/(<h[1-6])/i', '$1 data-page="' . $pages . '"', $block['innerHTML'] );
 				}
+			}
+			unset( $innerHeading );
+		}
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			$headings = wpwing_toc_add_pagenumber( $block['innerBlocks'], $headings, $pages );
+		}
+	}
+	return $headings;
+}
+
+// Recursively search parsed blocks for a named attribute on a specific block type.
+function wpwing_toc_get_block_attr( array $blocks, $block_name, $attr_name, $default = null ) {
+	foreach ( $blocks as $block ) {
+		if ( isset( $block['blockName'] ) && $block['blockName'] === $block_name ) {
+			return isset( $block['attrs'][ $attr_name ] ) ? $block['attrs'][ $attr_name ] : $default;
+		}
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			$found = wpwing_toc_get_block_attr( $block['innerBlocks'], $block_name, $attr_name, $default );
+			if ( null !== $found ) {
+				return $found;
 			}
 		}
 	}
-
-	return $headings;
+	return $default;
 }
 
 /**
@@ -224,22 +263,28 @@ function wpwing_toc_add_pagenumber( $blocks, $headings ) {
  */
 function wpwing_toc_add_ids_to_content( $content ) {
 	if ( has_block( 'wpwing/toc', get_the_ID() ) ) {
-		$blocks  = parse_blocks( $content );
-		$blocks  = wpwing_toc_add_ids_to_blocks( $blocks );
-		$content = serialize_blocks( $blocks );
+		$blocks          = parse_blocks( $content );
+		$add_back_to_top = (bool) wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'add_back_to_top', false );
+		$blocks          = wpwing_toc_add_ids_to_blocks( $blocks, $add_back_to_top );
+		$content         = serialize_blocks( $blocks );
 	}
 
 	return $content;
 }
 
 // Recursively walk all blocks (including nested groups) and add anchor IDs to headings.
-function wpwing_toc_add_ids_to_blocks( array $blocks ) {
+function wpwing_toc_add_ids_to_blocks( array $blocks, bool $add_back_to_top = false ) {
+	$back_to_top_link = $add_back_to_top
+		? '<a href="#top" class="wpwing-toc-back-top">' . esc_html__( 'Back to top', 'wpwing-table-of-contents-block' ) . '</a>'
+		: '';
+
 	foreach ( $blocks as &$block ) {
 		if ( isset( $block['blockName'] ) && $block['blockName'] === 'core/heading' && ! empty( $block['innerHTML'] ) && isset( $block['innerContent'][0] ) ) {
-			$block['innerHTML']       = wpwing_toc_add_anchor_attribute( $block['innerHTML'] );
-			$block['innerContent'][0] = wpwing_toc_add_anchor_attribute( $block['innerContent'][0] );
+			$link                     = ( $back_to_top_link && strpos( $block['innerHTML'], 'wpwing-toc-hidden' ) === false ) ? $back_to_top_link : '';
+			$block['innerHTML']       = wpwing_toc_add_anchor_attribute( $block['innerHTML'] ) . $link;
+			$block['innerContent'][0] = wpwing_toc_add_anchor_attribute( $block['innerContent'][0] ) . $link;
 		} elseif ( ! empty( $block['innerBlocks'] ) ) {
-			$block['innerBlocks'] = wpwing_toc_add_ids_to_blocks( $block['innerBlocks'] );
+			$block['innerBlocks'] = wpwing_toc_add_ids_to_blocks( $block['innerBlocks'], $add_back_to_top );
 		}
 	}
 
@@ -299,7 +344,6 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	$show_back_to_top = ! empty( $attributes['show_back_to_top'] );
 	$list_id          = $collapsible ? 'wpwing-toc-list-' . $toc_instance : '';
 
-	$alignClass    = wpwing_toc_get_align_class( $attributes );
 	$heading_count = count( $headings );
 
 	foreach ( $headings as $line => $headline ) {
@@ -336,7 +380,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			$next_depth = '';
 		}
 
-		$skip = $this_depth < (int) $attributes['min_level'] || $this_depth > (int) $attributes['max_level'] || strpos( $headline, 'class="wpwing-toc-hidden' ) !== false;
+		$skip = $this_depth < (int) $attributes['min_level'] || $this_depth > (int) $attributes['max_level'] || strpos( $headline, 'wpwing-toc-hidden' ) !== false;
 
 		if ( ! $skip ) {
 			if ( $this_depth === $min_depth ) {
@@ -366,17 +410,24 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		}
 	}
 
+	if ( ! $list ) {
+		return '';
+	}
+
 	$effective_title = ! empty( $attributes['title_text'] ) ? $attributes['title_text'] : __( 'Table of Contents', 'wpwing-table-of-contents-block' );
 
 	// Build nav class list
 	$nav_classes = array_filter( [
 		'wpwing-toc',
-		$alignClass,
 		'boxed' === $style_preset ? 'wpwing-toc--boxed' : '',
 		$collapsible ? 'wpwing-toc--collapsible' : '',
 	] );
 
-	$html = '<nav class="' . esc_attr( implode( ' ', $nav_classes ) ) . '" aria-label="' . esc_attr( $effective_title ) . '">';
+	$wrapper_attributes = get_block_wrapper_attributes( [
+		'class'      => implode( ' ', $nav_classes ),
+		'aria-label' => $effective_title,
+	] );
+	$html = '<nav ' . $wrapper_attributes . '>';
 
 	if ( $collapsible ) {
 		$html .= '<div class="wpwing-toc-header">';
@@ -426,6 +477,26 @@ function wpwing_toc_sanitize_string( $string ) {
 	return $urlencoded;
 }
 
+// When add_back_to_top is enabled, print a #top anchor at the start of the body for no-JS fallback.
+function wpwing_toc_setup_top_anchor() {
+	if ( ! is_singular() ) {
+		return;
+	}
+	$post = get_post();
+	if ( ! $post || ! has_block( 'wpwing/toc', $post->ID ) ) {
+		return;
+	}
+	$blocks = wpwing_toc_get_blocks( $post->post_content );
+	if ( wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'add_back_to_top', false ) ) {
+		add_action( 'wp_body_open', 'wpwing_toc_print_top_anchor' );
+	}
+}
+add_action( 'wp', 'wpwing_toc_setup_top_anchor' );
+
+function wpwing_toc_print_top_anchor() {
+	echo '<span id="top" aria-hidden="true"></span>';
+}
+
 /**
  * Filter to add plugins to the TOC list for Rank Math plugin
  *
@@ -435,5 +506,11 @@ add_filter( 'rank_math/researches/toc_plugins', function ( $toc_plugins ) {
 	$toc_plugins['wpwing-table-of-contents-block/wpwing-table-of-contents-block.php'] = 'WPWingTOC';
 
 	return $toc_plugins;
+} );
+
+add_filter( 'wpseo_table_of_contents_blocks', function ( $blocks ) {
+	$blocks[] = 'wpwing/toc';
+
+	return $blocks;
 } );
 

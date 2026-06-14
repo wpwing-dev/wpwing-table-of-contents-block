@@ -9,6 +9,7 @@ import {
 	PanelBody,
 	TextControl,
 	Notice,
+	RangeControl,
 } from "@wordpress/components";
 
 export default function Edit({ attributes, setAttributes }) {
@@ -26,6 +27,8 @@ export default function Edit({ attributes, setAttributes }) {
 		collapsible,
 		style_preset,
 		show_back_to_top,
+		min_headings,
+		add_back_to_top,
 	} = attributes;
 
 	const levelError = Number( min_level ) > Number( max_level );
@@ -105,6 +108,17 @@ export default function Edit({ attributes, setAttributes }) {
 							) }
 						</Notice>
 					) }
+					<RangeControl
+						label={__( "Minimum headings to show TOC", "wpwing-table-of-contents-block" )}
+						help={__(
+							"Hide the TOC if the post has fewer qualifying headings than this number.",
+							"wpwing-table-of-contents-block",
+						)}
+						value={min_headings}
+						onChange={( value ) => setAttributes( { min_headings: value } )}
+						min={1}
+						max={10}
+					/>
 				</PanelBody>
 
 				<PanelBody
@@ -185,6 +199,20 @@ export default function Edit({ attributes, setAttributes }) {
 						checked={show_back_to_top}
 						onChange={() =>
 							setAttributes( { show_back_to_top: ! show_back_to_top } )
+						}
+					/>
+					<ToggleControl
+						label={__(
+							"Add per-section back to top links",
+							"wpwing-table-of-contents-block",
+						)}
+						help={__(
+							'Inserts a "↑ Back to top" link after each heading in the post content.',
+							"wpwing-table-of-contents-block",
+						)}
+						checked={add_back_to_top}
+						onChange={() =>
+							setAttributes( { add_back_to_top: ! add_back_to_top } )
 						}
 					/>
 					<ToggleControl

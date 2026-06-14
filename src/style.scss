@@ -40,6 +40,11 @@
 		color: inherit;
 		cursor: pointer;
 		line-height: 1;
+
+		&:focus-visible {
+			outline: 2px solid currentColor;
+			outline-offset: 2px;
+		}
 	}
 
 	// CSS chevron icon - points down when expanded, right when collapsed
@@ -62,20 +67,9 @@
 		display: none;
 	}
 
-	// Back to top link
+	// Back to top link - TOC-specific spacing only; base styles are global below
 	.wpwing-toc-back-top {
-		display: block;
 		margin-top: 0.75em;
-		font-size: 0.875em;
-		text-decoration: none;
-
-		&::before {
-			content: "↑ ";
-		}
-
-		&:hover {
-			text-decoration: underline;
-		}
 	}
 
 	// Screen reader text utility used by collapsible toggle
@@ -90,5 +84,20 @@
 		clip-path: inset(50%);
 		border: 0;
 		word-wrap: normal !important;
+	}
+}
+
+// Global - applies to both the TOC back-to-top link and per-section back-to-top links in content
+.wpwing-toc-back-top {
+	display: block;
+	font-size: 0.875em;
+	text-decoration: none;
+
+	&::before {
+		content: "↑ ";
+	}
+
+	&:hover {
+		text-decoration: underline;
 	}
 }

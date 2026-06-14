@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "wpwing/toc",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"title": "Table Of Contents",
 	"category": "widgets",
 	"keywords": [ "TOC", "Table of Contents", "WPWing" ],
@@ -56,11 +56,23 @@
 		"updated": {
 			"type": "integer",
 			"default": 0
+		},
+		"min_headings": {
+			"type": "integer",
+			"default": 1
+		},
+		"add_back_to_top": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"example": {},
 	"supports": {
-		"align": [ "wide" , "full"]
+		"align": [ "wide", "full" ],
+		"color": {
+			"background": true,
+			"text": true
+		}
 	},
 	"textdomain": "wpwing-table-of-contents-block",
 	"editorScript": "file:./index.js",

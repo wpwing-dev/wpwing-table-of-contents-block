@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:        1.1.0
+Stable tag:        1.2.0
 Requires at least: 5.8
 Tested up to:      7.0
 Requires PHP:      7.1
@@ -63,6 +63,9 @@ It's simple! Select the block, look at the sidebar options on the right, and tog
 = How can I add a background color or border to the block? =
 Because this plugin utilizes native Gutenberg styling, simply click the three dots on the block toolbar and select **Group**. Once grouped, you can use the native block editor sidebar to add background colors, text colors, paddings, and borders to the entire group.
 
+= How do I exclude a specific heading from the TOC? =
+Select the heading block you want to hide, open the **Advanced** panel in the block sidebar, and add `wpwing-toc-hidden` to the **Additional CSS class(es)** field. That heading will be skipped when the TOC is generated.
+
 = Does this plugin add extra scripts or bloat to my site? =
 Absolutely not. The plugin generates lightweight, valid, and semantic HTML structure. It does not load any external JavaScript, keeping your page load times completely unaffected.
 
@@ -76,6 +79,21 @@ Absolutely not. The plugin generates lightweight, valid, and semantic HTML struc
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.2.0 - 14/06/2026 =
+
+* New: Native color picker - set the TOC background and text color directly from the block sidebar without needing to wrap it in a Group block.
+* New: Per-section "Back to top" links - optionally insert a return-to-top link after every heading in the post content.
+* New: Minimum headings threshold - optionally hide the TOC automatically if the post has fewer qualifying headings than a number you choose.
+* New: Exclude headings from the TOC by adding the CSS class `wpwing-toc-hidden` to any heading block via its Advanced settings panel.
+* New: Yoast SEO integration - the block is now recognized as a TOC by Yoast SEO in addition to the existing Rank Math support.
+* Fix: Headings with multiple CSS classes (e.g. a font size applied alongside `wpwing-toc-hidden`) are now correctly excluded from the TOC.
+* Fix: Hidden headings no longer receive a per-section "Back to top" link in the post content.
+* Fix: The TOC no longer renders an empty `<nav>` element when all headings fall outside the selected minimum/maximum level range.
+* Fix: Back to top links now respect the "Enable smooth scrolling" setting instead of always scrolling smoothly.
+* Fix: Heading anchor IDs are now found and applied correctly inside nested block structures such as Groups and Columns, and page numbers are now assigned accurately to headings inside those nested structures too.
+* Improvement: Collapsible toggle button now shows a visible focus ring for keyboard users.
+* Improvement: "Back to top" link styling is now applied consistently to both the TOC link and per-section links in the post content.
 
 = 1.1.0 - 07/06/2026 =
 
