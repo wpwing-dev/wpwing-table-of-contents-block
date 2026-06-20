@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:        1.2.0
+Stable tag:        1.3.0
 Requires at least: 5.8
 Tested up to:      7.0
 Requires PHP:      7.1
@@ -79,6 +79,15 @@ Absolutely not. The plugin generates lightweight, valid, and semantic HTML struc
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.3.0 - 21/06/2026 =
+
+* New: Heading count badge - optionally display the number of visible headings next to the TOC title.
+* New: Exclude headings by keyword - type comma-separated keywords in the block sidebar; any heading whose text contains a match is hidden from the TOC and skipped by per-section back-to-top links.
+* Fix: The "minimum headings to show TOC" threshold now correctly counts only the headings that will actually appear in the TOC, so keyword-excluded headings no longer count toward the minimum.
+* Fix: The "Back to top" link inside the TOC now scrolls back to the top of the page correctly even when JavaScript is disabled.
+* Fix: TOC list HTML is now always well-formed when the last heading in a post is hidden from the TOC (via CSS class or keyword exclusion).
+* Improvement: The block sidebar now shows an informational notice when the heading count badge is enabled but the TOC title is hidden, since the badge has nowhere to appear in that configuration.
 
 = 1.2.0 - 14/06/2026 =
 

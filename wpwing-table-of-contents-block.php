@@ -4,7 +4,7 @@
  * Plugin Name:        Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:         https://wpwing.com/
  * Description:        Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
- * Version:            1.2.0
+ * Version:            1.3.0
  * Requires at least:  5.8
  * Tested up to:       7.0
  * Requires PHP:       7.1
@@ -112,14 +112,29 @@ function wpwing_toc_render_callback( $attributes ) {
 
 	$min_headings = isset( $attributes['min_headings'] ) ? (int) $attributes['min_headings'] : 1;
 	if ( $min_headings > 1 ) {
-		$min_lv   = (int) $attributes['min_level'];
-		$max_lv   = (int) $attributes['max_level'];
-		$eligible = 0;
+		$min_lv           = (int) $attributes['min_level'];
+		$max_lv           = (int) $attributes['max_level'];
+		$kw_for_threshold = array_filter( array_map( 'trim', explode( ',', isset( $attributes['exclude_keywords'] ) ? $attributes['exclude_keywords'] : '' ) ) );
+		$eligible         = 0;
 		foreach ( $headings_clean as $headline ) {
 			$level = (int) $headline[2];
-			if ( $level >= $min_lv && $level <= $max_lv && strpos( $headline, 'wpwing-toc-hidden' ) === false ) {
-				$eligible++;
+			if ( $level < $min_lv || $level > $max_lv || strpos( $headline, 'wpwing-toc-hidden' ) !== false ) {
+				continue;
 			}
+			if ( ! empty( $kw_for_threshold ) ) {
+				$hl_text = strip_tags( $headline );
+				$matched = false;
+				foreach ( $kw_for_threshold as $kw ) {
+					if ( $kw !== '' && stripos( $hl_text, $kw ) !== false ) {
+						$matched = true;
+						break;
+					}
+				}
+				if ( $matched ) {
+					continue;
+				}
+			}
+			$eligible++;
 		}
 		if ( $eligible < $min_headings ) {
 			if ( $is_backend ) {
@@ -263,28 +278,39 @@ function wpwing_toc_get_block_attr( array $blocks, $block_name, $attr_name, $def
  */
 function wpwing_toc_add_ids_to_content( $content ) {
 	if ( has_block( 'wpwing/toc', get_the_ID() ) ) {
-		$blocks          = parse_blocks( $content );
-		$add_back_to_top = (bool) wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'add_back_to_top', false );
-		$blocks          = wpwing_toc_add_ids_to_blocks( $blocks, $add_back_to_top );
-		$content         = serialize_blocks( $blocks );
+		$blocks           = parse_blocks( $content );
+		$add_back_to_top  = (bool) wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'add_back_to_top', false );
+		$exclude_keywords = array_filter( array_map( 'trim', explode( ',', (string) wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'exclude_keywords', '' ) ) ) );
+		$blocks           = wpwing_toc_add_ids_to_blocks( $blocks, $add_back_to_top, $exclude_keywords );
+		$content          = serialize_blocks( $blocks );
 	}
 
 	return $content;
 }
 
 // Recursively walk all blocks (including nested groups) and add anchor IDs to headings.
-function wpwing_toc_add_ids_to_blocks( array $blocks, bool $add_back_to_top = false ) {
+function wpwing_toc_add_ids_to_blocks( array $blocks, bool $add_back_to_top = false, array $exclude_keywords = [] ) {
 	$back_to_top_link = $add_back_to_top
 		? '<a href="#top" class="wpwing-toc-back-top">' . esc_html__( 'Back to top', 'wpwing-table-of-contents-block' ) . '</a>'
 		: '';
 
 	foreach ( $blocks as &$block ) {
 		if ( isset( $block['blockName'] ) && $block['blockName'] === 'core/heading' && ! empty( $block['innerHTML'] ) && isset( $block['innerContent'][0] ) ) {
-			$link                     = ( $back_to_top_link && strpos( $block['innerHTML'], 'wpwing-toc-hidden' ) === false ) ? $back_to_top_link : '';
+			$keyword_excluded = false;
+			if ( $back_to_top_link && ! empty( $exclude_keywords ) ) {
+				$heading_text = strip_tags( $block['innerHTML'] );
+				foreach ( $exclude_keywords as $kw ) {
+					if ( $kw !== '' && stripos( $heading_text, $kw ) !== false ) {
+						$keyword_excluded = true;
+						break;
+					}
+				}
+			}
+			$link                     = ( $back_to_top_link && strpos( $block['innerHTML'], 'wpwing-toc-hidden' ) === false && ! $keyword_excluded ) ? $back_to_top_link : '';
 			$block['innerHTML']       = wpwing_toc_add_anchor_attribute( $block['innerHTML'] ) . $link;
 			$block['innerContent'][0] = wpwing_toc_add_anchor_attribute( $block['innerContent'][0] ) . $link;
 		} elseif ( ! empty( $block['innerBlocks'] ) ) {
-			$block['innerBlocks'] = wpwing_toc_add_ids_to_blocks( $block['innerBlocks'], $add_back_to_top );
+			$block['innerBlocks'] = wpwing_toc_add_ids_to_blocks( $block['innerBlocks'], $add_back_to_top, $exclude_keywords );
 		}
 	}
 
@@ -344,7 +370,36 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	$show_back_to_top = ! empty( $attributes['show_back_to_top'] );
 	$list_id          = $collapsible ? 'wpwing-toc-list-' . $toc_instance : '';
 
-	$heading_count = count( $headings );
+	$heading_count      = count( $headings );
+	$show_heading_count = ! empty( $attributes['show_heading_count'] );
+	$exclude_keywords   = array_filter( array_map( 'trim', explode( ',', isset( $attributes['exclude_keywords'] ) ? $attributes['exclude_keywords'] : '' ) ) );
+
+	$eligible_count = 0;
+	if ( $show_heading_count ) {
+		foreach ( $headings as $headline ) {
+			$level = (int) $headline[2];
+			if ( $level < (int) $attributes['min_level'] || $level > (int) $attributes['max_level'] ) {
+				continue;
+			}
+			if ( strpos( $headline, 'wpwing-toc-hidden' ) !== false ) {
+				continue;
+			}
+			if ( ! empty( $exclude_keywords ) ) {
+				$title_text_check = strip_tags( $headline );
+				$matched          = false;
+				foreach ( $exclude_keywords as $kw ) {
+					if ( $kw !== '' && stripos( $title_text_check, $kw ) !== false ) {
+						$matched = true;
+						break;
+					}
+				}
+				if ( $matched ) {
+					continue;
+				}
+			}
+			$eligible_count++;
+		}
+	}
 
 	foreach ( $headings as $line => $headline ) {
 		$level = (int) $headings[$line][2];
@@ -380,7 +435,16 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			$next_depth = '';
 		}
 
-		$skip = $this_depth < (int) $attributes['min_level'] || $this_depth > (int) $attributes['max_level'] || strpos( $headline, 'wpwing-toc-hidden' ) !== false;
+		$keyword_match = false;
+		if ( ! empty( $exclude_keywords ) ) {
+			foreach ( $exclude_keywords as $kw ) {
+				if ( $kw !== '' && stripos( $title, $kw ) !== false ) {
+					$keyword_match = true;
+					break;
+				}
+			}
+		}
+		$skip = $this_depth < (int) $attributes['min_level'] || $this_depth > (int) $attributes['max_level'] || strpos( $headline, 'wpwing-toc-hidden' ) !== false || $keyword_match;
 
 		if ( ! $skip ) {
 			if ( $this_depth === $min_depth ) {
@@ -403,7 +467,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			if ( $min_depth === $next_depth ) {
 				$list .= "</li>";
 			}
-		} else {
+		} elseif ( ! $skip ) {
 			for ( $initial_depth; $initial_depth < $this_depth; $initial_depth++ ) {
 				$list .= "</li></" . $listtype . ">\n";
 			}
@@ -415,6 +479,14 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	}
 
 	$effective_title = ! empty( $attributes['title_text'] ) ? $attributes['title_text'] : __( 'Table of Contents', 'wpwing-table-of-contents-block' );
+
+	$badge_html = '';
+	if ( $show_heading_count && $eligible_count > 0 ) {
+		$badge_html = '<span class="wpwing-toc-count">' . sprintf(
+			_n( '%d heading', '%d headings', $eligible_count, 'wpwing-table-of-contents-block' ),
+			$eligible_count
+		) . '</span>';
+	}
 
 	// Build nav class list
 	$nav_classes = array_filter( [
@@ -432,7 +504,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	if ( $collapsible ) {
 		$html .= '<div class="wpwing-toc-header">';
 		if ( $attributes['no_title'] === false ) {
-			$html .= '<h2 class="wpwing-toc-title">' . esc_html( $effective_title ) . '</h2>';
+			$html .= '<h2 class="wpwing-toc-title">' . esc_html( $effective_title ) . $badge_html . '</h2>';
 		}
 		$html .= '<button type="button" class="wpwing-toc-toggle" aria-expanded="true" aria-controls="' . esc_attr( $list_id ) . '">';
 		$html .= '<span class="screen-reader-text">' . esc_html__( 'Toggle Table of Contents', 'wpwing-table-of-contents-block' ) . '</span>';
@@ -440,12 +512,12 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		$html .= '</button>';
 		$html .= '</div>';
 	} elseif ( $attributes['no_title'] === false ) {
-		$html .= '<h2 class="wpwing-toc-title">' . esc_html( $effective_title ) . '</h2>';
+		$html .= '<h2 class="wpwing-toc-title">' . esc_html( $effective_title ) . $badge_html . '</h2>';
 	}
 
 	$list_id_attr = $list_id ? ' id="' . esc_attr( $list_id ) . '"' : '';
 	$list_classes = array_filter( [ 'wpwing-toc-list', $flat_class ] );
-	$list_close   = $list ? '</li>' : '';
+	$list_close   = ( $list && substr( rtrim( $list ), -5 ) !== '</li>' ) ? '</li>' : '';
 	$html .= "<{$listtype} class=\"" . esc_attr( implode( ' ', $list_classes ) ) . "\"{$list_id_attr}>\n{$list}{$list_close}</{$listtype}>";
 
 	if ( $show_back_to_top ) {
@@ -487,7 +559,9 @@ function wpwing_toc_setup_top_anchor() {
 		return;
 	}
 	$blocks = wpwing_toc_get_blocks( $post->post_content );
-	if ( wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'add_back_to_top', false ) ) {
+	$needs_top = wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'add_back_to_top', false )
+		|| wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'show_back_to_top', false );
+	if ( $needs_top ) {
 		add_action( 'wp_body_open', 'wpwing_toc_print_top_anchor' );
 	}
 }

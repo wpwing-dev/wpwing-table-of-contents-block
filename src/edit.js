@@ -29,6 +29,8 @@ export default function Edit({ attributes, setAttributes }) {
 		show_back_to_top,
 		min_headings,
 		add_back_to_top,
+		show_heading_count,
+		exclude_keywords,
 	} = attributes;
 
 	const levelError = Number( min_level ) > Number( max_level );
@@ -118,6 +120,32 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={( value ) => setAttributes( { min_headings: value } )}
 						min={1}
 						max={10}
+					/>
+					<ToggleControl
+						label={__( "Show heading count", "wpwing-table-of-contents-block" )}
+						help={__(
+							"Display the number of visible headings next to the TOC title. Has no effect when the title is hidden.",
+							"wpwing-table-of-contents-block",
+						)}
+						checked={show_heading_count}
+						onChange={() => setAttributes( { show_heading_count: ! show_heading_count } )}
+					/>
+					{ show_heading_count && no_title && (
+						<Notice status="info" isDismissible={false}>
+							{ __(
+								"Heading count is hidden because the TOC title is disabled.",
+								"wpwing-table-of-contents-block",
+							) }
+						</Notice>
+					) }
+					<TextControl
+						label={__( "Exclude headings", "wpwing-table-of-contents-block" )}
+						help={__(
+							"Comma-separated keywords. Headings containing these words are hidden from the TOC.",
+							"wpwing-table-of-contents-block",
+						)}
+						value={exclude_keywords}
+						onChange={( value ) => setAttributes( { exclude_keywords: value } )}
 					/>
 				</PanelBody>
 
