@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:        1.3.0
+Stable tag:        1.4.0
 Requires at least: 5.8
 Tested up to:      7.0
 Requires PHP:      7.1
@@ -79,6 +79,14 @@ Absolutely not. The plugin generates lightweight, valid, and semantic HTML struc
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.4.0 - 28/06/2026 =
+
+* New: Hierarchical numbering - a new "List style" option that prefixes each entry with 1, 1.1, 1.1.1 style numbers reflecting the heading structure.
+* New: Copy link button - optionally show a button beside each TOC item that copies a direct link to that section to the clipboard.
+* Fix: TOC list HTML is now well-formed when the shallowest heading level is hidden from the TOC by keyword or the `wpwing-toc-hidden` class, not just when the last heading is hidden.
+* Fix: Heading anchor IDs are now de-duplicated, so posts with two or more headings that share the same text get unique links that jump to the correct section.
+* Fix: Heading anchor IDs and TOC links now stay in sync for headings that contain HTML entities such as &amp;.
 
 = 1.3.0 - 21/06/2026 =
 

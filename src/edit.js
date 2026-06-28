@@ -31,9 +31,17 @@ export default function Edit({ attributes, setAttributes }) {
 		add_back_to_top,
 		show_heading_count,
 		exclude_keywords,
+		hierarchical_numbers,
+		copy_anchor,
 	} = attributes;
 
 	const levelError = Number( min_level ) > Number( max_level );
+
+	const listStyle = hierarchical_numbers
+		? "hierarchical"
+		: use_ol
+			? "ordered"
+			: "bullet";
 
 	return (
 		<div {...blockProps}>
@@ -189,14 +197,36 @@ export default function Edit({ attributes, setAttributes }) {
 							) }
 						</Notice>
 					) }
-					<ToggleControl
-						label={__( "Numbered list", "wpwing-table-of-contents-block" )}
+					<SelectControl
+						label={__( "List style", "wpwing-table-of-contents-block" )}
 						help={__(
-							"Use a numbered list instead of bullet points.",
+							"Choose how TOC items are marked.",
 							"wpwing-table-of-contents-block",
 						)}
-						checked={use_ol}
-						onChange={() => setAttributes( { use_ol: ! use_ol } )}
+						value={listStyle}
+						options={[
+							{
+								label: __( "Bulleted", "wpwing-table-of-contents-block" ),
+								value: "bullet",
+							},
+							{
+								label: __( "Numbered", "wpwing-table-of-contents-block" ),
+								value: "ordered",
+							},
+							{
+								label: __(
+									"Hierarchical (1.1, 1.1.1)",
+									"wpwing-table-of-contents-block",
+								),
+								value: "hierarchical",
+							},
+						]}
+						onChange={( value ) =>
+							setAttributes( {
+								use_ol: value === "ordered",
+								hierarchical_numbers: value === "hierarchical",
+							} )
+						}
 					/>
 					<ToggleControl
 						label={__( "Flat list (no indent)", "wpwing-table-of-contents-block" )}
@@ -241,6 +271,20 @@ export default function Edit({ attributes, setAttributes }) {
 						checked={add_back_to_top}
 						onChange={() =>
 							setAttributes( { add_back_to_top: ! add_back_to_top } )
+						}
+					/>
+					<ToggleControl
+						label={__(
+							"Copy link button on hover",
+							"wpwing-table-of-contents-block",
+						)}
+						help={__(
+							"Show a button beside each TOC item that copies a direct link to that section.",
+							"wpwing-table-of-contents-block",
+						)}
+						checked={copy_anchor}
+						onChange={() =>
+							setAttributes( { copy_anchor: ! copy_anchor } )
 						}
 					/>
 					<ToggleControl

@@ -20,6 +20,67 @@
 		margin-left: 0.5em;
 	}
 
+	// Hierarchical numbering (1.1, 1.1.1) - markers are injected as text, so hide native ones
+	.wpwing-toc-list--numbered {
+		list-style: none;
+
+		ul,
+		ol {
+			list-style: none;
+		}
+	}
+
+	.wpwing-toc-number {
+		font-variant-numeric: tabular-nums;
+		opacity: 0.7;
+	}
+
+	// Copy-anchor button - hidden until the row is hovered or focused
+	&.wpwing-toc--copyable .wpwing-toc-list li {
+		position: relative;
+	}
+
+	.wpwing-toc-copy {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.4em;
+		height: 1.4em;
+		margin-left: 0.25em;
+		padding: 0;
+		background: none;
+		border: none;
+		color: inherit;
+		cursor: pointer;
+		opacity: 0;
+		vertical-align: middle;
+		transition: opacity 0.15s ease;
+
+		&::before {
+			content: "🔗";
+			font-size: 0.8em;
+			line-height: 1;
+		}
+
+		&.is-copied {
+			opacity: 1;
+
+			&::before {
+				content: "✓";
+			}
+		}
+
+		&:focus-visible {
+			opacity: 1;
+			outline: 2px solid currentColor;
+			outline-offset: 2px;
+		}
+	}
+
+	li:hover > .wpwing-toc-copy {
+		opacity: 0.65;
+	}
+
 	// Boxed preset
 	&.wpwing-toc--boxed {
 		padding: 1.25em 1.5em;
