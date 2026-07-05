@@ -1,8 +1,8 @@
 # Table of Contents (TOC) Block — Fast & SEO Friendly
 
-![Version](https://img.shields.io/badge/version-1.4.0-blue) ![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b) ![PHP](https://img.shields.io/badge/PHP-7.1%2B-777bb4) ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-green)
+![Version](https://img.shields.io/badge/version-1.5.0-blue) ![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b) ![PHP](https://img.shields.io/badge/PHP-7.1%2B-777bb4) ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-green)
 
-Automatically generate a clean, nested Table of Contents from your post headings — with zero frontend JavaScript. Built natively for the WordPress Gutenberg block editor and fully optimized for Core Web Vitals.
+Automatically generate a clean, nested Table of Contents from your post headings - no frontend JavaScript unless you enable interactive extras. Built natively for the WordPress Gutenberg block editor and fully optimized for Core Web Vitals.
 
 [WordPress.org Plugin Page](https://wordpress.org/plugins/wpwing-table-of-contents-block/) · [Support Forum](https://wordpress.org/support/plugin/wpwing-table-of-contents-block/) · [WPWing.com](https://wpwing.com/)
 
@@ -10,8 +10,11 @@ Automatically generate a clean, nested Table of Contents from your post headings
 
 ## Features
 
-- **Zero JavaScript** on the frontend - no performance overhead (collapsible toggle is the only opt-in JS, ~15 lines)
+- **JavaScript-free by default** - interactive extras (collapse, back-to-top, copy link) print a few lines of inline script only when enabled
 - **Automated** - scans content headings and generates anchor links instantly
+- **Respects custom anchors** - headings with their own HTML anchor keep it; the TOC links to it instead of overwriting
+- **Collapsed by default** - optionally start the collapsible TOC hidden
+- **Search snippet control** - optional `data-nosnippet` attribute keeps TOC text out of Google result snippets
 - **Depth control** - choose minimum and maximum heading levels to include (H2-H6)
 - **Custom TOC title** - set your own heading text directly from the sidebar
 - **Collapsible** - optional show/hide toggle button so readers can collapse the TOC

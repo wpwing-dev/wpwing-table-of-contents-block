@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:        1.4.0
+Stable tag:        1.5.0
 Requires at least: 5.8
 Tested up to:      7.0
 Requires PHP:      7.1
@@ -18,7 +18,7 @@ Boost your site’s SEO and maximize reader engagement with the **Table of Conte
 
 Long articles can overwhelm readers, causing them to leave your site early. This plugin automatically scans your content headings and generates a clean, nested list of anchor links. This allows users to jump directly to the section they need, decreasing bounce rates and satisfying search engines like Google.
 
-Unlike clunky legacy plugins, our Table of Contents block is custom-built for the modern WordPress Gutenberg editor. It adds **zero JavaScript** to your frontend, keeping your website lightning-fast and ensuring you score perfectly on Core Web Vitals.
+Unlike clunky legacy plugins, our Table of Contents block is custom-built for the modern WordPress Gutenberg editor. By default it adds **no JavaScript** to your frontend - and if you enable an interactive extra like the collapsible toggle, it prints only a few lines of inline script with no external files and no jQuery. Your website stays lightning-fast and scores perfectly on Core Web Vitals.
 
 ### ⚡ Super Lightweight & Performance-First
 We know page speed matters for SEO. Our block generates minimal, valid HTML and injects absolutely no extra resources or external scripts. It's built to perform seamlessly without adding bloat to your database or frontend.
@@ -34,7 +34,7 @@ Unlike plugins that lock basic layout settings behind a pro version, you get ful
 
 ### 🚀 Key Features At A Glance
 * **100% Automated:** Scans content instantly to generate accurate internal jump links.
-* **Pure Performance:** Zero JavaScript added to the frontend—fully optimized for page speed.
+* **Pure Performance:** No frontend JavaScript unless you enable an interactive feature - fully optimized for page speed.
 * **Designed for Gutenberg:** Integrates natively into the WordPress block editor experience.
 * **Responsive Layouts:** Inherits theme styles fluidly for perfect rendering on mobile devices.
 
@@ -67,7 +67,10 @@ Because this plugin utilizes native Gutenberg styling, simply click the three do
 Select the heading block you want to hide, open the **Advanced** panel in the block sidebar, and add `wpwing-toc-hidden` to the **Additional CSS class(es)** field. That heading will be skipped when the TOC is generated.
 
 = Does this plugin add extra scripts or bloat to my site? =
-Absolutely not. The plugin generates lightweight, valid, and semantic HTML structure. It does not load any external JavaScript, keeping your page load times completely unaffected.
+No. The plugin generates lightweight, valid, and semantic HTML and never loads external JavaScript files. If you enable an interactive option (collapsible toggle, back-to-top, or copy-link buttons), a few lines of inline script are printed in the footer - nothing else. With those options off, the frontend is 100% JavaScript-free.
+
+= I set a custom HTML anchor on a heading - will the TOC use it? =
+Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** field, the TOC links to that anchor instead of generating one, so your existing incoming links keep working.
 
 == Screenshots ==
 
@@ -79,6 +82,13 @@ Absolutely not. The plugin generates lightweight, valid, and semantic HTML struc
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.5.0 - 05/07/2026 =
+
+* New: Collapsed by default - optionally start the collapsible TOC hidden until the reader expands it.
+* New: Hide TOC from search snippets - one click adds the data-nosnippet attribute so search engines skip the TOC text when building result snippets.
+* New: Custom HTML anchors set on a heading block (Advanced > HTML anchor) are now respected - the TOC links to your anchor instead of overwriting it, so existing incoming links keep working.
+* Fix: Headings containing accented or non-Latin characters (e.g. Ü, é, Bangla, emoji) are no longer corrupted on the frontend when the TOC block is present.
 
 = 1.4.0 - 28/06/2026 =
 

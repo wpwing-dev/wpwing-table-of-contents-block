@@ -4,7 +4,7 @@
  * Plugin Name:        Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:         https://wpwing.com/
  * Description:        Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
- * Version:            1.4.0
+ * Version:            1.5.0
  * Requires at least:  5.8
  * Tested up to:       7.0
  * Requires PHP:       7.1
@@ -165,6 +165,11 @@ function wpwing_toc_print_frontend_script() {
 			var btn  = toc.querySelector('.wpwing-toc-toggle');
 			var list = toc.querySelector('.wpwing-toc-list');
 			if ( btn && list ) {
+				// Collapse via JS so no-JS readers still see the full list
+				if (toc.classList.contains('wpwing-toc--start-collapsed')) {
+					btn.setAttribute('aria-expanded', 'false');
+					list.hidden = true;
+				}
 				btn.addEventListener('click', function () {
 					var expanded = btn.getAttribute('aria-expanded') === 'true';
 					btn.setAttribute('aria-expanded', String( ! expanded));
@@ -289,6 +294,15 @@ function wpwing_toc_heading_excluded( $headline, $min_level, $max_level, array $
 	return false;
 }
 
+// Return the custom HTML anchor already set on a heading tag (via the block's Advanced panel), or ''.
+// Used by BOTH the content-side ID writer and the TOC link builder; they must stay in lockstep.
+function wpwing_toc_existing_anchor( $html ) {
+	if ( preg_match( '/<h[1-6][^>]*\bid=(["\'])(.*?)\1/i', $html, $m ) ) {
+		return $m[2];
+	}
+	return '';
+}
+
 // Return a document-unique anchor, appending -2, -3 ... on collision. $seen tracks counts by base.
 function wpwing_toc_unique_anchor( $base, array &$seen ) {
 	if ( ! isset( $seen[ $base ] ) ) {
@@ -336,7 +350,11 @@ function wpwing_toc_add_ids_to_blocks( array $blocks, bool $add_back_to_top = fa
 				}
 			}
 			$link                     = ( $back_to_top_link && strpos( $block['innerHTML'], 'wpwing-toc-hidden' ) === false && ! $keyword_excluded ) ? $back_to_top_link : '';
-			$anchor                   = wpwing_toc_unique_anchor( wpwing_toc_sanitize_string( strip_tags( $block['innerHTML'] ) ), $seen );
+			// A custom anchor set on the heading wins; only generated anchors advance the dedup counter
+			$anchor = wpwing_toc_existing_anchor( $block['innerHTML'] );
+			if ( '' === $anchor ) {
+				$anchor = wpwing_toc_unique_anchor( wpwing_toc_sanitize_string( strip_tags( $block['innerHTML'] ) ), $seen );
+			}
 			$block['innerHTML']       = wpwing_toc_apply_anchor( $block['innerHTML'], $anchor ) . $link;
 			$block['innerContent'][0] = wpwing_toc_apply_anchor( $block['innerContent'][0], $anchor ) . $link;
 		} elseif ( ! empty( $block['innerBlocks'] ) ) {
@@ -360,7 +378,8 @@ function wpwing_toc_apply_anchor( $html, $anchor ) {
 
 	libxml_use_internal_errors( true );
 	$dom = new \DOMDocument();
-	$dom->loadHTML( $html_wo_nbsp, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
+	// The encoding prolog stops libxml treating UTF-8 input as Latin-1 (mojibake)
+	$dom->loadHTML( '<?xml encoding="utf-8" ?>' . $html_wo_nbsp, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 	libxml_clear_errors();
 
 	// Use xpath to select the Heading html tags.
@@ -421,7 +440,11 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	$items = [];
 	foreach ( $headings as $line => $headline ) {
 		$title = strip_tags( $headline );
-		$link  = wpwing_toc_unique_anchor( wpwing_toc_sanitize_string( $title ), $seen );
+		// Mirror of the content-side logic: custom anchor wins, generated ones advance the counter
+		$link  = wpwing_toc_existing_anchor( $headline );
+		if ( '' === $link ) {
+			$link = wpwing_toc_unique_anchor( wpwing_toc_sanitize_string( $title ), $seen );
+		}
 
 		if ( wpwing_toc_heading_excluded( $headline, $min_level, $max_level, $exclude_keywords ) ) {
 			continue;
@@ -445,7 +468,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			'title'  => $title,
 			'link'   => $link,
 			'page'   => $page,
-			'href'   => esc_url( $base_url ) . esc_attr( $page ) . '#' . $link,
+			'href'   => esc_url( $base_url . $page . '#' . $link ),
 		];
 	}
 
@@ -523,13 +546,18 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		'wpwing-toc',
 		'boxed' === $style_preset ? 'wpwing-toc--boxed' : '',
 		$collapsible ? 'wpwing-toc--collapsible' : '',
+		$collapsible && ! empty( $attributes['start_collapsed'] ) ? 'wpwing-toc--start-collapsed' : '',
 		$copy_anchor ? 'wpwing-toc--copyable' : '',
 	] );
 
-	$wrapper_attributes = get_block_wrapper_attributes( [
+	$extra_attributes = [
 		'class'      => implode( ' ', $nav_classes ),
 		'aria-label' => $effective_title,
-	] );
+	];
+	if ( ! empty( $attributes['seo_nosnippet'] ) ) {
+		$extra_attributes['data-nosnippet'] = 'true';
+	}
+	$wrapper_attributes = get_block_wrapper_attributes( $extra_attributes );
 	$html = '<nav ' . $wrapper_attributes . '>';
 
 	if ( $collapsible ) {

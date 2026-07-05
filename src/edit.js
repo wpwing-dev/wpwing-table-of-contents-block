@@ -33,6 +33,8 @@ export default function Edit({ attributes, setAttributes }) {
 		exclude_keywords,
 		hierarchical_numbers,
 		copy_anchor,
+		start_collapsed,
+		seo_nosnippet,
 	} = attributes;
 
 	const levelError = Number( min_level ) > Number( max_level );
@@ -189,6 +191,17 @@ export default function Edit({ attributes, setAttributes }) {
 						checked={collapsible}
 						onChange={() => setAttributes( { collapsible: ! collapsible } )}
 					/>
+					{ collapsible && (
+						<ToggleControl
+							label={__( "Collapsed by default", "wpwing-table-of-contents-block" )}
+							help={__(
+								"Start with the TOC list hidden until the reader expands it.",
+								"wpwing-table-of-contents-block",
+							)}
+							checked={start_collapsed}
+							onChange={() => setAttributes( { start_collapsed: ! start_collapsed } )}
+						/>
+					) }
 					{ no_title && collapsible && (
 						<Notice status="info" isDismissible={false}>
 							{ __(
@@ -301,6 +314,20 @@ export default function Edit({ attributes, setAttributes }) {
 							setAttributes( {
 								add_smooth: ! add_smooth,
 							} )
+						}
+					/>
+					<ToggleControl
+						label={__(
+							"Hide TOC from search snippets",
+							"wpwing-table-of-contents-block",
+						)}
+						help={__(
+							"Adds data-nosnippet so search engines do not use the TOC text in search result snippets.",
+							"wpwing-table-of-contents-block",
+						)}
+						checked={seo_nosnippet}
+						onChange={() =>
+							setAttributes( { seo_nosnippet: ! seo_nosnippet } )
 						}
 					/>
 					<ToggleControl
