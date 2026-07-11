@@ -4,7 +4,7 @@ Written: 11/07/2026. Cadence: one release every Sunday. Current version: 1.5.0 (
 
 Strategy for the month: close the top gaps found in [competitors.md](competitors.md) - quick wins first, then the auto-insert headline feature, then lightweight/quality parity with SimpleTOC, then start capturing users from abandoned competitors.
 
-## v1.6.0 - Sunday 12/07/2026 (small scope, one day left)
+## v1.6.0 - Sunday 12/07/2026 (small scope, one day left) - DONE, implemented 11/07
 
 - New: Smooth-scroll offset setting - pixel offset so anchors are not hidden under sticky/fixed headers (top LuckyWP feature, frequent complaint across all TOC plugins). Implement via `scroll-margin-top` CSS on heading anchors, no JS needed.
 - Fix: Deferred known bug - paginated posts (`<!--nextpage-->`) with plain permalinks build broken page URLs.

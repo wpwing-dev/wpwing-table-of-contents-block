@@ -4,7 +4,7 @@
  * Plugin Name:        Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:         https://wpwing.com/
  * Description:        Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
- * Version:            1.5.0
+ * Version:            1.6.0
  * Requires at least:  5.8
  * Tested up to:       7.0
  * Requires PHP:       7.1
@@ -134,6 +134,11 @@ function wpwing_toc_render_callback( $attributes ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_smooth_scroll_style' );
 	}
 
+	if ( ! empty( $attributes['scroll_offset'] ) && (int) $attributes['scroll_offset'] > 0 && ! $is_backend ) {
+		wpwing_toc_scroll_offset( (int) $attributes['scroll_offset'] );
+		add_action( 'wp_footer', 'wpwing_toc_print_scroll_offset_style' );
+	}
+
 	if ( ( ! empty( $attributes['collapsible'] ) || ! empty( $attributes['show_back_to_top'] ) || ! empty( $attributes['add_back_to_top'] ) || ! empty( $attributes['copy_anchor'] ) ) && ! $is_backend ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_frontend_script' );
 	}
@@ -149,6 +154,28 @@ function wpwing_toc_render_callback( $attributes ) {
  */
 function wpwing_toc_print_smooth_scroll_style() {
 	echo '<style>html{scroll-behavior:smooth}</style>';
+}
+
+// Holds the largest scroll offset requested by any TOC block on the page.
+function wpwing_toc_scroll_offset( $set = null ) {
+	static $offset = 0;
+	if ( null !== $set ) {
+		$offset = max( $offset, (int) $set );
+	}
+	return $offset;
+}
+
+/**
+ * Print scroll offset CSS so anchors are not hidden under sticky/fixed headers.
+ * Named function so add_action deduplicates it if multiple TOC blocks are on the page.
+ *
+ * @since 1.6.0
+ */
+function wpwing_toc_print_scroll_offset_style() {
+	$offset = wpwing_toc_scroll_offset();
+	if ( $offset > 0 ) {
+		echo '<style>h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]{scroll-margin-top:' . (int) $offset . 'px}</style>';
+	}
 }
 
 /**
@@ -396,6 +423,23 @@ function wpwing_toc_apply_anchor( $html, $anchor ) {
 	return $content;
 }
 
+// Full URL of a given page of the current paginated post; mirrors core _wp_link_page().
+function wpwing_toc_page_url( $page_num ) {
+	global $wp_rewrite;
+	$permalink = get_permalink();
+	if ( $page_num <= 1 ) {
+		return $permalink;
+	}
+	$post = get_post();
+	if ( ! $wp_rewrite instanceof WP_Rewrite || ! $wp_rewrite->using_permalinks() || ( $post && in_array( $post->post_status, [ 'draft', 'pending' ], true ) ) ) {
+		return add_query_arg( 'page', $page_num, $permalink );
+	}
+	if ( 'page' === get_option( 'show_on_front' ) && $post && (int) get_option( 'page_on_front' ) === $post->ID ) {
+		return trailingslashit( $permalink ) . user_trailingslashit( $wp_rewrite->pagination_base . '/' . $page_num, 'single_paged' );
+	}
+	return trailingslashit( $permalink ) . user_trailingslashit( $page_num, 'single_paged' );
+}
+
 /**
  * Generate final Table of Contents
  *
@@ -450,25 +494,21 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 			continue;
 		}
 
-		$page = '';
 		libxml_use_internal_errors( true );
 		$dom = new \DOMDocument();
 		$dom->loadHTML( $headline, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
 		libxml_clear_errors();
 		$xpath    = new \DOMXPath( $dom );
 		$nodes    = $xpath->query( '//*/@data-page' );
-		$base_url = $absolute_url;
-		if ( isset( $nodes[0] ) && $nodes[0]->nodeValue > 1 ) {
-			$page     = $nodes[0]->nodeValue . '/';
-			$base_url = get_permalink();
-		}
+		$page_num = isset( $nodes[0] ) ? (int) $nodes[0]->nodeValue : 1;
+		$base_url = ( $page_num > 1 ) ? wpwing_toc_page_url( $page_num ) : $absolute_url;
 
 		$items[] = [
 			'depth'  => (int) $headline[2],
 			'title'  => $title,
 			'link'   => $link,
-			'page'   => $page,
-			'href'   => esc_url( $base_url . $page . '#' . $link ),
+			'page'   => $page_num,
+			'href'   => esc_url( $base_url . '#' . $link ),
 		];
 	}
 
@@ -517,7 +557,8 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 
 		$copy_html = '';
 		if ( $copy_anchor ) {
-			$copy_html = '<button type="button" class="wpwing-toc-copy" data-clipboard-text="' . esc_url( $permalink . $it['page'] . '#' . $it['link'] ) . '" aria-label="' . esc_attr__( 'Copy link to this section', 'wpwing-table-of-contents-block' ) . '"></button>';
+			$copy_url  = ( $it['page'] > 1 ) ? wpwing_toc_page_url( $it['page'] ) : $permalink;
+			$copy_html = '<button type="button" class="wpwing-toc-copy" data-clipboard-text="' . esc_url( $copy_url . '#' . $it['link'] ) . '" aria-label="' . esc_attr__( 'Copy link to this section', 'wpwing-table-of-contents-block' ) . '"></button>';
 		}
 
 		$list .= '<a' . ( $link_class ? ' class="' . esc_attr( $link_class ) . '"' : '' ) . ' href="' . $it['href'] . '">' . $number_html . esc_html( $it['title'] ) . '</a>' . $copy_html;

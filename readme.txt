@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:        1.5.0
+Stable tag:        1.6.0
 Requires at least: 5.8
 Tested up to:      7.0
 Requires PHP:      7.1
@@ -69,6 +69,9 @@ Select the heading block you want to hide, open the **Advanced** panel in the bl
 = Does this plugin add extra scripts or bloat to my site? =
 No. The plugin generates lightweight, valid, and semantic HTML and never loads external JavaScript files. If you enable an interactive option (collapsible toggle, back-to-top, or copy-link buttons), a few lines of inline script are printed in the footer - nothing else. With those options off, the frontend is 100% JavaScript-free.
 
+= My sticky header covers the heading when I click a TOC link. How do I fix it? =
+Select the block, open the **Links & Behavior** panel, and set **Scroll offset (px)** to roughly the height of your sticky header. Headings will then land below the header instead of behind it. This is done with pure CSS - no JavaScript is added.
+
 = I set a custom HTML anchor on a heading - will the TOC use it? =
 Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** field, the TOC links to that anchor instead of generating one, so your existing incoming links keep working.
 
@@ -82,6 +85,12 @@ Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** fi
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.6.0 - 12/07/2026 =
+
+* New: Scroll offset - set a pixel offset in the block sidebar so headings are not hidden behind sticky or fixed headers when jumping from the TOC. Pure CSS, no JavaScript added.
+* Fix: TOC links to headings on other pages of paginated posts now build correct URLs on sites using plain or non-standard permalinks.
+* Improvement: RTL support - list indentation, the heading count badge, the copy-link button, and the collapsible toggle icon now render correctly in right-to-left languages.
 
 = 1.5.0 - 05/07/2026 =
 

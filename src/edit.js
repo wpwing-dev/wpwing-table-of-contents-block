@@ -35,6 +35,7 @@ export default function Edit({ attributes, setAttributes }) {
 		copy_anchor,
 		start_collapsed,
 		seo_nosnippet,
+		scroll_offset,
 	} = attributes;
 
 	const levelError = Number( min_level ) > Number( max_level );
@@ -315,6 +316,17 @@ export default function Edit({ attributes, setAttributes }) {
 								add_smooth: ! add_smooth,
 							} )
 						}
+					/>
+					<RangeControl
+						label={__( "Scroll offset (px)", "wpwing-table-of-contents-block" )}
+						help={__(
+							"Leave space above headings when jumping from the TOC. Set this to your sticky header height so headings are not hidden behind it.",
+							"wpwing-table-of-contents-block",
+						)}
+						value={scroll_offset}
+						onChange={( value ) => setAttributes( { scroll_offset: value } )}
+						min={0}
+						max={300}
 					/>
 					<ToggleControl
 						label={__(

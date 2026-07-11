@@ -1,14 +1,14 @@
 .wpwing-toc {
 	.wpwing-toc-list {
 		margin: 0.5em 0 0;
-		padding-left: 1.5em;
+		padding-inline-start: 1.5em;
 
 		li {
 			margin: 0.25em 0;
 		}
 
 		&.wpwing-toc-list--flat {
-			padding-left: 0;
+			padding-inline-start: 0;
 			list-style: none;
 		}
 	}
@@ -17,7 +17,7 @@
 		font-size: 0.8em;
 		font-weight: normal;
 		opacity: 0.6;
-		margin-left: 0.5em;
+		margin-inline-start: 0.5em;
 	}
 
 	// Hierarchical numbering (1.1, 1.1.1) - markers are injected as text, so hide native ones
@@ -46,7 +46,7 @@
 		justify-content: center;
 		width: 1.4em;
 		height: 1.4em;
-		margin-left: 0.25em;
+		margin-inline-start: 0.25em;
 		padding: 0;
 		background: none;
 		border: none;
@@ -129,6 +129,11 @@
 
 	.wpwing-toc-toggle[aria-expanded="false"] .wpwing-toc-toggle-icon {
 		transform: rotate(-45deg);
+	}
+
+	// Collapsed chevron points toward the reading direction, so flip it in RTL
+	[dir="rtl"] & .wpwing-toc-toggle[aria-expanded="false"] .wpwing-toc-toggle-icon {
+		transform: rotate(135deg);
 	}
 
 	.wpwing-toc-list[hidden] {
