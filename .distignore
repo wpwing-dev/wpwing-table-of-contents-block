@@ -22,6 +22,7 @@ package-lock.json
 # Documentation (GitHub-only)
 readme.md
 DOC/
+docs/
 
 # Build output folder
 dist/
