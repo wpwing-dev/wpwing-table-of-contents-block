@@ -19,10 +19,9 @@ CLAUDE.md
 package.json
 package-lock.json
 
-# Documentation (GitHub-only)
+# Internal docs (GitHub-only; public docs/ ships in the zip)
 readme.md
-DOC/
-docs/
+doc/
 
 # Build output folder
 dist/

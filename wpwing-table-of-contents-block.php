@@ -54,6 +54,7 @@ function wpwing_toc_plugin_meta( $links, $file ) {
 	if ( false !== strpos( $file, 'wpwing-table-of-contents-block' ) ) {
 		$links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block/">' . __( 'Support', 'wpwing-table-of-contents-block' ) . '</a>'] );
 		$links = array_merge( $links, ['<a href="https://wordpress.org/support/plugin/wpwing-table-of-contents-block/reviews/#new-post">' . __( 'Write a review', 'wpwing-table-of-contents-block' ) . '&nbsp;⭐️⭐️⭐️⭐️⭐️</a>'] );
+		$links = array_merge( $links, ['<a href="' . esc_url( plugins_url( 'docs/index.html', __FILE__ ) ) . '" target="_blank">' . __( 'Documentation', 'wpwing-table-of-contents-block' ) . '</a>'] );
 	}
 
 	return $links;

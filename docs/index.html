@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Table of Contents (TOC) Block - Documentation</title>
+<style>
+	*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+	:root {
+		--brand:   #0d6efd;
+		--brand-d: #0a58ca;
+		--text:    #1e1e1e;
+		--muted:   #555;
+		--border:  #ddd;
+		--bg:      #f9f9f9;
+		--code-bg: #eef4ff;
+		--nav-w:   260px;
+		--radius:  6px;
+	}
+
+	html { scroll-behavior: smooth; }
+
+	body {
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+		font-size: 15px;
+		line-height: 1.7;
+		color: var(--text);
+		background: var(--bg);
+	}
+
+	/* Layout */
+	.layout { display: flex; min-height: 100vh; }
+
+	/* Sidebar */
+	nav {
+		width: var(--nav-w);
+		flex-shrink: 0;
+		background: #fff;
+		border-right: 1px solid var(--border);
+		position: sticky;
+		top: 0;
+		height: 100vh;
+		overflow-y: auto;
+		padding: 0 0 2rem;
+	}
+
+	.nav-logo {
+		display: block;
+		padding: 1.25rem 1.25rem 1rem;
+		font-weight: 700;
+		font-size: 0.95rem;
+		color: var(--brand);
+		border-bottom: 1px solid var(--border);
+		text-decoration: none;
+		letter-spacing: -0.01em;
+	}
+
+	nav ul { list-style: none; padding: 0.5rem 0; }
+
+	nav ul li a {
+		display: block;
+		padding: 0.35rem 1.25rem;
+		color: var(--muted);
+		text-decoration: none;
+		font-size: 0.875rem;
+		border-left: 3px solid transparent;
+		transition: color 0.15s, border-color 0.15s;
+	}
+
+	nav ul li a:hover,
+	nav ul li a.active {
+		color: var(--brand);
+		border-left-color: var(--brand);
+		background: var(--code-bg);
+	}
+
+	nav .nav-section {
+		padding: 1rem 1.25rem 0.25rem;
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: #aaa;
+	}
+
+	/* Main content */
+	main {
+		flex: 1;
+		max-width: 860px;
+		padding: 2.5rem 3rem;
+	}
+
+	/* Hero */
+	.hero {
+		background: linear-gradient(135deg, var(--brand) 0%, var(--brand-d) 100%);
+		color: #fff;
+		border-radius: var(--radius);
+		padding: 2rem 2.25rem;
+		margin-bottom: 2.5rem;
+	}
+	.hero h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.4rem; }
+	.hero p  { color: rgba(255,255,255,0.88); font-size: 0.95rem; margin-bottom: 0; }
+	.hero .badges { margin-top: 0.9rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+	.badge {
+		background: rgba(255,255,255,0.18);
+		border-radius: 100px;
+		padding: 0.2rem 0.7rem;
+		font-size: 0.78rem;
+		font-weight: 600;
+	}
+
+	/* Sections */
+	section { margin-bottom: 3rem; }
+
+	h2 {
+		font-size: 1.3rem;
+		font-weight: 700;
+		color: var(--text);
+		padding-bottom: 0.5rem;
+		border-bottom: 2px solid var(--brand);
+		margin-bottom: 1.25rem;
+	}
+
+	h3 {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--text);
+		margin: 1.5rem 0 0.5rem;
+	}
+
+	p { margin-bottom: 0.75rem; color: var(--muted); }
+
+	/* Steps */
+	.steps { counter-reset: step; padding: 0; list-style: none; }
+	.steps li {
+		counter-increment: step;
+		display: flex;
+		gap: 1rem;
+		margin-bottom: 0.9rem;
+		align-items: flex-start;
+	}
+	.steps li::before {
+		content: counter(step);
+		flex-shrink: 0;
+		width: 1.7rem;
+		height: 1.7rem;
+		background: var(--brand);
+		color: #fff;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.78rem;
+		font-weight: 700;
+		margin-top: 0.1rem;
+	}
+
+	/* Feature grid */
+	.feature-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1rem;
+		margin: 1rem 0;
+	}
+	.feature-card {
+		background: #fff;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: 1rem 1.1rem;
+	}
+	.feature-card h4 {
+		font-size: 0.875rem;
+		font-weight: 700;
+		margin-bottom: 0.35rem;
+		color: var(--brand);
+	}
+	.feature-card p { font-size: 0.85rem; margin: 0; }
+
+	/* Callout */
+	.callout {
+		background: var(--code-bg);
+		border-left: 4px solid var(--brand);
+		border-radius: 0 var(--radius) var(--radius) 0;
+		padding: 0.85rem 1.1rem;
+		margin: 1rem 0;
+		font-size: 0.875rem;
+		color: var(--muted);
+	}
+	.callout strong { color: var(--text); }
+
+	/* Code */
+	code {
+		background: var(--code-bg);
+		border: 1px solid #c9dbff;
+		border-radius: 4px;
+		padding: 0.1em 0.4em;
+		font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+		font-size: 0.85em;
+		color: var(--brand-d);
+	}
+
+	/* Settings table */
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.875rem;
+		margin: 0.75rem 0 1rem;
+	}
+	th {
+		background: var(--code-bg);
+		border: 1px solid var(--border);
+		padding: 0.55rem 0.85rem;
+		text-align: left;
+		font-weight: 700;
+		color: var(--text);
+	}
+	td {
+		border: 1px solid var(--border);
+		padding: 0.55rem 0.85rem;
+		vertical-align: top;
+		color: var(--muted);
+	}
+	tr:nth-child(even) td { background: #fdfdfd; }
+
+	/* FAQ */
+	details {
+		background: #fff;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: 0.85rem 1.1rem;
+		margin-bottom: 0.6rem;
+		overflow: hidden;
+		transition: border-color 0.25s ease;
+	}
+	details[open] { border-color: var(--brand); }
+	summary {
+		font-weight: 600;
+		font-size: 0.9rem;
+		cursor: pointer;
+		list-style: none;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	summary::-webkit-details-marker { display: none; }
+	summary::after {
+		content: "+";
+		font-size: 1.1rem;
+		color: var(--brand);
+		flex-shrink: 0;
+		margin-left: 1rem;
+	}
+	details[open] summary::after { content: "\2212"; }
+	details p { margin-top: 0.75rem; font-size: 0.875rem; }
+
+	/* Recipe block */
+	.recipe {
+		background: #fff;
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		padding: 1.1rem 1.25rem;
+		margin-bottom: 1.25rem;
+	}
+	.recipe h3 { margin-top: 0; font-size: 0.95rem; }
+	.recipe p  { font-size: 0.875rem; }
+	.recipe ol { margin: 0.5rem 0 0 1.25rem; color: var(--muted); font-size: 0.875rem; }
+	.recipe ol li { margin-bottom: 0.3rem; }
+
+	/* Responsive */
+	@media (max-width: 720px) {
+		nav { display: none; }
+		main { padding: 1.5rem 1.25rem; }
+		.feature-grid { grid-template-columns: 1fr; }
+	}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+	<!-- Sidebar nav -->
+	<nav>
+		<a class="nav-logo" href="#top">&#9776; Table of Contents Block</a>
+
+		<p class="nav-section">Getting Started</p>
+		<ul>
+			<li><a href="#quick-start">Quick Start</a></li>
+		</ul>
+
+		<p class="nav-section">Block Settings</p>
+		<ul>
+			<li><a href="#content-panel">Content</a></li>
+			<li><a href="#display-panel">Display</a></li>
+			<li><a href="#links-behavior">Links &amp; Behavior</a></li>
+			<li><a href="#styling">Colors &amp; Alignment</a></li>
+		</ul>
+
+		<p class="nav-section">Site-Wide</p>
+		<ul>
+			<li><a href="#auto-insert">Auto-Insert</a></li>
+		</ul>
+
+		<p class="nav-section">Guides</p>
+		<ul>
+			<li><a href="#excluding">Excluding Headings</a></li>
+			<li><a href="#anchors">Heading Anchors</a></li>
+			<li><a href="#recipes">Recipes</a></li>
+		</ul>
+
+		<p class="nav-section">Help</p>
+		<ul>
+			<li><a href="#developers">For Developers</a></li>
+			<li><a href="#faq">FAQ</a></li>
+		</ul>
+	</nav>
+
+	<!-- Main content -->
+	<main id="top">
+
+		<!-- Hero -->
+		<div class="hero">
+			<h1>Table of Contents (TOC) Block - Fast &amp; SEO Friendly</h1>
+			<p>Automatically generate a clean, nested table of contents from your headings - with zero frontend JavaScript by default.</p>
+			<div class="badges">
+				<span class="badge">WordPress 5.8+</span>
+				<span class="badge">Block Editor</span>
+				<span class="badge">No frontend JS</span>
+				<span class="badge">SEO friendly</span>
+				<span class="badge">Rank Math &amp; Yoast</span>
+			</div>
+		</div>
+
+		<!-- Quick Start -->
+		<section id="quick-start">
+			<h2>Quick Start</h2>
+			<p>You can have a table of contents live on a post in under a minute.</p>
+			<ol class="steps">
+				<li>Open a post or page in the block editor and place the cursor where the TOC should appear - usually right before the first heading.</li>
+				<li>Type <code>/toc</code> (or open the block inserter and search for <strong>Table of Contents</strong>) and insert the block.</li>
+				<li>The block instantly scans every heading in the post - including headings inside Groups, Columns, and reusable blocks - and shows a live preview.</li>
+				<li>With the block selected, open the <strong>Settings sidebar</strong> to adjust which heading levels are included, the list style, and any extras you need.</li>
+				<li>Save the post and view it in a browser. Each TOC entry is an anchor link that jumps straight to its section.</li>
+			</ol>
+			<div class="callout">
+				<strong>How it works.</strong> The TOC is generated on the server from your post's heading blocks. Matching anchor IDs are added to the headings in your content and to the TOC links, so they always stay in sync. Nothing is stored in your database and no external scripts are loaded - with all interactive extras off, the frontend is 100% JavaScript-free.
+			</div>
+			<div class="callout">
+				<strong>Editor preview is stale?</strong> Click the circular <strong>Update table of contents</strong> button in the block toolbar to re-scan the headings after editing them.
+			</div>
+		</section>
+
+		<!-- Content panel -->
+		<section id="content-panel">
+			<h2>Content</h2>
+			<p>The first panel in the block sidebar controls what appears in the TOC.</p>
+			<table>
+				<thead>
+					<tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><strong>Custom Title</strong></td>
+						<td>Empty</td>
+						<td>Replaces the default "Table of Contents" title with your own text (e.g. "What's Inside", "Quick Navigation"). Leave empty to keep the default.</td>
+					</tr>
+					<tr>
+						<td><strong>Hide TOC Title</strong></td>
+						<td>Off</td>
+						<td>Removes the built-in title entirely. Useful if you prefer to add your own Heading block above the TOC for full control over the heading level and styling.</td>
+					</tr>
+					<tr>
+						<td><strong>Minimum Level</strong></td>
+						<td>H2</td>
+						<td>Start the TOC from this heading level. Set it to H3 to skip your H2 headings, for example.</td>
+					</tr>
+					<tr>
+						<td><strong>Maximum Level</strong></td>
+						<td>H6</td>
+						<td>Stop including headings deeper than this level. Set it to H3 to show only H2 and H3 headings and keep the TOC short. The sidebar warns you if the minimum is set deeper than the maximum (that combination produces an empty TOC).</td>
+					</tr>
+					<tr>
+						<td><strong>Minimum headings to show TOC</strong></td>
+						<td>1</td>
+						<td>Hide the TOC automatically when the post has fewer qualifying headings than this number (range 1-10). Only headings that would actually appear in the TOC are counted - excluded and out-of-range headings don't count. Great for keeping short posts clean.</td>
+					</tr>
+					<tr>
+						<td><strong>Show heading count</strong></td>
+						<td>Off</td>
+						<td>Displays the number of visible headings as a badge next to the TOC title (e.g. "8 headings"). Has no effect when the title is hidden.</td>
+					</tr>
+					<tr>
+						<td><strong>Exclude headings</strong></td>
+						<td>Empty</td>
+						<td>Comma-separated keywords. Any heading whose text contains one of these words (case-insensitive) is hidden from the TOC and skipped by per-section back-to-top links. Example: <code>conclusion, faq</code>.</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<!-- Display panel -->
+		<section id="display-panel">
+			<h2>Display</h2>
+			<p>Control how the TOC looks and whether readers can collapse it.</p>
+			<table>
+				<thead>
+					<tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><strong>Style</strong></td>
+						<td>Default</td>
+						<td>
+							<strong>Default</strong> - a plain list that inherits your theme's styling.<br><br>
+							<strong>Boxed</strong> - wraps the TOC in a subtle bordered box with padding, so it stands out from the article without any custom CSS.
+						</td>
+					</tr>
+					<tr>
+						<td><strong>Collapsible</strong></td>
+						<td>Off</td>
+						<td>Adds a toggle button next to the title so readers can show or hide the TOC list with one click. The toggle is keyboard-accessible with a visible focus ring.</td>
+					</tr>
+					<tr>
+						<td><strong>Collapsed by default</strong></td>
+						<td>Off</td>
+						<td>Only visible when Collapsible is on. Starts with the list hidden until the reader expands it. Readers without JavaScript still see the full list.</td>
+					</tr>
+					<tr>
+						<td><strong>List style</strong></td>
+						<td>Bulleted</td>
+						<td>
+							<strong>Bulleted</strong> - a standard unordered list.<br>
+							<strong>Numbered</strong> - an ordered list; each nesting level restarts at 1.<br>
+							<strong>Hierarchical (1.1, 1.1.1)</strong> - prefixes each entry with numbers reflecting the heading structure, like a book outline.
+						</td>
+					</tr>
+					<tr>
+						<td><strong>Flat list (no indent)</strong></td>
+						<td>Off</td>
+						<td>Removes bullet points and first-level indentation for a tidy, compact look - especially with deeply nested headings.</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<!-- Links & Behavior panel -->
+		<section id="links-behavior">
+			<h2>Links &amp; Behavior</h2>
+			<p>Fine-tune how the anchor links behave and add optional navigation extras.</p>
+			<table>
+				<thead>
+					<tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><strong>Show "Back to top" link</strong></td>
+						<td>Off</td>
+						<td>Adds a link below the TOC list that scrolls the reader back to the top of the page. Works even with JavaScript disabled.</td>
+					</tr>
+					<tr>
+						<td><strong>Add per-section back to top links</strong></td>
+						<td>Off</td>
+						<td>Inserts a "Back to top" link after every heading in the post content, so readers can return to the TOC from anywhere in a long article. Excluded and hidden headings are skipped.</td>
+					</tr>
+					<tr>
+						<td><strong>Copy link button on hover</strong></td>
+						<td>Off</td>
+						<td>Shows a small button beside each TOC item that copies a direct link to that section to the clipboard - handy for sharing deep links to a specific part of the article.</td>
+					</tr>
+					<tr>
+						<td><strong>Enable smooth scrolling</strong></td>
+						<td>Off</td>
+						<td>Jumps to sections glide smoothly instead of snapping instantly. Implemented with pure CSS (<code>scroll-behavior: smooth</code>) - no JavaScript is added.</td>
+					</tr>
+					<tr>
+						<td><strong>Scroll offset (px)</strong></td>
+						<td>0</td>
+						<td>Leaves this much space above a heading when jumping to it from the TOC (range 0-300). Set it to roughly the height of your sticky/fixed header so headings land below the header instead of hiding behind it. Pure CSS (<code>scroll-margin-top</code>).</td>
+					</tr>
+					<tr>
+						<td><strong>Hide TOC from search snippets</strong></td>
+						<td>Off</td>
+						<td>Adds the <code>data-nosnippet</code> attribute to the TOC so search engines don't use the list of headings as your search result snippet text.</td>
+					</tr>
+					<tr>
+						<td><strong>Use absolute URLs</strong></td>
+						<td>Off</td>
+						<td>Builds each anchor link with the full page URL (<code>https://example.com/post/#section</code>) instead of just <code>#section</code>. Useful when the content is republished elsewhere or shared via RSS.</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="callout">
+				<strong>Paginated posts.</strong> If a post is split with the Page Break block, TOC links automatically point to the correct page of the post - including on sites with plain or non-standard permalinks.
+			</div>
+		</section>
+
+		<!-- Colors & Alignment -->
+		<section id="styling">
+			<h2>Colors &amp; Alignment</h2>
+			<p>The block uses native Gutenberg styling, so the standard editor tools work directly on it.</p>
+			<div class="feature-grid">
+				<div class="feature-card">
+					<h4>Background &amp; text color</h4>
+					<p>Set both from the block sidebar's Color panel - no Group wrapper needed. Combine with the Boxed style for a highlighted TOC card.</p>
+				</div>
+				<div class="feature-card">
+					<h4>Wide &amp; full width</h4>
+					<p>The block supports the theme's Wide and Full alignment options from the block toolbar.</p>
+				</div>
+				<div class="feature-card">
+					<h4>Padding &amp; borders</h4>
+					<p>For extra spacing or a custom border, wrap the TOC in a Group block and use the Group's native dimension and border controls.</p>
+				</div>
+				<div class="feature-card">
+					<h4>Theme-friendly</h4>
+					<p>The TOC ships with safe default list spacing and otherwise inherits your theme's typography, so it looks native everywhere - including RTL languages.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Auto-Insert -->
+		<section id="auto-insert">
+			<h2>Auto-Insert</h2>
+			<p>Show a table of contents on every post automatically - without adding the block to each one. Configure it under <strong>Settings &gt; TOC Block</strong> in the WordPress admin.</p>
+			<table>
+				<thead>
+					<tr><th>Setting</th><th>Default</th><th>Description</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><strong>Enable for post types</strong></td>
+						<td>None</td>
+						<td>Check the post types (Posts, Pages, public custom post types) that should get an automatic TOC. Leaving every box unchecked turns auto-insert off.</td>
+					</tr>
+					<tr>
+						<td><strong>Position</strong></td>
+						<td>Before the first heading</td>
+						<td>Where the automatic TOC is placed: <strong>Before the first heading</strong>, <strong>After the first paragraph</strong>, or <strong>Top of the content</strong>.</td>
+					</tr>
+					<tr>
+						<td><strong>Minimum headings</strong></td>
+						<td>2</td>
+						<td>Posts with fewer qualifying headings are skipped, so short posts stay clean.</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="callout">
+				<strong>Manual block always wins.</strong> If a post already contains a TOC block, auto-insert steps aside and your block's own settings are used. The automatic TOC goes through the exact same renderer as the block - identical output, still no frontend JavaScript. On paginated posts it appears on the first page only.
+			</div>
+		</section>
+
+		<!-- Excluding headings -->
+		<section id="excluding">
+			<h2>Excluding Headings</h2>
+			<p>There are three independent ways to keep a heading out of the TOC. All of them also exempt the heading from per-section back-to-top links.</p>
+
+			<h3>1. By level range</h3>
+			<p>Use <strong>Minimum Level</strong> and <strong>Maximum Level</strong> in the Content panel to include only a slice of your heading hierarchy - for example H2 and H3 only.</p>
+
+			<h3>2. By keyword</h3>
+			<p>Type comma-separated words in the <strong>Exclude headings</strong> field. Any heading containing one of them is hidden. This is the quickest way to drop recurring sections like "Conclusion" or "References" across a site.</p>
+
+			<h3>3. Per heading, with a CSS class</h3>
+			<ol class="steps">
+				<li>Select the heading block you want to hide from the TOC.</li>
+				<li>Open the <strong>Advanced</strong> panel in the block sidebar.</li>
+				<li>Add <code>wpwing-toc-hidden</code> to the <strong>Additional CSS class(es)</strong> field.</li>
+			</ol>
+			<p>The heading still renders normally in the post; it is simply skipped when the TOC is generated. It works alongside other classes (e.g. a font-size class) without conflict.</p>
+		</section>
+
+		<!-- Anchors -->
+		<section id="anchors">
+			<h2>Heading Anchors</h2>
+			<p>Every heading that appears in the TOC receives a URL-safe anchor ID generated from its text. The same ID is used in the TOC link and on the heading itself, so they always match.</p>
+			<div class="feature-grid">
+				<div class="feature-card">
+					<h4>Custom anchors respected</h4>
+					<p>If you set your own anchor on a heading via <strong>Advanced &gt; HTML anchor</strong>, the TOC links to it instead of generating one - existing incoming links keep working.</p>
+				</div>
+				<div class="feature-card">
+					<h4>Duplicate headings</h4>
+					<p>Two headings with the same text get unique anchors (<code>setup</code>, <code>setup-2</code>, ...), so every TOC link jumps to the correct section.</p>
+				</div>
+				<div class="feature-card">
+					<h4>Any language</h4>
+					<p>Accented characters, non-Latin scripts (e.g. Bangla), and emoji in headings are handled safely - the text renders untouched and the anchor is URL-encoded.</p>
+				</div>
+				<div class="feature-card">
+					<h4>Nested content</h4>
+					<p>Headings inside Groups, Columns, and reusable blocks are found, anchored, and listed just like top-level headings.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Recipes -->
+		<section id="recipes">
+			<h2>Recipes</h2>
+			<p>Common setups and how to configure them.</p>
+
+			<div class="recipe">
+				<h3>TOC that plays nicely with a sticky header</h3>
+				<p>Stop headings from landing hidden behind your fixed navigation bar when readers click a TOC link.</p>
+				<ol>
+					<li>Measure your sticky header's height (right-click it, choose <em>Inspect</em>, and read the height in DevTools) - say it's 80 px.</li>
+					<li>Select the TOC block and open the <strong>Links &amp; Behavior</strong> panel.</li>
+					<li>Set <strong>Scroll offset (px)</strong> to <code>80</code> (a few px more adds breathing room).</li>
+					<li>Optionally enable <strong>Enable smooth scrolling</strong> for glide-style jumps.</li>
+				</ol>
+			</div>
+
+			<div class="recipe">
+				<h3>Compact collapsed TOC for long tutorials</h3>
+				<p>A boxed table of contents that starts closed, so it never pushes the intro below the fold.</p>
+				<ol>
+					<li>In the <strong>Display</strong> panel, set <strong>Style</strong> to <strong>Boxed</strong>.</li>
+					<li>Enable <strong>Collapsible</strong>, then enable <strong>Collapsed by default</strong>.</li>
+					<li>In the <strong>Content</strong> panel, enable <strong>Show heading count</strong> so readers see how many sections await before expanding.</li>
+					<li>Set <strong>Maximum Level</strong> to H3 to keep the expanded list scannable.</li>
+				</ol>
+			</div>
+
+			<div class="recipe">
+				<h3>Automatic TOC across the whole blog</h3>
+				<p>Every post gets a table of contents - no editing required, short posts stay clean.</p>
+				<ol>
+					<li>Go to <strong>Settings &gt; TOC Block</strong> in the admin.</li>
+					<li>Check <strong>Posts</strong> under "Enable for post types".</li>
+					<li>Set <strong>Position</strong> to <strong>Before the first heading</strong>.</li>
+					<li>Set <strong>Minimum headings</strong> to <code>3</code> so brief updates and announcements are skipped.</li>
+					<li>For any special post that needs different TOC settings, just add the block manually there - it overrides the automatic one.</li>
+				</ol>
+			</div>
+
+			<div class="recipe">
+				<h3>Shareable deep links to every section</h3>
+				<p>Let readers grab a direct URL to any part of a long reference article.</p>
+				<ol>
+					<li>In <strong>Links &amp; Behavior</strong>, enable <strong>Copy link button on hover</strong>.</li>
+					<li>Enable <strong>Add per-section back to top links</strong> so readers can hop back after following a shared link.</li>
+					<li>If the article is republished elsewhere, also enable <strong>Use absolute URLs</strong>.</li>
+				</ol>
+			</div>
+		</section>
+
+		<!-- For Developers -->
+		<section id="developers">
+			<h2>For Developers</h2>
+			<p>Useful hooks and markup details for theme and plugin authors.</p>
+
+			<h3>Markup</h3>
+			<p>The TOC renders as a semantic <code>&lt;nav class="wpwing-toc"&gt;</code> element with an <code>aria-label</code>, containing a <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code> with the class <code>wpwing-toc-list</code>. The Boxed style adds <code>wpwing-toc--boxed</code>; collapsible mode adds <code>wpwing-toc--collapsible</code>. Target these classes from your theme's stylesheet for custom styling.</p>
+
+			<h3>Performance</h3>
+			<p>No JavaScript or CSS files are enqueued on the frontend beyond the block's own stylesheet. Smooth scrolling and scroll offset are inline CSS. Only the collapsible toggle, back-to-top links, and copy-link buttons print a few lines of inline script in the footer - and only when enabled.</p>
+
+			<h3>SEO integrations</h3>
+			<p>The block registers itself as a table of contents with <strong>Rank Math</strong> (via the <code>rank_math/researches/toc_plugins</code> filter) and <strong>Yoast SEO</strong> (via <code>wpseo_table_of_contents_blocks</code>), so both plugins' content analysis recognizes it.</p>
+		</section>
+
+		<!-- FAQ -->
+		<section id="faq">
+			<h2>FAQ</h2>
+
+			<details>
+				<summary>How do I change the default "Table of Contents" text?</summary>
+				<p>Select the block and type your own text in the <strong>Custom Title</strong> field in the Content panel. Alternatively, toggle <strong>Hide TOC Title</strong> on and add a standard Heading block right above the TOC for full control over its level and styling.</p>
+			</details>
+
+			<details>
+				<summary>How can I add a background color or border to the block?</summary>
+				<p>Background and text color are available directly in the block sidebar's Color panel. For a quick pre-styled look, set <strong>Style</strong> to <strong>Boxed</strong> in the Display panel. For custom paddings and borders, wrap the TOC in a Group block and use the Group's native controls.</p>
+			</details>
+
+			<details>
+				<summary>How do I exclude a specific heading from the TOC?</summary>
+				<p>Select that heading block, open its <strong>Advanced</strong> panel, and add <code>wpwing-toc-hidden</code> to <strong>Additional CSS class(es)</strong>. To exclude headings in bulk by their text, use the <strong>Exclude headings</strong> keyword field on the TOC block instead. See <a href="#excluding">Excluding Headings</a>.</p>
+			</details>
+
+			<details>
+				<summary>Does this plugin add extra scripts or bloat to my site?</summary>
+				<p>No. The plugin generates lightweight, valid, semantic HTML and never loads external JavaScript files. If you enable an interactive option (collapsible toggle, back-to-top, or copy-link buttons), a few lines of inline script are printed in the footer - nothing else. With those options off, the frontend is 100% JavaScript-free.</p>
+			</details>
+
+			<details>
+				<summary>My sticky header covers the heading when I click a TOC link. How do I fix it?</summary>
+				<p>Open the <strong>Links &amp; Behavior</strong> panel and set <strong>Scroll offset (px)</strong> to roughly the height of your sticky header. Headings will then land below the header instead of behind it. This is done with pure CSS - no JavaScript is added.</p>
+			</details>
+
+			<details>
+				<summary>Can the TOC appear automatically without adding the block to every post?</summary>
+				<p>Yes. Go to <strong>Settings &gt; TOC Block</strong>, check the post types you want, and pick a position. The automatic TOC uses the same fast renderer as the block, skips posts below your minimum-headings threshold, and steps aside on any post where you place the block manually. See <a href="#auto-insert">Auto-Insert</a>.</p>
+			</details>
+
+			<details>
+				<summary>I set a custom HTML anchor on a heading - will the TOC use it?</summary>
+				<p>Yes. If you give a heading your own anchor via its <strong>Advanced &gt; HTML anchor</strong> field, the TOC links to that anchor instead of generating one, so your existing incoming links keep working.</p>
+			</details>
+
+			<details>
+				<summary>Why doesn't the TOC show up on my post?</summary>
+				<p>The most common causes: the post has fewer qualifying headings than your <strong>Minimum headings to show TOC</strong> value; every heading falls outside the selected <strong>Minimum/Maximum Level</strong> range; or all headings are excluded by keyword or the <code>wpwing-toc-hidden</code> class. In the editor, the block shows a notice explaining which condition is hiding it.</p>
+			</details>
+
+			<details>
+				<summary>Does it work with paginated (multi-page) posts?</summary>
+				<p>Yes. If you split a post with the Page Break block, TOC entries for headings on other pages link to the correct page automatically, including on sites using plain permalinks. With auto-insert, the TOC appears on the first page only.</p>
+			</details>
+
+		</section>
+
+	</main>
+</div>
+
+<script>
+	// Highlight the active nav link based on scroll position.
+	(function () {
+		var links = document.querySelectorAll('nav a[href^="#"]');
+		var sections = Array.from(links).map(function (a) {
+			return document.querySelector(a.getAttribute('href'));
+		});
+
+		function onScroll() {
+			var scrollY = window.scrollY + 80;
+			var active = sections[0];
+			sections.forEach(function (s) {
+				if (s && s.offsetTop <= scrollY) active = s;
+			});
+			links.forEach(function (a) {
+				a.classList.toggle('active', a.getAttribute('href') === '#' + active.id);
+			});
+		}
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		onScroll();
+	})();
+
+	// Smooth open/close animation for <details> FAQ items.
+	(function () {
+		var DURATION = 260;
+		var EASING   = 'ease-out';
+
+		document.querySelectorAll('details').forEach(function (el) {
+			var summary   = el.querySelector('summary');
+			var closedH   = 0;
+			var animation = null;
+
+			summary.addEventListener('click', function (e) {
+				e.preventDefault();
+
+				if (animation) { animation.cancel(); animation = null; }
+
+				if (el.open) {
+					animation = el.animate(
+						[{ height: el.offsetHeight + 'px' }, { height: closedH + 'px' }],
+						{ duration: DURATION, easing: EASING }
+					);
+					animation.onfinish = function () {
+						el.open = false;
+						el.style.height = '';
+						animation = null;
+					};
+				} else {
+					closedH  = el.offsetHeight;
+					el.open  = true;
+					var openH = el.offsetHeight;
+					animation = el.animate(
+						[{ height: closedH + 'px' }, { height: openH + 'px' }],
+						{ duration: DURATION, easing: EASING }
+					);
+					animation.onfinish = function () {
+						el.style.height = '';
+						animation = null;
+					};
+				}
+			});
+		});
+	})();
+</script>
+
+</body>
+</html>

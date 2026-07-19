@@ -12,7 +12,7 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"dist": "npm run build && npm run plugin-zip && zip -d wpwing-table-of-contents-block.zip readme.md && rm -rf dist && mkdir dist && mv wpwing-table-of-contents-block.zip dist/",
+		"dist": "npm run build && rm -rf dist && mkdir -p dist/wpwing-table-of-contents-block && cp -r build docs readme.txt wpwing-table-of-contents-block.php dist/wpwing-table-of-contents-block/ && cd dist && zip -r wpwing-table-of-contents-block.zip wpwing-table-of-contents-block && rm -rf wpwing-table-of-contents-block",
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
