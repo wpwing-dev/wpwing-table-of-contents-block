@@ -4,7 +4,7 @@
  * Plugin Name:        Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:         https://wpwing.com/
  * Description:        Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
- * Version:            1.6.0
+ * Version:            1.7.0
  * Requires at least:  5.8
  * Tested up to:       7.0
  * Requires PHP:       7.1
@@ -23,6 +23,7 @@
  */
 function wpwing_toc_register_block() {
 	add_filter( 'plugin_row_meta', 'wpwing_toc_plugin_meta', 10, 2 );
+	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wpwing_toc_plugin_action_links' );
 
 	register_block_type( __DIR__ . '/build', [
 		'render_callback' => 'wpwing_toc_render_callback',
@@ -56,6 +57,130 @@ function wpwing_toc_plugin_meta( $links, $file ) {
 	}
 
 	return $links;
+}
+
+// Add a Settings link on the plugins list row.
+function wpwing_toc_plugin_action_links( $links ) {
+	array_unshift( $links, '<a href="' . esc_url( admin_url( 'options-general.php?page=wpwing-toc' ) ) . '">' . __( 'Settings', 'wpwing-table-of-contents-block' ) . '</a>' );
+
+	return $links;
+}
+
+/**
+ * Plugin settings. Stored as one option array so future keys (global block
+ * defaults in 1.8.0) can be added without a new option.
+ *
+ * @since 1.7.0
+ */
+function wpwing_toc_default_settings() {
+	return [
+		'auto_insert_post_types'   => [],
+		'auto_insert_position'     => 'before_first_heading',
+		'auto_insert_min_headings' => 2,
+	];
+}
+
+// Saved settings merged over defaults.
+function wpwing_toc_get_settings() {
+	$saved = get_option( 'wpwing_toc_settings', [] );
+
+	return wp_parse_args( is_array( $saved ) ? $saved : [], wpwing_toc_default_settings() );
+}
+
+// Public post types eligible for auto-insert (attachments excluded).
+function wpwing_toc_insertable_post_types() {
+	$types = get_post_types( [ 'public' => true ], 'objects' );
+	unset( $types['attachment'] );
+
+	return $types;
+}
+
+function wpwing_toc_register_settings() {
+	register_setting( 'wpwing_toc_settings', 'wpwing_toc_settings', [
+		'type'              => 'array',
+		'sanitize_callback' => 'wpwing_toc_sanitize_settings',
+		'default'           => wpwing_toc_default_settings(),
+	] );
+}
+add_action( 'admin_init', 'wpwing_toc_register_settings' );
+
+function wpwing_toc_sanitize_settings( $input ) {
+	$defaults = wpwing_toc_default_settings();
+	$input    = is_array( $input ) ? $input : [];
+
+	$requested = isset( $input['auto_insert_post_types'] ) && is_array( $input['auto_insert_post_types'] ) ? $input['auto_insert_post_types'] : [];
+	$positions = [ 'top', 'before_first_heading', 'after_first_paragraph' ];
+	$position  = isset( $input['auto_insert_position'] ) ? $input['auto_insert_position'] : '';
+
+	return [
+		'auto_insert_post_types'   => array_values( array_intersect( $requested, array_keys( wpwing_toc_insertable_post_types() ) ) ),
+		'auto_insert_position'     => in_array( $position, $positions, true ) ? $position : $defaults['auto_insert_position'],
+		'auto_insert_min_headings' => isset( $input['auto_insert_min_headings'] ) ? max( 1, (int) $input['auto_insert_min_headings'] ) : $defaults['auto_insert_min_headings'],
+	];
+}
+
+function wpwing_toc_add_settings_page() {
+	add_options_page(
+		__( 'Table of Contents Block', 'wpwing-table-of-contents-block' ),
+		__( 'TOC Block', 'wpwing-table-of-contents-block' ),
+		'manage_options',
+		'wpwing-toc',
+		'wpwing_toc_render_settings_page'
+	);
+}
+add_action( 'admin_menu', 'wpwing_toc_add_settings_page' );
+
+function wpwing_toc_render_settings_page() {
+	$settings  = wpwing_toc_get_settings();
+	$positions = [
+		'before_first_heading'  => __( 'Before the first heading', 'wpwing-table-of-contents-block' ),
+		'after_first_paragraph' => __( 'After the first paragraph', 'wpwing-table-of-contents-block' ),
+		'top'                   => __( 'Top of the content', 'wpwing-table-of-contents-block' ),
+	];
+	?>
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Table of Contents Block', 'wpwing-table-of-contents-block' ); ?></h1>
+		<form method="post" action="options.php">
+			<?php settings_fields( 'wpwing_toc_settings' ); ?>
+			<h2><?php esc_html_e( 'Auto-insert', 'wpwing-table-of-contents-block' ); ?></h2>
+			<p><?php esc_html_e( 'Show a Table of Contents automatically, without adding the block to each post. Posts that already contain a TOC block keep their own block and are skipped.', 'wpwing-table-of-contents-block' ); ?></p>
+			<table class="form-table" role="presentation">
+				<tr>
+					<th scope="row"><?php esc_html_e( 'Enable for post types', 'wpwing-table-of-contents-block' ); ?></th>
+					<td>
+						<fieldset>
+							<?php foreach ( wpwing_toc_insertable_post_types() as $slug => $type ) : ?>
+								<label style="display:block;margin-bottom:4px;">
+									<input type="checkbox" name="wpwing_toc_settings[auto_insert_post_types][]" value="<?php echo esc_attr( $slug ); ?>" <?php checked( in_array( $slug, $settings['auto_insert_post_types'], true ) ); ?> />
+									<?php echo esc_html( $type->labels->name ); ?>
+								</label>
+							<?php endforeach; ?>
+							<p class="description"><?php esc_html_e( 'No post type checked means auto-insert is off.', 'wpwing-table-of-contents-block' ); ?></p>
+						</fieldset>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="wpwing-toc-position"><?php esc_html_e( 'Position', 'wpwing-table-of-contents-block' ); ?></label></th>
+					<td>
+						<select id="wpwing-toc-position" name="wpwing_toc_settings[auto_insert_position]">
+							<?php foreach ( $positions as $value => $label ) : ?>
+								<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $settings['auto_insert_position'], $value ); ?>><?php echo esc_html( $label ); ?></option>
+							<?php endforeach; ?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"><label for="wpwing-toc-min-headings"><?php esc_html_e( 'Minimum headings', 'wpwing-table-of-contents-block' ); ?></label></th>
+					<td>
+						<input type="number" id="wpwing-toc-min-headings" name="wpwing_toc_settings[auto_insert_min_headings]" min="1" step="1" value="<?php echo esc_attr( $settings['auto_insert_min_headings'] ); ?>" />
+						<p class="description"><?php esc_html_e( 'Skip posts with fewer qualifying headings, so short posts stay clean.', 'wpwing-table-of-contents-block' ); ?></p>
+					</td>
+				</tr>
+			</table>
+			<?php submit_button(); ?>
+		</form>
+	</div>
+	<?php
 }
 
 /**
@@ -340,13 +465,85 @@ function wpwing_toc_unique_anchor( $base, array &$seen ) {
 	return $base . '-' . $seen[ $base ];
 }
 
+// True when auto-insert should produce a TOC for this post; a manually placed block wins.
+function wpwing_toc_auto_insert_applies( $post = null ) {
+	$post = get_post( $post );
+	if ( ! $post ) {
+		return false;
+	}
+	$settings = wpwing_toc_get_settings();
+	if ( ! in_array( $post->post_type, $settings['auto_insert_post_types'], true ) ) {
+		return false;
+	}
+	if ( has_block( 'wpwing/toc', $post ) ) {
+		return false;
+	}
+
+	return has_blocks( $post->post_content );
+}
+
+// Index in the top-level block list where the auto-inserted TOC goes.
+function wpwing_toc_auto_insert_index( array $blocks, $position ) {
+	if ( 'top' !== $position ) {
+		$target = ( 'after_first_paragraph' === $position ) ? 'core/paragraph' : 'core/heading';
+		foreach ( $blocks as $i => $block ) {
+			if ( isset( $block['blockName'] ) && $target === $block['blockName'] ) {
+				return ( 'core/paragraph' === $target ) ? $i + 1 : $i;
+			}
+		}
+	}
+
+	return 0;
+}
+
+/**
+ * Insert a TOC block into the content when auto-insert is enabled for the post type.
+ * Runs before block rendering (priority 0) so the inserted block goes through the
+ * exact same pipeline as a manually placed block: anchor IDs, min_headings, no JS.
+ *
+ * @since 1.7.0
+ */
+function wpwing_toc_auto_insert_block( $content ) {
+	global $page;
+
+	if ( ! is_singular() || ! is_main_query() || is_admin() || doing_filter( 'get_the_excerpt' ) ) {
+		return $content;
+	}
+	// Paginated posts get the TOC on the first page only; its links cross pages
+	if ( (int) $page > 1 ) {
+		return $content;
+	}
+	// Skip if this content already carries a TOC (block markup or rendered list);
+	// must not match wpwing-toc-hidden, which users put on excluded headings
+	if ( has_block( 'wpwing/toc', $content ) || false !== strpos( $content, 'wpwing-toc-list' ) ) {
+		return $content;
+	}
+	if ( ! wpwing_toc_auto_insert_applies() ) {
+		return $content;
+	}
+
+	$settings = wpwing_toc_get_settings();
+	$blocks   = parse_blocks( $content );
+	$toc      = [
+		'blockName'    => 'wpwing/toc',
+		'attrs'        => [ 'min_headings' => (int) $settings['auto_insert_min_headings'] ],
+		'innerBlocks'  => [],
+		'innerHTML'    => '',
+		'innerContent' => [],
+	];
+	array_splice( $blocks, wpwing_toc_auto_insert_index( $blocks, $settings['auto_insert_position'] ), 0, [ $toc ] );
+
+	return serialize_blocks( $blocks );
+}
+add_filter( 'the_content', 'wpwing_toc_auto_insert_block', 0 );
+
 /**
  * Add IDs to the H1-6 content
  *
  * @since 1.0.0
  */
 function wpwing_toc_add_ids_to_content( $content ) {
-	if ( has_block( 'wpwing/toc', get_the_ID() ) ) {
+	if ( has_block( 'wpwing/toc', get_the_ID() ) || wpwing_toc_auto_insert_applies() ) {
 		$blocks           = parse_blocks( $content );
 		$add_back_to_top  = (bool) wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'add_back_to_top', false );
 		$exclude_keywords = array_filter( array_map( 'trim', explode( ',', (string) wpwing_toc_get_block_attr( $blocks, 'wpwing/toc', 'exclude_keywords', '' ) ) ) );

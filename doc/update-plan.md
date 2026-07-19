@@ -10,7 +10,7 @@ Strategy for the month: close the top gaps found in [competitors.md](competitors
 - Fix: Deferred known bug - paginated posts (`<!--nextpage-->`) with plain permalinks build broken page URLs.
 - Improvement: RTL pass - verify indent, numbering, and copy-link button render correctly in RTL locales; add `[dir="rtl"]` CSS where needed.
 
-## v1.7.0 - Sunday 19/07/2026 (headline: auto-insert)
+## v1.7.0 - Sunday 19/07/2026 (headline: auto-insert) - DONE, implemented 19/07
 
 The biggest gap vs every larger competitor. Full week reserved.
 

@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:        1.6.0
+Stable tag:        1.7.0
 Requires at least: 5.8
 Tested up to:      7.0
 Requires PHP:      7.1
@@ -34,6 +34,7 @@ Unlike plugins that lock basic layout settings behind a pro version, you get ful
 
 ### 🚀 Key Features At A Glance
 * **100% Automated:** Scans content instantly to generate accurate internal jump links.
+* **Auto-Insert:** Optionally show the TOC on posts, pages, or custom post types without adding the block - choose the position under Settings > TOC Block. Placing the block manually in a post always overrides it.
 * **Pure Performance:** No frontend JavaScript unless you enable an interactive feature - fully optimized for page speed.
 * **Designed for Gutenberg:** Integrates natively into the WordPress block editor experience.
 * **Responsive Layouts:** Inherits theme styles fluidly for perfect rendering on mobile devices.
@@ -72,6 +73,9 @@ No. The plugin generates lightweight, valid, and semantic HTML and never loads e
 = My sticky header covers the heading when I click a TOC link. How do I fix it? =
 Select the block, open the **Links & Behavior** panel, and set **Scroll offset (px)** to roughly the height of your sticky header. Headings will then land below the header instead of behind it. This is done with pure CSS - no JavaScript is added.
 
+= Can the TOC appear automatically without adding the block to every post? =
+Yes. Go to **Settings > TOC Block**, check the post types you want, and pick a position (before the first heading, after the first paragraph, or top of content). The automatic TOC uses the same fast renderer as the block, skips short posts below your minimum-headings threshold, and steps aside on any post where you place the block manually.
+
 = I set a custom HTML anchor on a heading - will the TOC use it? =
 Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** field, the TOC links to that anchor instead of generating one, so your existing incoming links keep working.
 
@@ -85,6 +89,13 @@ Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** fi
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.7.0 - 19/07/2026 =
+
+* New: Auto-insert - show the TOC automatically on posts, pages, and public custom post types without adding the block. Configure it on the new Settings > TOC Block screen.
+* New: Auto-insert position - choose before the first heading, after the first paragraph, or top of the content.
+* New: Auto-insert minimum headings - posts with fewer qualifying headings are skipped so short posts stay clean.
+* Note: The automatic TOC uses the exact same renderer as the block - identical output, still no frontend JavaScript. Adding a TOC block to a post manually always overrides auto-insert for that post.
 
 = 1.6.0 - 12/07/2026 =
 
