@@ -15,6 +15,7 @@ Automatically generate a clean, nested Table of Contents from your post headings
 - **Auto-insert** - show the TOC on chosen post types without placing the block; pick the position (before first heading, after first paragraph, or top of content) under Settings > TOC Block
 - **Respects custom anchors** - headings with their own HTML anchor keep it; the TOC links to it instead of overwriting
 - **Collapsed by default** - optionally start the collapsible TOC hidden
+| Docker | 20+ with Compose v2 |
 - **Search snippet control** - optional `data-nosnippet` attribute keeps TOC text out of Google result snippets
 - **Scroll offset** - keep headings visible below sticky/fixed headers when jumping from the TOC (pure CSS)
 - **RTL ready** - indentation, badges, and toggle icon adapt to right-to-left languages
@@ -24,14 +25,43 @@ Automatically generate a clean, nested Table of Contents from your post headings
 - **Style presets** - Default or Boxed, selectable from the sidebar
 - **Native color picker** - set TOC background and text color directly from the block sidebar
 - **"Back to top" link** - optional link below the TOC that scrolls readers back to the top
-- **Per-section back to top links** - optionally insert a return-to-top link after every heading in the post content
+npm install
 - **Minimum headings threshold** - automatically hide the TOC if the post has fewer qualifying headings than a number you choose
+# Add the Docker hostname once
+echo "127.0.0.1 toc.local" | sudo tee -a /etc/hosts
+
+# Start WordPress in Docker
+make dev
+```
+
+The Docker stack starts MySQL, WordPress, Caddy, and WP-CLI. The repository is mounted directly into WordPress, and `make dev` builds the block assets before activating the plugin.
+
+- **Site:** https://toc.local:8443
+- **Admin:** https://toc.local:8443/wp-admin
+- **Credentials:** `admin` / `password`
+
+The HTTPS proxy is shared with the `wpwing-sticky-block` setup. `make dev` starts that shared Caddy container automatically, so it owns ports 80 and 443 and routes both local domains:
+
+```bash
+make dev
+```
+
+Trust Caddy's local certificate once per machine from either plugin repository:
+
+```bash
+make caddy-trust
+```
+
+Stop the stack with `make dev-stop`. To remove the database and start fresh, run `make env-reset`.
+
 - **Exclude headings** - add the CSS class `wpwing-toc-hidden` to any heading block to skip it from the TOC
 - **List styles** - bulleted, numbered, or hierarchical (1.1, 1.1.1) numbering
-- **Copy link button** - optional per-item button that copies a direct link to that section
+npm start
 - **Ordered or unordered** list output for semantic flexibility
 - **Toggle indentation** for deeply nested heading structures
 - **Optional built-in headline** - disable to write your own heading block
+
+Docker lifecycle commands are available through `make dev`, `make dev-stop`, `make env-reset`, and `make caddy-trust`. The sticky-block Caddy proxy owns ports `80` and `443` and routes `sticky-block.local` and `toc.local` by hostname.
 - **Accessible markup** - semantic `<nav>` wrapper with `aria-label` for screen readers
 - **Wide & Full Width** alignment support
 - Compatible with **Rank Math**, **Yoast SEO**, **GeneratePress**, and **AMP plugins**

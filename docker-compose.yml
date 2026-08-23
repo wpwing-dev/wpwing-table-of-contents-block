@@ -1,0 +1,81 @@
+name: wpwing-toc
+
+services:
+  db:
+    profiles: ["dev"]
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-wordpress}
+      MYSQL_USER: ${MYSQL_USER:-wordpress}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  wordpress:
+    profiles: ["dev"]
+    image: wordpress:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-wordpress}
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_DEBUG', true);
+        define('WP_DEBUG_LOG', true);
+        define('WP_DEBUG_DISPLAY', false);
+        define('FORCE_SSL_ADMIN', true);
+        define('WP_HOME', 'https://toc.local');
+        define('WP_SITEURL', 'https://toc.local');
+        if ( isset( $$_SERVER['HTTP_X_FORWARDED_PROTO'] ) && 'https' === $$_SERVER['HTTP_X_FORWARDED_PROTO'] ) {
+            $$_SERVER['HTTPS'] = 'on';
+        }
+    volumes:
+      - .:/var/www/html/wp-content/plugins/wpwing-table-of-contents-block
+      - wp_data:/var/www/html
+    networks:
+      default:
+      proxy:
+        aliases:
+          - toc-wordpress
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost/wp-login.php"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  wpcli:
+    profiles: ["dev"]
+    image: wordpress:cli
+    user: root
+    depends_on:
+      wordpress:
+        condition: service_healthy
+    volumes:
+      - .:/var/www/html/wp-content/plugins/wpwing-table-of-contents-block
+      - ./docker/wordpress:/docker/wordpress
+      - wp_data:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-wordpress}
+    command: sh /docker/wordpress/setup.sh
+
+volumes:
+  db_data:
+  wp_data:
+
+networks:
+  proxy:
+    name: wpwing-proxy
+    external: true
