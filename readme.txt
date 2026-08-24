@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:        1.7.0
+Stable tag:        1.8.0
 Requires at least: 5.8
 Tested up to:      7.0
 Requires PHP:      7.1
@@ -89,6 +89,12 @@ Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** fi
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.8.0 - 24/08/2026 =
+
+* New: Set global defaults for new TOC blocks from Settings > TOC Block.
+* New: Optional native HTML collapsible mode using details and summary, with no frontend JavaScript.
+* Improvement: Added a collapse mode selector and improved keyboard-friendly native controls.
 
 = 1.7.0 - 19/07/2026 =
 

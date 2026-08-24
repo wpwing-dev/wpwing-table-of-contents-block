@@ -1,6 +1,6 @@
 # Table of Contents (TOC) Block — Fast & SEO Friendly
 
-![Version](https://img.shields.io/badge/version-1.7.0-blue) ![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b) ![PHP](https://img.shields.io/badge/PHP-7.1%2B-777bb4) ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-green)
+![Version](https://img.shields.io/badge/version-1.8.0-blue) ![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759b) ![PHP](https://img.shields.io/badge/PHP-7.1%2B-777bb4) ![License](https://img.shields.io/badge/license-GPL--3.0--or--later-green)
 
 Automatically generate a clean, nested Table of Contents from your post headings - no frontend JavaScript unless you enable interactive extras. Built natively for the WordPress Gutenberg block editor and fully optimized for Core Web Vitals.
 

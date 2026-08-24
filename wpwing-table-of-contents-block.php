@@ -4,7 +4,7 @@
  * Plugin Name:        Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:         https://wpwing.com/
  * Description:        Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
- * Version:            1.7.0
+ * Version:            1.8.0
  * Requires at least:  5.8
  * Tested up to:       7.0
  * Requires PHP:       7.1
