@@ -1,4 +1,5 @@
 .wpwing-toc {
+
 	.wpwing-toc-list {
 		margin: 0.5em 0 0;
 		padding-inline-start: 1.5em;
@@ -15,12 +16,12 @@
 
 	.wpwing-toc-count {
 		font-size: 0.8em;
-		font-weight: normal;
+		font-weight: 400;
 		opacity: 0.6;
 		margin-inline-start: 0.5em;
 	}
 
-	// Hierarchical numbering (1.1, 1.1.1) - markers are injected as text, so hide native ones
+	// Hierarchical numbering markers are injected as text.
 	.wpwing-toc-list--numbered {
 		list-style: none;
 
@@ -72,7 +73,7 @@
 
 		&:focus-visible {
 			opacity: 1;
-			outline: 2px solid currentColor;
+			outline: 2px solid currentcolor;
 			outline-offset: 2px;
 		}
 	}
@@ -110,7 +111,7 @@
 		line-height: 1;
 
 		&:focus-visible {
-			outline: 2px solid currentColor;
+			outline: 2px solid currentcolor;
 			outline-offset: 2px;
 		}
 	}
@@ -120,8 +121,8 @@
 		display: inline-block;
 		width: 0.5em;
 		height: 0.5em;
-		border-right: 2px solid currentColor;
-		border-bottom: 2px solid currentColor;
+		border-right: 2px solid currentcolor;
+		border-bottom: 2px solid currentcolor;
 		transform: rotate(45deg);
 		transition: transform 0.2s ease;
 		vertical-align: middle;
@@ -141,10 +142,6 @@
 	}
 
 	// Back to top link - TOC-specific spacing only; base styles are global below
-	.wpwing-toc-back-top {
-		margin-top: 0.75em;
-	}
-
 	// Screen reader text utility used by collapsible toggle
 	.screen-reader-text {
 		position: absolute;
@@ -160,7 +157,7 @@
 	}
 }
 
-// Global - applies to both the TOC back-to-top link and per-section back-to-top links in content
+// Applies to TOC and per-section back-to-top links.
 .wpwing-toc-back-top {
 	display: block;
 	font-size: 0.875em;
