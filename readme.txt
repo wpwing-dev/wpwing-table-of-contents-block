@@ -92,8 +92,8 @@ Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** fi
 
 = 1.8.0 - 24/08/2026 =
 
-* New: Set global defaults for new TOC blocks from Settings > TOC Block.
 * New: Optional native HTML collapsible mode using details and summary, with no frontend JavaScript.
+* New: Added initial defaults for new blocks from Settings > TOC Block, including the title, heading levels, and collapse behavior.
 * Improvement: Added a collapse mode selector and improved keyboard-friendly native controls.
 
 = 1.7.0 - 19/07/2026 =

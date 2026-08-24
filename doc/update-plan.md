@@ -21,14 +21,16 @@ The biggest gap vs every larger competitor. Full week reserved.
 - Manual block placement in a post overrides auto-insert for that post.
 - Keep the "no frontend JS" promise: auto-insert output is identical to block output.
 
-## v1.8.0 - Sunday 26/07/2026 (SimpleTOC parity, quality)
+## v1.8.0 - 24/08/2026 (native collapse, dev workflow)
 
-- New: Global defaults - on the settings screen from 1.7.0, set default values for block attributes (levels, list style, title, etc.); new blocks start from these defaults.
 - New: Zero-JS collapsible mode using native `<details>`/`<summary>` - removes the last inline script for collapsible users; keep the current JS toggle as a style choice.
-- Improvement: Accessibility audit toward a WCAG 2.2 AA claim in the readme (focus states, aria attributes, keyboard flow on copy-link and toggle).
+- Improvement: Added local Docker development workflow and realistic seeded sample content.
 
 ## v1.9.0 - Sunday 02/08/2026 (capture migration pools)
 
+- New: Complete global defaults - expose the full block attribute set, including list style, thresholds, links, scrolling, and accessibility-related options.
+- Improvement: Complete the accessibility audit, document the results, and decide whether a WCAG 2.2 AA claim is supportable.
+- Testing: Add browser-based e2e coverage for rendering, anchor scrolling, native and JavaScript collapse modes, keyboard flow, and seeded sample content.
 - New: One-click settings importer from LuckyWP Table of Contents (100k installs, abandoned since 04/2025) - map heading levels, list style, title, smooth scroll to our attributes/defaults. Stretch: Table of Contents Plus import.
 - Improvement: readme.txt refresh targeting "LuckyWP alternative" / "Table of Contents Plus alternative" search terms; add FAQ entries about switching.
 - Housekeeping: bump "Tested up to", screenshots for the new settings screen.
