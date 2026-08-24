@@ -52,10 +52,11 @@ Trust Caddy's local certificate once per machine from either plugin repository:
 make caddy-trust
 ```
 
-On first startup, WP-CLI seeds two published examples: `/wpwing-toc-demo/` is a
-basic page with a manual TOC, and `/wpwing-toc-article/` is a longer post using
-the native collapsible TOC mode. Seeding is idempotent, so existing examples are
-left unchanged on later startups.
+On first startup, WP-CLI seeds four published examples: `/wpwing-toc-demo/` is a
+basic page, while `/wpwing-toc-article/`, `/wpwing-toc-field-guide/`, and
+`/wpwing-toc-performance/` are longer posts with different TOC configurations.
+They include enough content to test anchor scrolling. Seeding is idempotent, so
+existing examples are left unchanged on later startups.
 
 Stop the stack with `make dev-stop`. To remove the database and start fresh, run `make env-reset`.
 
