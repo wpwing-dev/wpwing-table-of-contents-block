@@ -78,6 +78,7 @@ function wpwing_toc_default_settings() {
 		'auto_insert_post_types'   => [],
 		'auto_insert_position'     => 'before_first_heading',
 		'auto_insert_min_headings' => 2,
+				'block_defaults'           => [],
 	];
 }
 
@@ -117,8 +118,45 @@ function wpwing_toc_sanitize_settings( $input ) {
 		'auto_insert_post_types'   => array_values( array_intersect( $requested, array_keys( wpwing_toc_insertable_post_types() ) ) ),
 		'auto_insert_position'     => in_array( $position, $positions, true ) ? $position : $defaults['auto_insert_position'],
 		'auto_insert_min_headings' => isset( $input['auto_insert_min_headings'] ) ? max( 1, (int) $input['auto_insert_min_headings'] ) : $defaults['auto_insert_min_headings'],
+				'block_defaults'           => wpwing_toc_sanitize_block_defaults( isset( $input['block_defaults'] ) ? $input['block_defaults'] : [] ),
 	];
 }
+
+function wpwing_toc_sanitize_block_defaults( $input ) {
+		$input   = is_array( $input ) ? $input : [];
+		$allowed = [ 'title_text', 'min_level', 'max_level', 'min_headings', 'collapsible', 'collapse_mode', 'start_collapsed', 'use_ol', 'remove_indent' ];
+		$output  = [];
+		foreach ( $allowed as $key ) {
+			if ( ! array_key_exists( $key, $input ) ) {
+				continue;
+			}
+			$value = $input[ $key ];
+			if ( in_array( $key, [ 'collapsible', 'start_collapsed', 'use_ol', 'remove_indent' ], true ) ) {
+				$output[ $key ] = (bool) $value;
+			} elseif ( in_array( $key, [ 'min_level', 'max_level', 'min_headings' ], true ) ) {
+				$output[ $key ] = max( 1, (int) $value );
+			} elseif ( 'collapse_mode' === $key ) {
+				$output[ $key ] = in_array( $value, [ 'js', 'native' ], true ) ? $value : 'js';
+			} else {
+				$output[ $key ] = sanitize_text_field( $value );
+			}
+		}
+		return $output;
+}
+
+function wpwing_toc_apply_block_defaults( $settings, $metadata ) {
+		if ( 'wpwing/toc' !== $metadata['name'] ) {
+			return $settings;
+		}
+		$defaults = wpwing_toc_get_settings()['block_defaults'];
+		foreach ( $defaults as $key => $value ) {
+			if ( isset( $settings['attributes'][ $key ] ) ) {
+				$settings['attributes'][ $key ]['default'] = $value;
+			}
+		}
+		return $settings;
+}
+add_filter( 'block_type_metadata_settings', 'wpwing_toc_apply_block_defaults', 10, 2 );
 
 function wpwing_toc_add_settings_page() {
 	add_options_page(
@@ -178,6 +216,30 @@ function wpwing_toc_render_settings_page() {
 					</td>
 				</tr>
 			</table>
+		<h2><?php esc_html_e( 'New block defaults', 'wpwing-table-of-contents-block' ); ?></h2>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><label for="wpwing-toc-default-title"><?php esc_html_e( 'Custom title', 'wpwing-table-of-contents-block' ); ?></label></th>
+				<td><input type="text" id="wpwing-toc-default-title" name="wpwing_toc_settings[block_defaults][title_text]" value="<?php echo esc_attr( $settings['block_defaults']['title_text'] ?? '' ); ?>" /></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="wpwing-toc-default-min"><?php esc_html_e( 'Minimum and maximum levels', 'wpwing-table-of-contents-block' ); ?></label></th>
+				<td>
+					<input type="number" id="wpwing-toc-default-min" name="wpwing_toc_settings[block_defaults][min_level]" min="1" max="6" value="<?php echo esc_attr( $settings['block_defaults']['min_level'] ?? 2 ); ?>" />
+					<input type="number" name="wpwing_toc_settings[block_defaults][max_level]" min="1" max="6" value="<?php echo esc_attr( $settings['block_defaults']['max_level'] ?? 6 ); ?>" />
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Collapsible mode', 'wpwing-table-of-contents-block' ); ?></th>
+				<td>
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][collapsible]" value="1" <?php checked( ! empty( $settings['block_defaults']['collapsible'] ) ); ?> /> <?php esc_html_e( 'Make new blocks collapsible', 'wpwing-table-of-contents-block' ); ?></label>
+					<select name="wpwing_toc_settings[block_defaults][collapse_mode]">
+						<option value="js" <?php selected( $settings['block_defaults']['collapse_mode'] ?? 'js', 'js' ); ?>><?php esc_html_e( 'JavaScript toggle', 'wpwing-table-of-contents-block' ); ?></option>
+						<option value="native" <?php selected( $settings['block_defaults']['collapse_mode'] ?? 'js', 'native' ); ?>><?php esc_html_e( 'Native HTML (zero JavaScript)', 'wpwing-table-of-contents-block' ); ?></option>
+					</select>
+				</td>
+			</tr>
+		</table>
 			<?php submit_button(); ?>
 		</form>
 	</div>
@@ -265,7 +327,7 @@ function wpwing_toc_render_callback( $attributes ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_scroll_offset_style' );
 	}
 
-	if ( ( ! empty( $attributes['collapsible'] ) || ! empty( $attributes['show_back_to_top'] ) || ! empty( $attributes['add_back_to_top'] ) || ! empty( $attributes['copy_anchor'] ) ) && ! $is_backend ) {
+	if ( ( ! empty( $attributes['collapsible'] ) && 'native' !== ( $attributes['collapse_mode'] ?? 'js' ) || ! empty( $attributes['show_back_to_top'] ) || ! empty( $attributes['add_back_to_top'] ) || ! empty( $attributes['copy_anchor'] ) ) && ! $is_backend ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_frontend_script' );
 	}
 
@@ -799,7 +861,11 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	$wrapper_attributes = get_block_wrapper_attributes( $extra_attributes );
 	$html = '<nav ' . $wrapper_attributes . '>';
 
-	if ( $collapsible ) {
+	$native_collapsible = $collapsible && 'native' === ( $attributes['collapse_mode'] ?? 'js' );
+	if ( $native_collapsible ) {
+		$html .= '<details class="wpwing-toc-details"' . ( ! empty( $attributes['start_collapsed'] ) ? '' : ' open' ) . '>';
+		$html .= '<summary class="wpwing-toc-title">' . esc_html( $effective_title ) . $badge_html . '</summary>';
+	} elseif ( $collapsible ) {
 		$html .= '<div class="wpwing-toc-header">';
 		if ( $attributes['no_title'] === false ) {
 			$html .= '<h2 class="wpwing-toc-title">' . esc_html( $effective_title ) . $badge_html . '</h2>';
@@ -822,6 +888,9 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		$html .= '<a href="#top" class="wpwing-toc-back-top">' . esc_html__( 'Back to top', 'wpwing-table-of-contents-block' ) . '</a>';
 	}
 
+	if ( $native_collapsible ) {
+		$html .= '</details>';
+	}
 	$html .= '</nav>';
 
 	return $html;

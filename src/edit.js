@@ -25,6 +25,7 @@ export default function Edit({ attributes, setAttributes }) {
 		max_level,
 		title_text,
 		collapsible,
+				collapse_mode,
 		style_preset,
 		show_back_to_top,
 		min_headings,
@@ -193,6 +194,27 @@ export default function Edit({ attributes, setAttributes }) {
 						onChange={() => setAttributes( { collapsible: ! collapsible } )}
 					/>
 					{ collapsible && (
+								<SelectControl
+									label={__( "Collapse mode", "wpwing-table-of-contents-block" )}
+									help={__(
+										"Use native HTML for a zero-JavaScript collapsible TOC.",
+										"wpwing-table-of-contents-block",
+									)}
+									value={collapse_mode}
+									options={[
+										{
+											label: __( "JavaScript toggle", "wpwing-table-of-contents-block" ),
+											value: "js",
+										},
+										{
+											label: __( "Native HTML (zero JavaScript)", "wpwing-table-of-contents-block" ),
+											value: "native",
+										},
+									]}
+									onChange={( value ) => setAttributes( { collapse_mode: value } )}
+								/>
+						) }
+						{ collapsible && (
 						<ToggleControl
 							label={__( "Collapsed by default", "wpwing-table-of-contents-block" )}
 							help={__(

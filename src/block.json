@@ -45,6 +45,11 @@
 			"type": "boolean",
 			"default": false
 		},
+		"collapse_mode": {
+			"type": "string",
+			"enum": [ "js", "native" ],
+			"default": "js"
+		},
 		"style_preset": {
 			"type": "string",
 			"default": "default"
