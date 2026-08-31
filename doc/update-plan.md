@@ -1,6 +1,7 @@
 # Update Plan - Next 4 Weekly Releases
 
-Written: 11/07/2026. Cadence: one release every Sunday. Current version: 1.5.0 (05/07/2026).
+Written: 11/07/2026, updated 31/08/2026. Cadence: one release every Sunday (slipping in
+practice - 1.8.0 shipped Monday 24/08, not Sunday 26/07). Current version: 1.9.0 (31/08/2026).
 
 Strategy for the month: close the top gaps found in [competitors.md](competitors.md) - quick wins first, then the auto-insert headline feature, then lightweight/quality parity with SimpleTOC, then start capturing users from abandoned competitors.
 
@@ -26,11 +27,26 @@ The biggest gap vs every larger competitor. Full week reserved.
 - New: Zero-JS collapsible mode using native `<details>`/`<summary>` - removes the last inline script for collapsible users; keep the current JS toggle as a style choice.
 - Improvement: Added local Docker development workflow and realistic seeded sample content.
 
-## v1.9.0 - Sunday 02/08/2026 (capture migration pools)
+## v1.9.0 - 31/08/2026 (foundation: defaults, accessibility, e2e) - DONE, implemented 31/08
 
-- New: Complete global defaults - expose the full block attribute set, including list style, thresholds, links, scrolling, and accessibility-related options.
-- Improvement: Complete the accessibility audit, document the results, and decide whether a WCAG 2.2 AA claim is supportable.
-- Testing: Add browser-based e2e coverage for rendering, anchor scrolling, native and JavaScript collapse modes, keyboard flow, and seeded sample content.
+Global defaults and the accessibility audit were originally slated for 1.8.0, then deferred
+again when 1.9.0 grew a second, unrelated theme (the LuckyWP migration push). Split for real
+this time: this release is foundation/quality work only, no external dependency.
+
+- New: Complete global defaults - the "New block defaults" settings section now covers the
+  full block attribute set: list style and numbering, thresholds and keyword filtering,
+  back-to-top and copy-link, smooth scroll offset, and title/count/search-snippet options.
+- Improvement: Accessibility audit completed and documented in
+  [accessibility-audit.md](accessibility-audit.md). No structural or keyboard gaps found;
+  the readme claim is scoped to default styling rather than an unqualified WCAG 2.2 AA badge,
+  since author-chosen colors and the de-emphasized count/number text aren't contrast-checked.
+- Testing: Added a checked-in Playwright e2e suite (`tests/e2e/`) covering rendering/anchor
+  sync, anchor-click scrolling, native and JS collapse modes, keyboard flow, and a live
+  settings-page-to-render check for the new global defaults - runs against the `make dev`
+  stack via `npm run test:e2e`. Requires Node 20+ (see readme.md Requirements).
+
+## v1.10.0 - capture migration pools
+
 - New: One-click settings importer from LuckyWP Table of Contents (100k installs, abandoned since 04/2025) - map heading levels, list style, title, smooth scroll to our attributes/defaults. Stretch: Table of Contents Plus import.
 - Improvement: readme.txt refresh targeting "LuckyWP alternative" / "Table of Contents Plus alternative" search terms; add FAQ entries about switching.
 - Housekeeping: bump "Tested up to", screenshots for the new settings screen.

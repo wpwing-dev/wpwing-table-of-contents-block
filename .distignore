@@ -23,6 +23,14 @@ package-lock.json
 readme.md
 doc/
 
+# Local dev environment and test suite
+docker-compose.yml
+docker/
+Makefile
+.env.example
+tests/
+playwright.config.js
+
 # Build output folder
 dist/
 

@@ -35,3 +35,7 @@ build/
 dist/
 .DS_Store
 package-lock.json
+
+# Playwright e2e output
+test-results/
+playwright-report/

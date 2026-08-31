@@ -1,6 +1,6 @@
 {
 	"name": "wpwing-table-of-contents-block",
-	"version": "1.8.0",
+	"version": "1.9.0",
 	"description": "Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.",
 	"author": "WPWing",
 	"license": "GPL-3.0-or-later",
@@ -13,9 +13,11 @@
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"dist": "npm run build && rm -rf dist && mkdir -p dist/wpwing-table-of-contents-block && cp -r build docs readme.txt wpwing-table-of-contents-block.php dist/wpwing-table-of-contents-block/ && cd dist && zip -r wpwing-table-of-contents-block.zip wpwing-table-of-contents-block && rm -rf wpwing-table-of-contents-block",
-		"start": "wp-scripts start"
+		"start": "wp-scripts start",
+		"test:e2e": "playwright test"
 	},
 	"devDependencies": {
+		"@playwright/test": "1.62.1",
 		"@wordpress/scripts": "^27.9.0",
 		"ansi-regex": "^6.2.2",
 		"markdown-it": "^14.1.1",

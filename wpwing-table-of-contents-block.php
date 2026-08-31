@@ -4,9 +4,9 @@
  * Plugin Name:        Table of Contents (TOC) Block - Fast & SEO Friendly
  * Plugin URI:         https://wpwing.com/
  * Description:        Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.
- * Version:            1.8.0
+ * Version:            1.9.0
  * Requires at least:  5.8
- * Tested up to:       7.0
+ * Tested up to:       7.1
  * Requires PHP:       7.1
  * Author:             WPWing
  * Author URI:         https://wpwing.com/
@@ -68,8 +68,8 @@ function wpwing_toc_plugin_action_links( $links ) {
 }
 
 /**
- * Plugin settings. Stored as one option array so future keys (global block
- * defaults in 1.8.0) can be added without a new option.
+ * Plugin settings, stored as one option array so new keys can be added
+ * without a new option.
  *
  * @since 1.7.0
  */
@@ -123,20 +123,36 @@ function wpwing_toc_sanitize_settings( $input ) {
 }
 
 function wpwing_toc_sanitize_block_defaults( $input ) {
-		$input   = is_array( $input ) ? $input : [];
-		$allowed = [ 'title_text', 'min_level', 'max_level', 'min_headings', 'collapsible', 'collapse_mode', 'start_collapsed', 'use_ol', 'remove_indent' ];
+		$input = is_array( $input ) ? $input : [];
+
+		// The settings page presents list markup as a single mutually-exclusive choice, same as
+		// the block editor's own List style control, then derives the two underlying attributes.
+		if ( isset( $input['list_style'] ) ) {
+			$input['use_ol']               = 'ordered' === $input['list_style'];
+			$input['hierarchical_numbers'] = 'hierarchical' === $input['list_style'];
+		}
+
+		$allowed = [
+			'title_text', 'min_level', 'max_level', 'min_headings', 'collapsible', 'collapse_mode', 'start_collapsed', 'use_ol', 'remove_indent',
+			'style_preset', 'hierarchical_numbers', 'exclude_keywords', 'show_back_to_top', 'add_back_to_top', 'copy_anchor', 'add_smooth', 'scroll_offset',
+			'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet',
+		];
 		$output  = [];
 		foreach ( $allowed as $key ) {
 			if ( ! array_key_exists( $key, $input ) ) {
 				continue;
 			}
 			$value = $input[ $key ];
-			if ( in_array( $key, [ 'collapsible', 'start_collapsed', 'use_ol', 'remove_indent' ], true ) ) {
+			if ( in_array( $key, [ 'collapsible', 'start_collapsed', 'use_ol', 'remove_indent', 'hierarchical_numbers', 'show_back_to_top', 'add_back_to_top', 'copy_anchor', 'add_smooth', 'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet' ], true ) ) {
 				$output[ $key ] = (bool) $value;
 			} elseif ( in_array( $key, [ 'min_level', 'max_level', 'min_headings' ], true ) ) {
 				$output[ $key ] = max( 1, (int) $value );
+			} elseif ( 'scroll_offset' === $key ) {
+				$output[ $key ] = max( 0, (int) $value );
 			} elseif ( 'collapse_mode' === $key ) {
 				$output[ $key ] = in_array( $value, [ 'js', 'native' ], true ) ? $value : 'js';
+			} elseif ( 'style_preset' === $key ) {
+				$output[ $key ] = in_array( $value, [ 'default', 'boxed' ], true ) ? $value : 'default';
 			} else {
 				$output[ $key ] = sanitize_text_field( $value );
 			}
@@ -237,7 +253,101 @@ function wpwing_toc_render_settings_page() {
 						<option value="js" <?php selected( $settings['block_defaults']['collapse_mode'] ?? 'js', 'js' ); ?>><?php esc_html_e( 'JavaScript toggle', 'wpwing-table-of-contents-block' ); ?></option>
 						<option value="native" <?php selected( $settings['block_defaults']['collapse_mode'] ?? 'js', 'native' ); ?>><?php esc_html_e( 'Native HTML (zero JavaScript)', 'wpwing-table-of-contents-block' ); ?></option>
 					</select>
+					<br />
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][start_collapsed]" value="1" <?php checked( ! empty( $settings['block_defaults']['start_collapsed'] ) ); ?> /> <?php esc_html_e( 'Start collapsed', 'wpwing-table-of-contents-block' ); ?></label>
 				</td>
+			</tr>
+		</table>
+
+		<h3><?php esc_html_e( 'List style', 'wpwing-table-of-contents-block' ); ?></h3>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><label for="wpwing-toc-default-style"><?php esc_html_e( 'Style preset', 'wpwing-table-of-contents-block' ); ?></label></th>
+				<td>
+					<select id="wpwing-toc-default-style" name="wpwing_toc_settings[block_defaults][style_preset]">
+						<option value="default" <?php selected( $settings['block_defaults']['style_preset'] ?? 'default', 'default' ); ?>><?php esc_html_e( 'Default', 'wpwing-table-of-contents-block' ); ?></option>
+						<option value="boxed" <?php selected( $settings['block_defaults']['style_preset'] ?? 'default', 'boxed' ); ?>><?php esc_html_e( 'Boxed', 'wpwing-table-of-contents-block' ); ?></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="wpwing-toc-default-list-style"><?php esc_html_e( 'List markup', 'wpwing-table-of-contents-block' ); ?></label></th>
+				<td>
+					<?php
+					$list_style = ! empty( $settings['block_defaults']['hierarchical_numbers'] ) ? 'hierarchical' : ( ! empty( $settings['block_defaults']['use_ol'] ) ? 'ordered' : 'bullet' );
+					?>
+					<select id="wpwing-toc-default-list-style" name="wpwing_toc_settings[block_defaults][list_style]">
+						<option value="bullet" <?php selected( $list_style, 'bullet' ); ?>><?php esc_html_e( 'Bulleted', 'wpwing-table-of-contents-block' ); ?></option>
+						<option value="ordered" <?php selected( $list_style, 'ordered' ); ?>><?php esc_html_e( 'Numbered', 'wpwing-table-of-contents-block' ); ?></option>
+						<option value="hierarchical" <?php selected( $list_style, 'hierarchical' ); ?>><?php esc_html_e( 'Hierarchical (1.1, 1.1.1)', 'wpwing-table-of-contents-block' ); ?></option>
+					</select>
+					<br />
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][remove_indent]" value="1" <?php checked( ! empty( $settings['block_defaults']['remove_indent'] ) ); ?> /> <?php esc_html_e( 'Remove nested indentation', 'wpwing-table-of-contents-block' ); ?></label>
+				</td>
+			</tr>
+		</table>
+
+		<h3><?php esc_html_e( 'Thresholds and filtering', 'wpwing-table-of-contents-block' ); ?></h3>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><label for="wpwing-toc-default-min-headings"><?php esc_html_e( 'Minimum headings to show TOC', 'wpwing-table-of-contents-block' ); ?></label></th>
+				<td><input type="number" id="wpwing-toc-default-min-headings" name="wpwing_toc_settings[block_defaults][min_headings]" min="1" step="1" value="<?php echo esc_attr( $settings['block_defaults']['min_headings'] ?? 1 ); ?>" /></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="wpwing-toc-default-exclude"><?php esc_html_e( 'Exclude headings containing', 'wpwing-table-of-contents-block' ); ?></label></th>
+				<td>
+					<input type="text" id="wpwing-toc-default-exclude" name="wpwing_toc_settings[block_defaults][exclude_keywords]" value="<?php echo esc_attr( $settings['block_defaults']['exclude_keywords'] ?? '' ); ?>" />
+					<p class="description"><?php esc_html_e( 'Comma-separated keywords. Headings containing any of them are skipped.', 'wpwing-table-of-contents-block' ); ?></p>
+				</td>
+			</tr>
+		</table>
+
+		<h3><?php esc_html_e( 'Links', 'wpwing-table-of-contents-block' ); ?></h3>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Back to top', 'wpwing-table-of-contents-block' ); ?></th>
+				<td>
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][show_back_to_top]" value="1" <?php checked( ! empty( $settings['block_defaults']['show_back_to_top'] ) ); ?> /> <?php esc_html_e( 'Show a back-to-top link below the TOC', 'wpwing-table-of-contents-block' ); ?></label><br />
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][add_back_to_top]" value="1" <?php checked( ! empty( $settings['block_defaults']['add_back_to_top'] ) ); ?> /> <?php esc_html_e( 'Add a back-to-top link after each heading', 'wpwing-table-of-contents-block' ); ?></label>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Copy link', 'wpwing-table-of-contents-block' ); ?></th>
+				<td><label><input type="checkbox" name="wpwing_toc_settings[block_defaults][copy_anchor]" value="1" <?php checked( ! empty( $settings['block_defaults']['copy_anchor'] ) ); ?> /> <?php esc_html_e( 'Show a copy-link button on each entry', 'wpwing-table-of-contents-block' ); ?></label></td>
+			</tr>
+			<tr>
+				<th scope="row"><?php esc_html_e( 'URL format', 'wpwing-table-of-contents-block' ); ?></th>
+				<td><label><input type="checkbox" name="wpwing_toc_settings[block_defaults][use_absolute_urls]" value="1" <?php checked( ! empty( $settings['block_defaults']['use_absolute_urls'] ) ); ?> /> <?php esc_html_e( 'Use absolute URLs in TOC links', 'wpwing-table-of-contents-block' ); ?></label></td>
+			</tr>
+		</table>
+
+		<h3><?php esc_html_e( 'Scrolling', 'wpwing-table-of-contents-block' ); ?></h3>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Smooth scroll', 'wpwing-table-of-contents-block' ); ?></th>
+				<td><label><input type="checkbox" name="wpwing_toc_settings[block_defaults][add_smooth]" value="1" <?php checked( ! empty( $settings['block_defaults']['add_smooth'] ) ); ?> /> <?php esc_html_e( 'Enable smooth scrolling to headings', 'wpwing-table-of-contents-block' ); ?></label></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="wpwing-toc-default-scroll-offset"><?php esc_html_e( 'Scroll offset', 'wpwing-table-of-contents-block' ); ?></label></th>
+				<td>
+					<input type="number" id="wpwing-toc-default-scroll-offset" name="wpwing_toc_settings[block_defaults][scroll_offset]" min="0" step="1" value="<?php echo esc_attr( $settings['block_defaults']['scroll_offset'] ?? 0 ); ?>" /> <?php esc_html_e( 'px', 'wpwing-table-of-contents-block' ); ?>
+					<p class="description"><?php esc_html_e( 'Keeps headings visible below sticky or fixed headers when jumping from the TOC.', 'wpwing-table-of-contents-block' ); ?></p>
+				</td>
+			</tr>
+		</table>
+
+		<h3><?php esc_html_e( 'Accessibility and SEO', 'wpwing-table-of-contents-block' ); ?></h3>
+		<table class="form-table" role="presentation">
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Title and count', 'wpwing-table-of-contents-block' ); ?></th>
+				<td>
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][no_title]" value="1" <?php checked( ! empty( $settings['block_defaults']['no_title'] ) ); ?> /> <?php esc_html_e( 'Hide the TOC title', 'wpwing-table-of-contents-block' ); ?></label><br />
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][show_heading_count]" value="1" <?php checked( ! empty( $settings['block_defaults']['show_heading_count'] ) ); ?> /> <?php esc_html_e( 'Show a heading-count badge next to the title', 'wpwing-table-of-contents-block' ); ?></label>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Search snippets', 'wpwing-table-of-contents-block' ); ?></th>
+				<td><label><input type="checkbox" name="wpwing_toc_settings[block_defaults][seo_nosnippet]" value="1" <?php checked( ! empty( $settings['block_defaults']['seo_nosnippet'] ) ); ?> /> <?php esc_html_e( 'Exclude TOC text from search result snippets', 'wpwing-table-of-contents-block' ); ?></label></td>
 			</tr>
 		</table>
 			<?php submit_button(); ?>

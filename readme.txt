@@ -3,9 +3,9 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:        1.8.0
+Stable tag:        1.9.0
 Requires at least: 5.8
-Tested up to:      7.0
+Tested up to:      7.1
 Requires PHP:      7.1
 License:           GPL-3.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-3.0.html
@@ -38,6 +38,7 @@ Unlike plugins that lock basic layout settings behind a pro version, you get ful
 * **Pure Performance:** No frontend JavaScript unless you enable an interactive feature - fully optimized for page speed.
 * **Designed for Gutenberg:** Integrates natively into the WordPress block editor experience.
 * **Responsive Layouts:** Inherits theme styles fluidly for perfect rendering on mobile devices.
+* **Accessible by Design:** Semantic `nav`/list markup, real buttons with correct `aria-expanded`/`aria-controls`, visible focus states, and full keyboard support for both collapse modes.
 
 ### 🔌 Ultimate Compatibility
 We ensure our block plays nicely with your entire WordPress stack.
@@ -79,6 +80,9 @@ Yes. Go to **Settings > TOC Block**, check the post types you want, and pick a p
 = I set a custom HTML anchor on a heading - will the TOC use it? =
 Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** field, the TOC links to that anchor instead of generating one, so your existing incoming links keep working.
 
+= Is the TOC block accessible? =
+Yes. The block outputs a `nav` landmark around a real list, uses actual `button` elements with correct ARIA states for the collapsible toggle, and keeps visible focus outlines on every interactive control - the native `details`/`summary` collapse mode gets keyboard support for free from the browser. Colors you choose yourself (via the block's native color controls) aren't checked for contrast, so keep that in mind if you customize the default styling.
+
 == Screenshots ==
 
 1. Editor with Table of Contents block
@@ -89,6 +93,11 @@ Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** fi
 6. Output block using Group and background color
 
 == Changelog ==
+
+= 1.9.0 - 31/08/2026 =
+
+* New: Global block defaults now cover the full attribute set - list style and numbering, thresholds and keyword filtering, back-to-top and copy-link, smooth scroll offset, and title/count/search-snippet options - all configurable from Settings > TOC Block.
+* Improvement: Accessibility pass - semantic landmarks, correct ARIA states on both collapse modes, and focus-visible states confirmed and documented; see the accessible-by-design FAQ entry for what's in and out of scope.
 
 = 1.8.0 - 24/08/2026 =
 
