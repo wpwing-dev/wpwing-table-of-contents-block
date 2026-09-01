@@ -1,7 +1,8 @@
 # Update Plan - Next 4 Weekly Releases
 
-Written: 11/07/2026, updated 31/08/2026. Cadence: one release every Sunday (slipping in
-practice - 1.8.0 shipped Monday 24/08, not Sunday 26/07). Current version: 1.9.0 (31/08/2026).
+Written: 11/07/2026, updated 01/09/2026. Cadence: one release every Sunday (slipping in
+practice - 1.8.0 shipped Monday 24/08, not Sunday 26/07; 1.9.0 shipped Tuesday 01/09, not
+Sunday 30/08). Current version: 1.9.0 (01/09/2026).
 
 Strategy for the month: close the top gaps found in [competitors.md](competitors.md) - quick wins first, then the auto-insert headline feature, then lightweight/quality parity with SimpleTOC, then start capturing users from abandoned competitors.
 
@@ -27,7 +28,7 @@ The biggest gap vs every larger competitor. Full week reserved.
 - New: Zero-JS collapsible mode using native `<details>`/`<summary>` - removes the last inline script for collapsible users; keep the current JS toggle as a style choice.
 - Improvement: Added local Docker development workflow and realistic seeded sample content.
 
-## v1.9.0 - 31/08/2026 (foundation: defaults, accessibility, e2e) - DONE, implemented 31/08
+## v1.9.0 - 01/09/2026 (foundation: defaults, accessibility, e2e) - DONE, implemented 31/08, shipped 01/09
 
 Global defaults and the accessibility audit were originally slated for 1.8.0, then deferred
 again when 1.9.0 grew a second, unrelated theme (the LuckyWP migration push). Split for real

@@ -94,7 +94,7 @@ Yes. The block outputs a `nav` landmark around a real list, uses actual `button`
 
 == Changelog ==
 
-= 1.9.0 - 31/08/2026 =
+= 1.9.0 - 01/09/2026 =
 
 * New: Global block defaults now cover the full attribute set - list style and numbering, thresholds and keyword filtering, back-to-top and copy-link, smooth scroll offset, and title/count/search-snippet options - all configurable from Settings > TOC Block.
 * Improvement: Accessibility pass - semantic landmarks, correct ARIA states on both collapse modes, and focus-visible states confirmed and documented; see the accessible-by-design FAQ entry for what's in and out of scope.
