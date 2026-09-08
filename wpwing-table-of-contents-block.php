@@ -174,6 +174,68 @@ function wpwing_toc_apply_block_defaults( $settings, $metadata ) {
 }
 add_filter( 'block_type_metadata_settings', 'wpwing_toc_apply_block_defaults', 10, 2 );
 
+// LuckyWP (`lwptoc_` option prefix) stores settings as one wp_options row per tab; only
+// `general` and `autoInsert` map onto attributes we have, `appearance` (colors/width) has no equivalent.
+// Raw LuckyWP option groups, or false when LuckyWP isn't installed / never saved settings.
+function wpwing_toc_get_luckywp_settings() {
+	$general = get_option( 'lwptoc_general', false );
+	if ( ! is_array( $general ) ) {
+		return false;
+	}
+
+	$auto_insert = get_option( 'lwptoc_autoInsert', [] );
+
+	return [
+		'general'    => $general,
+		'autoInsert' => is_array( $auto_insert ) ? $auto_insert : [],
+	];
+}
+
+// Map LuckyWP's option shape onto ours. Returns the same shape wpwing_toc_sanitize_settings() expects.
+function wpwing_toc_map_luckywp_settings( array $luckywp ) {
+	$general     = is_array( $luckywp['general'] ) ? $luckywp['general'] : [];
+	$auto_insert = is_array( $luckywp['autoInsert'] ) ? $luckywp['autoInsert'] : [];
+
+	$numeration = isset( $general['numeration'] ) ? $general['numeration'] : 'none';
+	$use_ol     = in_array( $numeration, [ 'decimal', 'decimalnested', 'roman', 'romannested' ], true );
+	$nested     = in_array( $numeration, [ 'decimalnested', 'romannested' ], true );
+
+	// LuckyWP's positions we have an equivalent for; "afterfirstheading" and "bottom" don't map, fall back to our default.
+	$positions = [
+		'beforefirstheading' => 'before_first_heading',
+		'afterfirstblock'    => 'after_first_paragraph',
+		'top'                => 'top',
+	];
+	$position  = $positions[ $auto_insert['position'] ?? '' ] ?? 'before_first_heading';
+
+	$min_headings = isset( $general['min'] ) ? max( 1, (int) $general['min'] ) : 2;
+
+	// LuckyWP's "depth" counts levels down from whatever heading starts the post, not an absolute
+	// level number. We assume the common case of starting at H2 (our own min_level default).
+	$depth      = isset( $general['depth'] ) ? max( 1, (int) $general['depth'] ) : 6;
+	$max_level  = min( 6, 1 + $depth );
+
+	return [
+		'auto_insert_post_types'   => ( ! empty( $auto_insert['enable'] ) && is_array( $auto_insert['postTypes'] ?? null ) )
+			? $auto_insert['postTypes']
+			: [],
+		'auto_insert_position'     => $position,
+		'auto_insert_min_headings' => $min_headings,
+		'block_defaults'           => [
+			'title_text'           => isset( $general['title'] ) ? $general['title'] : '',
+			'min_headings'         => $min_headings,
+			'max_level'            => $max_level,
+			'remove_indent'        => empty( $general['hierarchical'] ),
+			'use_ol'               => $use_ol,
+			'hierarchical_numbers' => $nested,
+			'collapsible'          => ! empty( $general['toggle'] ),
+			'start_collapsed'      => ! empty( $general['hideItems'] ),
+			'add_smooth'           => ! empty( $general['smoothScroll'] ),
+			'scroll_offset'        => isset( $general['smoothScrollOffset'] ) ? max( 0, (int) $general['smoothScrollOffset'] ) : 0,
+		],
+	];
+}
+
 function wpwing_toc_add_settings_page() {
 	add_options_page(
 		__( 'Table of Contents Block', 'wpwing-table-of-contents-block' ),
