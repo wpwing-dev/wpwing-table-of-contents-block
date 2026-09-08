@@ -46,6 +46,9 @@ We ensure our block plays nicely with your entire WordPress stack.
 * Works seamlessly with the **GeneratePress** theme and major page frameworks.
 * 100% compatible with popular **AMP plugins** for mobile-first rendering.
 
+### 🔄 Switching From LuckyWP Table of Contents?
+LuckyWP Table of Contents hasn't been updated since April 2025. If you're moving off it, go to **Settings > TOC Block** - when LuckyWP's saved settings are detected on your site, an **Import from LuckyWP Table of Contents** button appears automatically. One click carries over your heading levels, list style, title text, and smooth-scroll offset, so you don't have to rebuild your configuration by hand.
+
 ### 🧑‍💻 Dedicated Startup Support
 At WPWing, we are committed to building high-quality, lightweight utility plugins for WordPress and WooCommerce. Our dedicated support team responds rapidly to the support forums to help you resolve any issues instantly.
 
@@ -82,6 +85,9 @@ Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** fi
 
 = Is the TOC block accessible? =
 Yes. The block outputs a `nav` landmark around a real list, uses actual `button` elements with correct ARIA states for the collapsible toggle, and keeps visible focus outlines on every interactive control - the native `details`/`summary` collapse mode gets keyboard support for free from the browser. Colors you choose yourself (via the block's native color controls) aren't checked for contrast, so keep that in mind if you customize the default styling.
+
+= I'm using LuckyWP Table of Contents - can I switch without losing my settings? =
+Yes. Go to **Settings > TOC Block** on this plugin. If LuckyWP's settings are still saved on your site, an **Import from LuckyWP Table of Contents** button appears there and copies over your heading levels, list style, title text, and smooth-scroll offset in one click.
 
 == Screenshots ==
 
