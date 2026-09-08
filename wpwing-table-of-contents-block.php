@@ -236,6 +236,36 @@ function wpwing_toc_map_luckywp_settings( array $luckywp ) {
 	];
 }
 
+// Applies the mapped LuckyWP settings, keeping any of our fields it has no equivalent for.
+function wpwing_toc_handle_luckywp_import() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( esc_html__( 'You are not allowed to do this.', 'wpwing-table-of-contents-block' ) );
+	}
+	check_admin_referer( 'wpwing_toc_import_luckywp' );
+
+	$redirect = admin_url( 'options-general.php?page=wpwing-toc' );
+	$luckywp  = wpwing_toc_get_luckywp_settings();
+
+	if ( false === $luckywp ) {
+		wp_safe_redirect( add_query_arg( 'wpwing_toc_import', 'notfound', $redirect ) );
+		exit;
+	}
+
+	$mapped  = wpwing_toc_map_luckywp_settings( $luckywp );
+	$current = wpwing_toc_get_settings();
+
+	$current['auto_insert_post_types']   = $mapped['auto_insert_post_types'];
+	$current['auto_insert_position']     = $mapped['auto_insert_position'];
+	$current['auto_insert_min_headings'] = $mapped['auto_insert_min_headings'];
+	$current['block_defaults']           = wp_parse_args( $mapped['block_defaults'], $current['block_defaults'] );
+
+	update_option( 'wpwing_toc_settings', wpwing_toc_sanitize_settings( $current ) );
+
+	wp_safe_redirect( add_query_arg( 'wpwing_toc_import', 'success', $redirect ) );
+	exit;
+}
+add_action( 'admin_post_wpwing_toc_import_luckywp', 'wpwing_toc_handle_luckywp_import' );
+
 function wpwing_toc_add_settings_page() {
 	add_options_page(
 		__( 'Table of Contents Block', 'wpwing-table-of-contents-block' ),
@@ -257,6 +287,22 @@ function wpwing_toc_render_settings_page() {
 	?>
 	<div class="wrap">
 		<h1><?php esc_html_e( 'Table of Contents Block', 'wpwing-table-of-contents-block' ); ?></h1>
+		<?php if ( isset( $_GET['wpwing_toc_import'] ) ) : ?>
+			<?php if ( 'success' === $_GET['wpwing_toc_import'] ) : ?>
+				<div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Settings imported from LuckyWP Table of Contents.', 'wpwing-table-of-contents-block' ); ?></p></div>
+			<?php elseif ( 'notfound' === $_GET['wpwing_toc_import'] ) : ?>
+				<div class="notice notice-error is-dismissible"><p><?php esc_html_e( 'No LuckyWP Table of Contents settings were found to import.', 'wpwing-table-of-contents-block' ); ?></p></div>
+			<?php endif; ?>
+		<?php endif; ?>
+		<?php if ( false !== wpwing_toc_get_luckywp_settings() ) : ?>
+			<h2><?php esc_html_e( 'Import settings', 'wpwing-table-of-contents-block' ); ?></h2>
+			<p><?php esc_html_e( 'LuckyWP Table of Contents settings were found on this site. Import its heading levels, list style, title, and smooth-scroll settings into the defaults below.', 'wpwing-table-of-contents-block' ); ?></p>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<?php wp_nonce_field( 'wpwing_toc_import_luckywp' ); ?>
+				<input type="hidden" name="action" value="wpwing_toc_import_luckywp" />
+				<?php submit_button( __( 'Import from LuckyWP Table of Contents', 'wpwing-table-of-contents-block' ), 'secondary' ); ?>
+			</form>
+		<?php endif; ?>
 		<form method="post" action="options.php">
 			<?php settings_fields( 'wpwing_toc_settings' ); ?>
 			<h2><?php esc_html_e( 'Auto-insert', 'wpwing-table-of-contents-block' ); ?></h2>
