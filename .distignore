@@ -31,6 +31,10 @@ Makefile
 tests/
 playwright.config.js
 
+# WordPress.org listing assets (screenshots) and the tool that generates them - live in SVN, not the plugin zip
+wporg-assets/
+tools/
+
 # Build output folder
 dist/
 

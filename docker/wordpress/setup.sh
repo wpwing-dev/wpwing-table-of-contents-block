@@ -62,6 +62,28 @@ create_sample_content page wpwing-toc-demo "WPWing TOC Demo" '<!-- wp:wpwing/toc
 <h3 class="wp-block-heading">Native collapsible mode</h3>
 <!-- /wp:heading -->'
 
+create_sample_content page wpwing-toc-styled "WPWing TOC Styled Demo" '<!-- wp:group {"style":{"color":{"background":"#eef4ff"},"spacing":{"padding":{"top":"1.5rem","right":"1.5rem","bottom":"1.5rem","left":"1.5rem"}},"border":{"radius":"8px"}},"layout":{"type":"constrained"}} -->
+<div class="wp-block-group has-background" style="border-radius:8px;background-color:#eef4ff;padding-top:1.5rem;padding-right:1.5rem;padding-bottom:1.5rem;padding-left:1.5rem">
+<!-- wp:wpwing/toc /-->
+</div>
+<!-- /wp:group -->
+
+<!-- wp:heading {"level":2} -->
+<h2 class="wp-block-heading">Wrapping the block for a custom look</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>This page shows the Table of Contents block wrapped in a Group block with a background color, using only native Gutenberg styling controls.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">No custom CSS required</h3>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Matches your theme automatically</h3>
+<!-- /wp:heading -->'
+
 create_sample_content post wpwing-toc-article "A Sample Article for Testing" '<!-- wp:paragraph -->
 <p>This sample post contains enough structure to test anchors, nested headings, and responsive TOC styling.</p>
 <!-- /wp:paragraph -->

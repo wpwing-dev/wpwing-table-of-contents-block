@@ -1,5 +1,7 @@
 PLUGIN_SLUG = wpwing-table-of-contents-block
 SHARED_PROXY_COMPOSE = ../wpwing-sticky-block/docker-compose.yml
+# Must match the @playwright/test version in package.json - browsers are pinned per release.
+PLAYWRIGHT_IMAGE = mcr.microsoft.com/playwright:v1.62.1-noble
 
 .DEFAULT_GOAL := help
 
@@ -64,3 +66,12 @@ format: ## Format source files
 dist: ## Build the distributable plugin zip
 	npm run dist
 .PHONY: dist
+
+screenshots: ## Capture WordPress.org listing screenshots into wporg-assets/ and update readme.txt captions
+	$(MAKE) dev
+	docker compose --profile dev run --rm wpcli wp option update lwptoc_general '{"min":2,"depth":4,"hierarchical":true,"numeration":"decimalnested","title":"Contents","toggle":true,"smoothScroll":true,"smoothScrollOffset":40}' --format=json --allow-root
+	docker compose --profile dev run --rm wpcli wp option update lwptoc_autoInsert '{"enable":true,"position":"beforefirstheading","postTypes":["post"]}' --format=json --allow-root
+	docker run --rm --network host -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) node tools/screenshots.js
+	docker run --rm -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) chown -R $(shell id -u):$(shell id -g) wporg-assets readme.txt
+	docker compose --profile dev run --rm wpcli wp option delete lwptoc_general lwptoc_autoInsert --allow-root
+.PHONY: screenshots

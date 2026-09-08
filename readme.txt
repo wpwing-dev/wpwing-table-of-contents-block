@@ -97,6 +97,8 @@ Yes. Go to **Settings > TOC Block** on this plugin. If LuckyWP's settings are st
 4. Block settings section
 5. Output block with default settings
 6. Output block using Group and background color
+7. TOC Block settings screen - global defaults and auto-insert
+8. One-click settings import from LuckyWP Table of Contents
 
 == Changelog ==
 
