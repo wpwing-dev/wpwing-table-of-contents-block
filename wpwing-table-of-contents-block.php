@@ -268,19 +268,20 @@ function wpwing_toc_handle_luckywp_import() {
 }
 add_action( 'admin_post_wpwing_toc_import_luckywp', 'wpwing_toc_handle_luckywp_import' );
 
-// Registers the shared "WPWing" parent menu only if no other WPWing plugin already has -
-// same guard pattern used across WPWing plugins so they all nest under one branded menu.
+// Registers the shared "WPWing" parent menu only if no other WPWing plugin already has.
 function wpwing_toc_add_settings_page() {
 	if ( '' === menu_page_url( 'wpwing', false ) ) {
+		// We own the parent, so give it our own page directly - no redirect round-trip needed.
 		add_menu_page(
 			__( 'WPWing', 'wpwing-table-of-contents-block' ),
 			__( 'WPWing', 'wpwing-table-of-contents-block' ),
 			'manage_options',
 			'wpwing',
-			'__return_null',
+			'wpwing_toc_render_settings_page',
 			'dashicons-heart',
 			58
 		);
+		wpwing_toc_owns_parent_menu( true );
 	}
 
 	add_submenu_page(
@@ -294,9 +295,18 @@ function wpwing_toc_add_settings_page() {
 }
 add_action( 'admin_menu', 'wpwing_toc_add_settings_page' );
 
-// The bare "WPWing" parent page has no content of its own - send visitors straight to ours.
+// Tracks whether we won the parent-registration race, so the redirect below only fires for a sibling's blank page.
+function wpwing_toc_owns_parent_menu( $set = null ) {
+	static $owns = false;
+	if ( null !== $set ) {
+		$owns = $set;
+	}
+	return $owns;
+}
+
+// Fallback for a sibling WPWing plugin's blank parent page - send visitors straight to ours.
 function wpwing_toc_redirect_parent_menu() {
-	if ( isset( $_GET['page'] ) && 'wpwing' === $_GET['page'] ) {
+	if ( ! wpwing_toc_owns_parent_menu() && isset( $_GET['page'] ) && 'wpwing' === $_GET['page'] ) {
 		wp_safe_redirect( admin_url( 'admin.php?page=wpwing-toc' ) );
 		exit;
 	}
@@ -326,7 +336,7 @@ function wpwing_toc_render_settings_page() {
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<?php wp_nonce_field( 'wpwing_toc_import_luckywp' ); ?>
 				<input type="hidden" name="action" value="wpwing_toc_import_luckywp" />
-				<?php submit_button( __( 'Import from LuckyWP Table of Contents', 'wpwing-table-of-contents-block' ), 'secondary' ); ?>
+				<?php submit_button( __( 'Import from LuckyWP Table of Contents', 'wpwing-table-of-contents-block' ), 'secondary', 'wpwing-toc-import-submit' ); ?>
 			</form>
 		<?php endif; ?>
 		<form method="post" action="options.php">
