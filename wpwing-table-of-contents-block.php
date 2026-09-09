@@ -174,9 +174,7 @@ function wpwing_toc_apply_block_defaults( $settings, $metadata ) {
 }
 add_filter( 'block_type_metadata_settings', 'wpwing_toc_apply_block_defaults', 10, 2 );
 
-// LuckyWP (`lwptoc_` option prefix) stores settings as one wp_options row per tab; only
-// `general` and `autoInsert` map onto attributes we have, `appearance` (colors/width) has no equivalent.
-// Raw LuckyWP option groups, or false when LuckyWP isn't installed / never saved settings.
+// Raw LuckyWP option groups (from its `lwptoc_` option prefix), or false when not installed.
 function wpwing_toc_get_luckywp_settings() {
 	$general = get_option( 'lwptoc_general', false );
 	if ( ! is_array( $general ) ) {
@@ -191,40 +189,22 @@ function wpwing_toc_get_luckywp_settings() {
 	];
 }
 
-// Map LuckyWP's option shape onto ours. Returns the same shape wpwing_toc_sanitize_settings() expects.
+// Map LuckyWP's option shape onto ours. Only returns keys we have a confident equivalent for,
+// so the caller can wp_parse_args() every one of them over the current settings uniformly -
+// anything LuckyWP has no signal for (or that we can't map safely) is simply absent here.
 function wpwing_toc_map_luckywp_settings( array $luckywp ) {
-	$general     = is_array( $luckywp['general'] ) ? $luckywp['general'] : [];
-	$auto_insert = is_array( $luckywp['autoInsert'] ) ? $luckywp['autoInsert'] : [];
+	$general     = is_array( $luckywp['general'] ?? null ) ? $luckywp['general'] : [];
+	$auto_insert = is_array( $luckywp['autoInsert'] ?? null ) ? $luckywp['autoInsert'] : [];
 
 	$numeration = isset( $general['numeration'] ) ? $general['numeration'] : 'none';
 	$use_ol     = in_array( $numeration, [ 'decimal', 'decimalnested', 'roman', 'romannested' ], true );
 	$nested     = in_array( $numeration, [ 'decimalnested', 'romannested' ], true );
 
-	// LuckyWP's positions we have an equivalent for; "afterfirstheading" and "bottom" don't map, fall back to our default.
-	$positions = [
-		'beforefirstheading' => 'before_first_heading',
-		'afterfirstblock'    => 'after_first_paragraph',
-		'top'                => 'top',
-	];
-	$position  = $positions[ $auto_insert['position'] ?? '' ] ?? 'before_first_heading';
-
-	$min_headings = isset( $general['min'] ) ? max( 1, (int) $general['min'] ) : 2;
-
-	// LuckyWP's "depth" counts levels down from whatever heading starts the post, not an absolute
-	// level number. We assume the common case of starting at H2 (our own min_level default).
-	$depth      = isset( $general['depth'] ) ? max( 1, (int) $general['depth'] ) : 6;
-	$max_level  = min( 6, 1 + $depth );
-
-	return [
-		'auto_insert_post_types'   => ( ! empty( $auto_insert['enable'] ) && is_array( $auto_insert['postTypes'] ?? null ) )
-			? $auto_insert['postTypes']
-			: [],
-		'auto_insert_position'     => $position,
-		'auto_insert_min_headings' => $min_headings,
-		'block_defaults'           => [
+	// Heading level range (min_level/max_level) is deliberately not mapped - LuckyWP's "depth" is
+	// relative to each post's own headings, not a sitewide absolute level.
+	$mapped = [
+		'block_defaults' => [
 			'title_text'           => isset( $general['title'] ) ? $general['title'] : '',
-			'min_headings'         => $min_headings,
-			'max_level'            => $max_level,
 			'remove_indent'        => empty( $general['hierarchical'] ),
 			'use_ol'               => $use_ol,
 			'hierarchical_numbers' => $nested,
@@ -234,6 +214,27 @@ function wpwing_toc_map_luckywp_settings( array $luckywp ) {
 			'scroll_offset'        => isset( $general['smoothScrollOffset'] ) ? max( 0, (int) $general['smoothScrollOffset'] ) : 0,
 		],
 	];
+
+	if ( isset( $general['min'] ) ) {
+		$mapped['block_defaults']['min_headings'] = max( 1, (int) $general['min'] );
+	}
+
+	// Only import auto-insert settings if LuckyWP actually had it enabled - otherwise we'd be
+	// overwriting whatever the admin already configured for this plugin with LuckyWP defaults
+	// that were never actually in use.
+	if ( ! empty( $auto_insert['enable'] ) && is_array( $auto_insert['postTypes'] ?? null ) ) {
+		$positions = [
+			'beforefirstheading' => 'before_first_heading',
+			'afterfirstblock'    => 'after_first_paragraph',
+			'top'                => 'top',
+		];
+
+		$mapped['auto_insert_post_types']   = $auto_insert['postTypes'];
+		$mapped['auto_insert_position']     = $positions[ $auto_insert['position'] ?? '' ] ?? 'before_first_heading';
+		$mapped['auto_insert_min_headings'] = isset( $general['min'] ) ? max( 1, (int) $general['min'] ) : 2;
+	}
+
+	return $mapped;
 }
 
 // Applies the mapped LuckyWP settings, keeping any of our fields it has no equivalent for.
@@ -254,10 +255,11 @@ function wpwing_toc_handle_luckywp_import() {
 	$mapped  = wpwing_toc_map_luckywp_settings( $luckywp );
 	$current = wpwing_toc_get_settings();
 
-	$current['auto_insert_post_types']   = $mapped['auto_insert_post_types'];
-	$current['auto_insert_position']     = $mapped['auto_insert_position'];
-	$current['auto_insert_min_headings'] = $mapped['auto_insert_min_headings'];
-	$current['block_defaults']           = wp_parse_args( $mapped['block_defaults'], $current['block_defaults'] );
+	// Merge block_defaults first, since wp_parse_args() on the outer array would otherwise
+	// replace it wholesale with $mapped's (partial) version instead of filling gaps in it.
+	$current['block_defaults'] = wp_parse_args( $mapped['block_defaults'], $current['block_defaults'] );
+	unset( $mapped['block_defaults'] );
+	$current = wp_parse_args( $mapped, $current );
 
 	update_option( 'wpwing_toc_settings', wpwing_toc_sanitize_settings( $current ) );
 

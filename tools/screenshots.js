@@ -1,8 +1,4 @@
-// Captures WordPress.org listing screenshots against the `make dev` stack and regenerates
-// readme.txt's Screenshots section from the same list, so captions can never drift out of
-// sync with the numbered files. Run via `make screenshots` (see the Makefile for the Docker
-// invocation - this needs a Playwright version that matches an installed browser, which the
-// project's own `npm install` does not provide).
+// Captures WordPress.org listing screenshots and regenerates readme.txt's Screenshots section from the same list. Run via `make screenshots`.
 'use strict';
 
 const fs = require('fs');
@@ -53,8 +49,8 @@ async function dismissWelcomeGuide(page) {
 // Bounding boxes from a page.frameLocator() are already page-relative, so a block inside the
 // editor's iframe canvas and its toolbar in the top-level document can share one clip rect.
 function unionClip(...boxes) {
-	const x1 = Math.min(...boxes.map((b) => b.x)) - 16;
-	const y1 = Math.min(...boxes.map((b) => b.y)) - 16;
+	const x1 = Math.max(0, Math.min(...boxes.map((b) => b.x)) - 16);
+	const y1 = Math.max(0, Math.min(...boxes.map((b) => b.y)) - 16);
 	const x2 = Math.max(...boxes.map((b) => b.x + b.width)) + 16;
 	const y2 = Math.max(...boxes.map((b) => b.y + b.height)) + 16;
 	return { x: x1, y: y1, width: x2 - x1, height: y2 - y1 };
@@ -160,8 +156,7 @@ const SHOTS = [
 		file: 'screenshot-8.png',
 		caption: 'One-click settings import from LuckyWP Table of Contents',
 		context: 'admin',
-		// The Makefile seeds a fake lwptoc_general/lwptoc_autoInsert option pair before running
-		// this script so the import section actually renders, and removes it afterward.
+		// The Makefile seeds fake lwptoc_* options first so the import section actually renders.
 		capture: async (page) => {
 			await page.goto(`${BASE_URL}/wp-admin/options-general.php?page=wpwing-toc`);
 			const heading = page.locator('h2:has-text("Import settings")');
@@ -177,10 +172,10 @@ function updateReadme() {
 	const readme = fs.readFileSync(README_PATH, 'utf8');
 	const list = SHOTS.map((shot, i) => `${i + 1}. ${shot.caption}`).join('\n');
 	const pattern = /== Screenshots ==\n\n(?:\d+\..*\n)*\n/;
-	const updated = readme.replace(pattern, () => `== Screenshots ==\n\n${list}\n\n`);
-	if (updated === readme) {
+	if (!pattern.test(readme)) {
 		throw new Error('Could not find a "== Screenshots ==" section in readme.txt to update.');
 	}
+	const updated = readme.replace(pattern, () => `== Screenshots ==\n\n${list}\n\n`);
 	fs.writeFileSync(README_PATH, updated);
 }
 

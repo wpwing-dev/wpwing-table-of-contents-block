@@ -47,7 +47,7 @@ We ensure our block plays nicely with your entire WordPress stack.
 * 100% compatible with popular **AMP plugins** for mobile-first rendering.
 
 ### 🔄 Switching From LuckyWP Table of Contents?
-LuckyWP Table of Contents hasn't been updated since April 2025. If you're moving off it, go to **Settings > TOC Block** - when LuckyWP's saved settings are detected on your site, an **Import from LuckyWP Table of Contents** button appears automatically. One click carries over your heading levels, list style, title text, and smooth-scroll offset, so you don't have to rebuild your configuration by hand.
+LuckyWP Table of Contents hasn't been updated since April 2025. If you're moving off it, go to **Settings > TOC Block** - when LuckyWP's saved settings are detected on your site, an **Import from LuckyWP Table of Contents** button appears automatically. One click carries over your list style, title text, minimum-headings threshold, and smooth-scroll offset (plus auto-insert settings, if you had those configured in LuckyWP), so you don't have to rebuild your configuration by hand.
 
 ### 🧑‍💻 Dedicated Startup Support
 At WPWing, we are committed to building high-quality, lightweight utility plugins for WordPress and WooCommerce. Our dedicated support team responds rapidly to the support forums to help you resolve any issues instantly.
@@ -87,7 +87,7 @@ Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** fi
 Yes. The block outputs a `nav` landmark around a real list, uses actual `button` elements with correct ARIA states for the collapsible toggle, and keeps visible focus outlines on every interactive control - the native `details`/`summary` collapse mode gets keyboard support for free from the browser. Colors you choose yourself (via the block's native color controls) aren't checked for contrast, so keep that in mind if you customize the default styling.
 
 = I'm using LuckyWP Table of Contents - can I switch without losing my settings? =
-Yes. Go to **Settings > TOC Block** on this plugin. If LuckyWP's settings are still saved on your site, an **Import from LuckyWP Table of Contents** button appears there and copies over your heading levels, list style, title text, and smooth-scroll offset in one click.
+Yes. Go to **Settings > TOC Block** on this plugin. If LuckyWP's settings are still saved on your site, an **Import from LuckyWP Table of Contents** button appears there and copies over your list style, title text, minimum-headings threshold, and smooth-scroll offset in one click. Heading level range (min/max) isn't imported, since LuckyWP's depth setting is relative to each post and doesn't translate to a single sitewide value - set that one yourself.
 
 == Screenshots ==
 
@@ -104,7 +104,7 @@ Yes. Go to **Settings > TOC Block** on this plugin. If LuckyWP's settings are st
 
 = 1.10.0 - 09/09/2026 =
 
-* New: One-click settings importer from LuckyWP Table of Contents - maps heading levels, list style, title text, and smooth-scroll settings onto this plugin's block defaults and auto-insert settings. An "Import settings" section appears automatically on Settings > TOC Block whenever LuckyWP's saved settings are found on your site.
+* New: One-click settings importer from LuckyWP Table of Contents - maps list style, title text, minimum-headings threshold, and smooth-scroll settings onto this plugin's block defaults, plus auto-insert settings when LuckyWP had those configured. An "Import settings" section appears automatically on Settings > TOC Block whenever LuckyWP's saved settings are found on your site.
 * Improvement: readme refresh for readers switching from LuckyWP Table of Contents, including a new FAQ entry on the import.
 
 = 1.9.0 - 01/09/2026 =
