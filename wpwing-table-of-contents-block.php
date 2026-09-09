@@ -268,8 +268,23 @@ function wpwing_toc_handle_luckywp_import() {
 }
 add_action( 'admin_post_wpwing_toc_import_luckywp', 'wpwing_toc_handle_luckywp_import' );
 
+// Registers the shared "WPWing" parent menu only if no other WPWing plugin already has -
+// same guard pattern used across WPWing plugins so they all nest under one branded menu.
 function wpwing_toc_add_settings_page() {
-	add_options_page(
+	if ( '' === menu_page_url( 'wpwing', false ) ) {
+		add_menu_page(
+			__( 'WPWing', 'wpwing-table-of-contents-block' ),
+			__( 'WPWing', 'wpwing-table-of-contents-block' ),
+			'manage_options',
+			'wpwing',
+			'__return_null',
+			'dashicons-heart',
+			58
+		);
+	}
+
+	add_submenu_page(
+		'wpwing',
 		__( 'Table of Contents Block', 'wpwing-table-of-contents-block' ),
 		__( 'TOC Block', 'wpwing-table-of-contents-block' ),
 		'manage_options',
