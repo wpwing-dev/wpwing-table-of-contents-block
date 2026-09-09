@@ -294,6 +294,15 @@ function wpwing_toc_add_settings_page() {
 }
 add_action( 'admin_menu', 'wpwing_toc_add_settings_page' );
 
+// The bare "WPWing" parent page has no content of its own - send visitors straight to ours.
+function wpwing_toc_redirect_parent_menu() {
+	if ( isset( $_GET['page'] ) && 'wpwing' === $_GET['page'] ) {
+		wp_safe_redirect( admin_url( 'admin.php?page=wpwing-toc' ) );
+		exit;
+	}
+}
+add_action( 'admin_init', 'wpwing_toc_redirect_parent_menu', 15 );
+
 function wpwing_toc_render_settings_page() {
 	$settings  = wpwing_toc_get_settings();
 	$positions = [
