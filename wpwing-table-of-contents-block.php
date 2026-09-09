@@ -322,7 +322,7 @@ function wpwing_toc_render_settings_page() {
 		<?php endif; ?>
 		<?php if ( false !== wpwing_toc_get_luckywp_settings() ) : ?>
 			<h2><?php esc_html_e( 'Import settings', 'wpwing-table-of-contents-block' ); ?></h2>
-			<p><?php esc_html_e( 'LuckyWP Table of Contents settings were found on this site. Import its heading levels, list style, title, and smooth-scroll settings into the defaults below.', 'wpwing-table-of-contents-block' ); ?></p>
+			<p><?php esc_html_e( 'LuckyWP Table of Contents settings were found on this site. Import its list style, title, minimum-headings threshold, and smooth-scroll settings into the defaults below.', 'wpwing-table-of-contents-block' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<?php wp_nonce_field( 'wpwing_toc_import_luckywp' ); ?>
 				<input type="hidden" name="action" value="wpwing_toc_import_luckywp" />
