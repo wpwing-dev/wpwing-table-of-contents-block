@@ -1,8 +1,8 @@
 # Update Plan - Next 4 Weekly Releases
 
-Written: 11/07/2026, updated 01/09/2026. Cadence: one release every Sunday (slipping in
+Written: 11/07/2026, updated 09/09/2026. Cadence: one release every Sunday (slipping in
 practice - 1.8.0 shipped Monday 24/08, not Sunday 26/07; 1.9.0 shipped Tuesday 01/09, not
-Sunday 30/08). Current version: 1.9.0 (01/09/2026).
+Sunday 30/08; 1.10.0 shipped Wednesday 09/09, not Sunday 06/09). Current version: 1.10.0 (09/09/2026).
 
 Strategy for the month: close the top gaps found in [competitors.md](competitors.md) - quick wins first, then the auto-insert headline feature, then lightweight/quality parity with SimpleTOC, then start capturing users from abandoned competitors.
 
@@ -46,11 +46,12 @@ this time: this release is foundation/quality work only, no external dependency.
   settings-page-to-render check for the new global defaults - runs against the `make dev`
   stack via `npm run test:e2e`. Requires Node 20+ (see readme.md Requirements).
 
-## v1.10.0 - capture migration pools
+## v1.10.0 - capture migration pools - DONE, implemented 09/09
 
-- New: One-click settings importer from LuckyWP Table of Contents (100k installs, abandoned since 04/2025) - map heading levels, list style, title, smooth scroll to our attributes/defaults. Stretch: Table of Contents Plus import.
-- Improvement: readme.txt refresh targeting "LuckyWP alternative" / "Table of Contents Plus alternative" search terms; add FAQ entries about switching.
-- Housekeeping: bump "Tested up to", screenshots for the new settings screen.
+- New: One-click settings importer from LuckyWP Table of Contents (100k installs, abandoned since 04/2025) - maps heading levels, list style, title, and smooth scroll to our attributes/defaults. An "Import settings" section appears on Settings > TOC Block whenever LuckyWP's settings are found.
+- Dropped: the stretch Table of Contents Plus import. Research while starting on it found TOC+ was quietly acquired by the AIOSEO team and completely rewritten in 07/2026 (new settings UI, live preview, actively shipping, "Tested up to" matches ours) - it's no longer the stale, abandoned plugin competitors.md assumed, so the "capture an abandoned migration pool" rationale doesn't hold. competitors.md still needs a refresh to reflect this; treat TOC+ as a live, AIOSEO-backed competitor in the next planning pass, not a migration source.
+- Improvement: readme.txt refresh targeting "LuckyWP alternative" search terms; added a FAQ entry about switching. Scoped to LuckyWP only since the TOC+ angle was dropped.
+- Housekeeping: version bump to 1.10.0. "Tested up to" stays at 7.1 - still current, nothing to bump. Added a `make screenshots` command (Playwright-driven) that captures all 8 WordPress.org listing screenshots into `wporg-assets/` and regenerates readme.txt's Screenshots section from the same caption list, including two new shots for the settings screen and the LuckyWP import.
 
 ## Backlog (not this month)
 

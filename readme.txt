@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
-Stable tag:        1.9.0
+Stable tag:        1.10.0
 Requires at least: 5.8
 Tested up to:      7.1
 Requires PHP:      7.1
@@ -101,6 +101,11 @@ Yes. Go to **Settings > TOC Block** on this plugin. If LuckyWP's settings are st
 8. One-click settings import from LuckyWP Table of Contents
 
 == Changelog ==
+
+= 1.10.0 - 09/09/2026 =
+
+* New: One-click settings importer from LuckyWP Table of Contents - maps heading levels, list style, title text, and smooth-scroll settings onto this plugin's block defaults and auto-insert settings. An "Import settings" section appears automatically on Settings > TOC Block whenever LuckyWP's saved settings are found on your site.
+* Improvement: readme refresh for readers switching from LuckyWP Table of Contents, including a new FAQ entry on the import.
 
 = 1.9.0 - 01/09/2026 =
 
