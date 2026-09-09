@@ -12,7 +12,7 @@ Automatically generate a clean, nested Table of Contents from your post headings
 
 - **JavaScript-free by default** - interactive extras (collapse, back-to-top, copy link) print a few lines of inline script only when enabled
 - **Automated** - scans content headings and generates anchor links instantly
-- **Auto-insert** - show the TOC on chosen post types without placing the block; pick the position (before first heading, after first paragraph, or top of content) under Settings > TOC Block
+- **Auto-insert** - show the TOC on chosen post types without placing the block; pick the position (before first heading, after first paragraph, or top of content) under WPWing > TOC Block
 - **Respects custom anchors** - headings with their own HTML anchor keep it; the TOC links to it instead of overwriting
 - **Collapsed by default** - optionally start the collapsible TOC hidden
 - **Search snippet control** - optional `data-nosnippet` attribute keeps TOC text out of Google result snippets

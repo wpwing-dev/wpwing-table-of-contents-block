@@ -34,7 +34,7 @@ Unlike plugins that lock basic layout settings behind a pro version, you get ful
 
 ### 🚀 Key Features At A Glance
 * **100% Automated:** Scans content instantly to generate accurate internal jump links.
-* **Auto-Insert:** Optionally show the TOC on posts, pages, or custom post types without adding the block - choose the position under Settings > TOC Block. Placing the block manually in a post always overrides it.
+* **Auto-Insert:** Optionally show the TOC on posts, pages, or custom post types without adding the block - choose the position under WPWing > TOC Block. Placing the block manually in a post always overrides it.
 * **Pure Performance:** No frontend JavaScript unless you enable an interactive feature - fully optimized for page speed.
 * **Designed for Gutenberg:** Integrates natively into the WordPress block editor experience.
 * **Responsive Layouts:** Inherits theme styles fluidly for perfect rendering on mobile devices.
@@ -47,7 +47,7 @@ We ensure our block plays nicely with your entire WordPress stack.
 * 100% compatible with popular **AMP plugins** for mobile-first rendering.
 
 ### 🔄 Switching From LuckyWP Table of Contents?
-LuckyWP Table of Contents hasn't been updated since April 2025. If you're moving off it, go to **Settings > TOC Block** - when LuckyWP's saved settings are detected on your site, an **Import from LuckyWP Table of Contents** button appears automatically. One click carries over your list style, title text, minimum-headings threshold, and smooth-scroll offset (plus auto-insert settings, if you had those configured in LuckyWP), so you don't have to rebuild your configuration by hand.
+LuckyWP Table of Contents hasn't been updated since April 2025. If you're moving off it, go to **WPWing > TOC Block** - when LuckyWP's saved settings are detected on your site, an **Import from LuckyWP Table of Contents** button appears automatically. One click carries over your list style, title text, minimum-headings threshold, and smooth-scroll offset (plus auto-insert settings, if you had those configured in LuckyWP), so you don't have to rebuild your configuration by hand.
 
 ### 🧑‍💻 Dedicated Startup Support
 At WPWing, we are committed to building high-quality, lightweight utility plugins for WordPress and WooCommerce. Our dedicated support team responds rapidly to the support forums to help you resolve any issues instantly.
@@ -78,7 +78,7 @@ No. The plugin generates lightweight, valid, and semantic HTML and never loads e
 Select the block, open the **Links & Behavior** panel, and set **Scroll offset (px)** to roughly the height of your sticky header. Headings will then land below the header instead of behind it. This is done with pure CSS - no JavaScript is added.
 
 = Can the TOC appear automatically without adding the block to every post? =
-Yes. Go to **Settings > TOC Block**, check the post types you want, and pick a position (before the first heading, after the first paragraph, or top of content). The automatic TOC uses the same fast renderer as the block, skips short posts below your minimum-headings threshold, and steps aside on any post where you place the block manually.
+Yes. Go to **WPWing > TOC Block**, check the post types you want, and pick a position (before the first heading, after the first paragraph, or top of content). The automatic TOC uses the same fast renderer as the block, skips short posts below your minimum-headings threshold, and steps aside on any post where you place the block manually.
 
 = I set a custom HTML anchor on a heading - will the TOC use it? =
 Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** field, the TOC links to that anchor instead of generating one, so your existing incoming links keep working.
@@ -87,7 +87,7 @@ Yes. If you give a heading your own anchor via its **Advanced > HTML anchor** fi
 Yes. The block outputs a `nav` landmark around a real list, uses actual `button` elements with correct ARIA states for the collapsible toggle, and keeps visible focus outlines on every interactive control - the native `details`/`summary` collapse mode gets keyboard support for free from the browser. Colors you choose yourself (via the block's native color controls) aren't checked for contrast, so keep that in mind if you customize the default styling.
 
 = I'm using LuckyWP Table of Contents - can I switch without losing my settings? =
-Yes. Go to **Settings > TOC Block** on this plugin. If LuckyWP's settings are still saved on your site, an **Import from LuckyWP Table of Contents** button appears there and copies over your list style, title text, minimum-headings threshold, and smooth-scroll offset in one click. Heading level range (min/max) isn't imported, since LuckyWP's depth setting is relative to each post and doesn't translate to a single sitewide value - set that one yourself.
+Yes. Go to **WPWing > TOC Block** on this plugin. If LuckyWP's settings are still saved on your site, an **Import from LuckyWP Table of Contents** button appears there and copies over your list style, title text, minimum-headings threshold, and smooth-scroll offset in one click. Heading level range (min/max) isn't imported, since LuckyWP's depth setting is relative to each post and doesn't translate to a single sitewide value - set that one yourself.
 
 == Screenshots ==
 
@@ -104,7 +104,8 @@ Yes. Go to **Settings > TOC Block** on this plugin. If LuckyWP's settings are st
 
 = 1.10.0 - 09/09/2026 =
 
-* New: One-click settings importer from LuckyWP Table of Contents - maps list style, title text, minimum-headings threshold, and smooth-scroll settings onto this plugin's block defaults, plus auto-insert settings when LuckyWP had those configured. An "Import settings" section appears automatically on Settings > TOC Block whenever LuckyWP's saved settings are found on your site.
+* New: One-click settings importer from LuckyWP Table of Contents - maps list style, title text, minimum-headings threshold, and smooth-scroll settings onto this plugin's block defaults, plus auto-insert settings when LuckyWP had those configured. An "Import settings" section appears automatically on WPWing > TOC Block whenever LuckyWP's saved settings are found on your site.
+* Improvement: Settings moved from Settings > TOC Block to a dedicated WPWing menu, so all WPWing plugins share one branded location instead of each burying their settings under the generic Settings menu.
 * Improvement: readme refresh for readers switching from LuckyWP Table of Contents, including a new FAQ entry on the import.
 
 = 1.9.0 - 01/09/2026 =
