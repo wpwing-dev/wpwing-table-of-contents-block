@@ -147,7 +147,7 @@ const SHOTS = [
 		caption: 'TOC Block settings screen - global defaults and auto-insert',
 		context: 'admin',
 		capture: async (page) => {
-			await page.goto(`${BASE_URL}/wp-admin/options-general.php?page=wpwing-toc`);
+			await page.goto(`${BASE_URL}/wp-admin/admin.php?page=wpwing-toc`);
 			await page.locator('h2:has-text("New block defaults")').waitFor();
 			await page.screenshot({ path: shotPath('screenshot-7.png') });
 		},
@@ -158,7 +158,7 @@ const SHOTS = [
 		context: 'admin',
 		// The Makefile seeds fake lwptoc_* options first so the import section actually renders.
 		capture: async (page) => {
-			await page.goto(`${BASE_URL}/wp-admin/options-general.php?page=wpwing-toc`);
+			await page.goto(`${BASE_URL}/wp-admin/admin.php?page=wpwing-toc`);
 			const heading = page.locator('h2:has-text("Import settings")');
 			const form = page.locator('form:has(input[value="wpwing_toc_import_luckywp"])');
 			await form.waitFor();

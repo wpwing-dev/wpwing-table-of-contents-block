@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const { getPostUrl, login } = require('./helpers');
 
-const SETTINGS_URL_PATH = '/wp-admin/options-general.php?page=wpwing-toc';
+const SETTINGS_URL_PATH = '/wp-admin/admin.php?page=wpwing-toc';
 
 // Resets the shared dev stack's block defaults so a test run doesn't leave state behind
 // for the next run or for manual testing in the same environment.

@@ -62,7 +62,7 @@ function wpwing_toc_plugin_meta( $links, $file ) {
 
 // Add a Settings link on the plugins list row.
 function wpwing_toc_plugin_action_links( $links ) {
-	array_unshift( $links, '<a href="' . esc_url( admin_url( 'options-general.php?page=wpwing-toc' ) ) . '">' . __( 'Settings', 'wpwing-table-of-contents-block' ) . '</a>' );
+	array_unshift( $links, '<a href="' . esc_url( admin_url( 'admin.php?page=wpwing-toc' ) ) . '">' . __( 'Settings', 'wpwing-table-of-contents-block' ) . '</a>' );
 
 	return $links;
 }
@@ -244,7 +244,7 @@ function wpwing_toc_handle_luckywp_import() {
 	}
 	check_admin_referer( 'wpwing_toc_import_luckywp' );
 
-	$redirect = admin_url( 'options-general.php?page=wpwing-toc' );
+	$redirect = admin_url( 'admin.php?page=wpwing-toc' );
 	$luckywp  = wpwing_toc_get_luckywp_settings();
 
 	if ( false === $luckywp ) {
