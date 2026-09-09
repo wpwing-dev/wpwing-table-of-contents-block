@@ -82,7 +82,7 @@ The compiled build output goes to the `build/` directory. The `dist/` script pro
 
 ```bash
 # Add the Docker hostname once
-echo "127.0.0.1 toc.local" | sudo tee -a /etc/hosts
+echo "127.0.0.3 toc.local" | sudo tee -a /etc/hosts
 
 # Start WordPress in Docker
 make dev

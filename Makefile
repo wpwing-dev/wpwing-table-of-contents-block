@@ -63,7 +63,7 @@ screenshots: ## Capture WordPress.org listing screenshots into wporg-assets/ and
 	$(MAKE) dev
 	docker compose --profile dev run --rm wpcli wp option update lwptoc_general '{"min":2,"depth":4,"hierarchical":true,"numeration":"decimalnested","title":"Contents","toggle":true,"smoothScroll":true,"smoothScrollOffset":40}' --format=json --allow-root
 	docker compose --profile dev run --rm wpcli wp option update lwptoc_autoInsert '{"enable":true,"position":"beforefirstheading","postTypes":["post"]}' --format=json --allow-root
-	docker run --rm --network host --add-host=toc.local:127.0.0.4 -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) node tools/screenshots.js; status=$$?; \
+	docker run --rm --network host --add-host=toc.local:127.0.0.3 -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) node tools/screenshots.js; status=$$?; \
 	docker run --rm -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) chown -R $(shell id -u):$(shell id -g) wporg-assets readme.txt; \
 	docker compose --profile dev run --rm wpcli wp option delete lwptoc_general lwptoc_autoInsert --allow-root; \
 	exit $$status
