@@ -12,3 +12,8 @@
 ## Punctuation
 
 - Use a plain hyphen (`-`) as a separator in prose and changelogs. Never use an en-dash (`–`) or em-dash (`—`).
+
+## Git
+
+- Commit directly to `master`. Do not create a branch unless I ask for one.
+- Keep unrelated work in separate commits, even on the same branch.
