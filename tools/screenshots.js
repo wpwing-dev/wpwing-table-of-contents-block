@@ -102,11 +102,24 @@ const SHOTS = [
 			);
 			await search.waitFor();
 			await search.fill( 'toc' );
-			await page
-				.locator(
-					'.block-editor-block-types-list__item:has-text("Table Of Contents")'
-				)
-				.waitFor();
+			// Our block is in the unfiltered list too, so waiting on it alone can shoot the
+			// default blocks before the search applies. Paragraph only appears unfiltered:
+			// ours present and Paragraph gone means the search results have rendered. Matching
+			// on the per-block class also avoids :has-text() resolving to a rival TOC plugin.
+			await page.waitForFunction( () => {
+				const items = Array.from(
+					document.querySelectorAll(
+						'.block-editor-block-types-list__item'
+					)
+				);
+				const has = ( name ) =>
+					items.some( ( el ) =>
+						el.classList.contains(
+							`editor-block-list-item-${ name }`
+						)
+					);
+				return has( 'wpwing-toc' ) && ! has( 'paragraph' );
+			} );
 			await page.screenshot( { path: shotPath( 'screenshot-2.png' ) } );
 		},
 	},
@@ -150,11 +163,23 @@ const SHOTS = [
 			);
 			await dismissWelcomeGuide( page );
 			const frame = page.frameLocator( 'iframe[name="editor-canvas"]' );
-			await frame.locator( '[data-type="wpwing/toc"]' ).first().click();
+			const block = frame.locator( '[data-type="wpwing/toc"]' ).first();
+			await block.click();
+			// The sidebar element exists before the click, so waiting on it alone can screenshot
+			// an empty panel. Wait for the selection to register and for our block's own
+			// inspector controls to render.
+			await frame
+				.locator( '[data-type="wpwing/toc"].is-selected' )
+				.first()
+				.waitFor();
 			const sidebar = page.locator(
 				'.interface-interface-skeleton__sidebar'
 			);
 			await sidebar.waitFor();
+			await sidebar
+				.locator( 'h2:has-text("Content"), .block-editor-block-card' )
+				.first()
+				.waitFor();
 			await sidebar.screenshot( {
 				path: shotPath( 'screenshot-4.png' ),
 			} );
@@ -267,7 +292,12 @@ async function main() {
 		process.stdout.write(
 			`Capturing ${ shot.file } (${ shot.caption })... `
 		);
-		await shot.capture( page );
+		try {
+			await shot.capture( page );
+		} catch {
+			process.stdout.write( 'retrying... ' );
+			await shot.capture( page );
+		}
 		console.log( 'done' );
 	}
 

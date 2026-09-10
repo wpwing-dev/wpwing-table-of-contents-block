@@ -96,9 +96,15 @@ check: ## Verify version strings are consistent across all files
 
 screenshots: ## Capture WordPress.org listing screenshots into wporg-assets/ and update readme.txt captions
 	$(MAKE) dev
+# Listing assets must show only this plugin: other plugins add admin notices and rival blocks
+# to the inserter. The import shot reads the seeded lwptoc_* options, not the LuckyWP plugin.
 	docker compose --profile dev run --rm wpcli wp option update lwptoc_general '{"min":2,"depth":4,"hierarchical":true,"numeration":"decimalnested","title":"Contents","toggle":true,"smoothScroll":true,"smoothScrollOffset":40}' --format=json --allow-root
 	docker compose --profile dev run --rm wpcli wp option update lwptoc_autoInsert '{"enable":true,"position":"beforefirstheading","postTypes":["post"]}' --format=json --allow-root
+	@OTHERS=$$(docker compose --profile dev run --rm -T wpcli wp plugin list --status=active --field=name --allow-root 2>/dev/null | tr -d '\r' | grep -v '^wpwing-table-of-contents-block$$' | tr '\n' ' '); \
+	[ -z "$$OTHERS" ] || echo "Deactivating for capture: $$OTHERS"; \
+	[ -z "$$OTHERS" ] || docker compose --profile dev run --rm -T wpcli wp plugin deactivate $$OTHERS --allow-root >/dev/null 2>&1; \
 	docker run --rm --network host --add-host=toc.local:127.0.0.3 -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) node tools/screenshots.js; status=$$?; \
+	[ -z "$$OTHERS" ] || docker compose --profile dev run --rm -T wpcli wp plugin activate $$OTHERS --allow-root >/dev/null 2>&1; \
 	docker run --rm -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) chown -R $(shell id -u):$(shell id -g) wporg-assets $(SRC_DIR)/readme.txt; \
 	docker compose --profile dev run --rm wpcli wp option delete lwptoc_general lwptoc_autoInsert --allow-root; \
 	exit $$status
