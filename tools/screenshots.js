@@ -50,6 +50,16 @@ async function dismissWelcomeGuide( page ) {
 	}
 }
 
+// Other active plugins and core print their own admin notices, which otherwise land in a
+// listing screenshot and advertise somebody else's plugin. Ours only appear after an import
+// POST, which no shot performs, so hiding the lot is safe.
+async function hideAdminNotices( page ) {
+	await page.addStyleTag( {
+		content:
+			'#wpbody-content .notice, #wpbody-content .updated, #wpbody-content .error, .update-nag { display: none !important; }',
+	} );
+}
+
 // Bounding boxes from a page.frameLocator() are already page-relative, so a block inside the
 // editor's iframe canvas and its toolbar in the top-level document can share one clip rect.
 function unionClip( ...boxes ) {
@@ -185,6 +195,7 @@ const SHOTS = [
 				`${ BASE_URL }/wp-admin/admin.php?page=wpwing-toc`
 			);
 			await page.locator( 'h2:has-text("New block defaults")' ).waitFor();
+			await hideAdminNotices( page );
 			await page.screenshot( { path: shotPath( 'screenshot-7.png' ) } );
 		},
 	},
@@ -202,6 +213,7 @@ const SHOTS = [
 				'form:has(input[value="wpwing_toc_import_luckywp"])'
 			);
 			await form.waitFor();
+			await hideAdminNotices( page );
 			const clip = unionClip(
 				await heading.boundingBox(),
 				await form.boundingBox()
