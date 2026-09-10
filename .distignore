@@ -1,45 +1,8 @@
-# Development dependencies
-node_modules/
+# Paths are relative to src/ - `make dist` stages src/ into the zip through this list.
+# Everything outside src/ (tooling, docker, tests, docs) is already excluded by being outside it.
 
-# Source files (not needed in distribution — only build/ output is)
-src/
+# Block sources; only the compiled assets/public/ output ships
+assets/src/
 
-# Git metadata
-.git/
-.gitignore
-
-# Editor config
-.editorconfig
-
-# Claude Code context
-CLAUDE.md
-.claude/
-
-# npm files
-package.json
-package-lock.json
-
-# Internal docs (GitHub-only; public docs/ ships in the zip)
-readme.md
-doc/
-
-# Local dev environment and test suite
-docker-compose.yml
-docker/
-Makefile
-.env.example
-tests/
-playwright.config.js
-
-# WordPress.org listing assets (screenshots) and the tool that generates them - live in SVN, not the plugin zip
-wporg-assets/
-tools/
-
-# Build output folder
-dist/
-
-# This file
-.distignore
-
-# Previous zip artifacts
-*.zip
+*.map
+.DS_Store

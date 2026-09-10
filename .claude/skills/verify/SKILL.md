@@ -9,14 +9,14 @@ The Local (by Flywheel) site in this tree is usually NOT running (its per-site M
 
 ## Recipe
 
-1. `npm run build` in the plugin dir (frontend renders from `build/`).
-2. In a scratch dir, write a `docker-compose.yml` with `db` (mysql:8.0), `wp` (wordpress:latest, port 9412, plugin dir bind-mounted into `/var/www/html/wp-content/plugins/wpwing-table-of-contents-block`, named volume for `/var/www/html`), and `cli` (wordpress:cli, same mounts, `user: "33:33"`).
+1. `npm run build` at the repo root (frontend renders from `src/assets/public/`; the shippable plugin is `src/`, not the repo root).
+2. In a scratch dir, write a `docker-compose.yml` with `db` (mysql:8.0), `wp` (wordpress:latest, port 9412, the repo's `src/` bind-mounted into `/var/www/html/wp-content/plugins/wpwing-table-of-contents-block`, named volume for `/var/www/html`), and `cli` (wordpress:cli, same mounts, `user: "33:33"`).
 3. `docker compose up -d db wp`, then wait: `until docker compose exec db mysqladmin ping -uwp -pwp --silent; do sleep 3; done`
 4. `docker compose run --rm cli wp core install --url=http://localhost:9412 --title=X --admin_user=admin --admin_password=admin --admin_email=admin@example.com --skip-email`
 5. `docker compose run --rm cli wp plugin activate wpwing-table-of-contents-block`
 6. Seed posts via **stdin** (bind-mounted scratch files are unreadable by uid 33): `docker compose run --rm -T cli wp post create - --post_title=T --post_status=publish --porcelain < post.html`
 7. `curl -s http://localhost:9412/?p=ID` and grep the output.
-8. JS behavior: headless Chrome exists at `/usr/bin/google-chrome`; playwright lib is in the plugin's `node_modules` - run driver scripts with `NODE_PATH=<plugin>/node_modules node drive.js`.
+8. JS behavior: headless Chrome exists at `/usr/bin/google-chrome`; playwright lib is in the repo root's `node_modules` - run driver scripts with `NODE_PATH=<repo>/node_modules node drive.js`.
 9. Tear down: `docker compose down -v`.
 
 ## What to check on any anchor-related change

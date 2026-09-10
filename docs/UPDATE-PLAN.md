@@ -37,7 +37,7 @@ one rather than a better-looking one.
   feature that cannot meet this bar gets cut, not shipped with an asterisk.
 - **Credibility before breadth.** SimpleTOC holds 4.9 across 77 reviews with 18 locales and
   PHPUnit coverage. We ship zero locales and no unit tests, out of a single 1,211-line PHP
-  file. R1 and R2 fix that before the feature work lands on top of it.
+  file at `src/wpwing-table-of-contents-block.php`. R1 and R2 fix that before the feature work lands on top of it.
 - **Cadence is a ranking input, but QA capacity is the limit.** Every release passes the
   `/verify` skill against the `make dev` stack and a green `npm run test:e2e` before tagging.
   If a feature is not ready, the release ships smaller - it does not ship late, and it does not
@@ -83,8 +83,8 @@ plugin header already declaring `Text Domain` and `Domain Path: /languages`. Sim
 locales. Translation completeness feeds directory ranking in every non-English locale, which is
 search volume we currently do not appear in at all.
 
-- Create `languages/`, generate `wpwing-table-of-contents-block.pot`, and commit it.
-- Audit every user-facing string in `wpwing-table-of-contents-block.php` and `src/edit.js` for
+- Create `src/languages/`, generate `wpwing-table-of-contents-block.pot`, and commit it.
+- Audit every user-facing string in `src/wpwing-table-of-contents-block.php` and `src/assets/src/edit.js` for
   the correct text domain, and add translator comments to every `sprintf` - the heading-count
   notice around line 569 already has one; the rest need the same treatment.
 - Submit the project to translate.wordpress.org and seed de_DE, es_ES, fr_FR, pt_BR, nl_NL.
@@ -98,7 +98,7 @@ search volume we currently do not appear in at all.
 Everything in this plan after R2 lands on top of a single 1,211-line procedural PHP file with
 no unit tests. This release is the last cheap moment to fix that.
 
-- Split `wpwing-table-of-contents-block.php` into `includes/`: block registration and render,
+- Split `src/wpwing-table-of-contents-block.php` into `src/includes/`: block registration and render,
   settings and defaults, auto-insert content filter, the importer, admin screen. Keep the
   function names and hook names identical - this is a file move, not a rewrite, and nothing
   user-visible may change.
@@ -168,7 +168,7 @@ consecutive weeks.
   classic theme, with sticky and scrollspy both enabled.
 - Bump "Tested up to" if a WordPress release has landed.
 - Clear the support backlog and convert every recurring question into a readme FAQ entry and a
-  `docs/index.html` section, per MARKETING-PLAN.md section 5.
+  `src/docs/index.html` section, per MARKETING-PLAN.md section 5.
 
 ### R7 - 16/12/2026 - v1.16.0: Rich TOC importer
 
@@ -243,7 +243,7 @@ is where users actually read them.
   reviews cite FSE compatibility explicitly, and our auto-insert runs on `the_content` at
   priority 0, which behaves differently inside a Query Loop. Test it, document the result.
 - `@wordpress/scripts` and block API currency check; `.pot` regeneration after two quarters of
-  string churn; regenerate `docs/index.html`.
+  string churn; regenerate `src/docs/index.html`.
 
 ### R11 - 24/02/2027 - v1.20.0: Progress bar and per-device visibility
 
@@ -295,10 +295,10 @@ No release is tagged until all of these pass:
 5. Settings preserved across upgrade from the previous version - explicitly checked whenever
    the options schema changes.
 6. Version bumped in **all four** places: the plugin header `Version:`, `readme.txt` Stable tag,
-   `package.json`, and `src/block.json`.
-7. Changelog entry in `readme.txt` including at least one fix or improvement, not only new
+   `package.json`, and `src/assets/src/block.json`. `make check` verifies all four agree.
+7. Changelog entry in `src/readme.txt` including at least one fix or improvement, not only new
    features. A release that is all "New:" lines means the bug backlog is not being worked.
-8. `docs/index.html` updated when user-facing behavior changed.
+8. `src/docs/index.html` updated when user-facing behavior changed.
 
 ---
 

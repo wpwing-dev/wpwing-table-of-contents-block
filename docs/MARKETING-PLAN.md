@@ -47,7 +47,8 @@ of those inputs.
 
 ### 1b. Live preview button (this month, high leverage, almost nobody does it)
 
-- [ ] Add a WordPress Playground **blueprint** (`assets/blueprints/blueprint.json` in SVN) so
+- [ ] Add a WordPress Playground **blueprint** (`assets/blueprints/blueprint.json` in the SVN
+      repo, which is separate from this repo's `src/assets/`) so
       the listing gets a "Live Preview" button: a seeded long post with real headings, the
       TOC block already placed, auto-insert configured.
 - None of the nine tracked competitors ships one. It converts undecided visitors, and it
@@ -86,7 +87,7 @@ SimpleTOC ships 18 locales; we ship none, and the plugin has no `languages/` dir
 `.pot` file at all. Translation completeness feeds directory ranking in non-English locales
 and unlocks entire search markets we currently do not appear in.
 
-- [ ] Generate and commit a `.pot`, then open the project on translate.wordpress.org.
+- [ ] Generate and commit `src/languages/*.pot`, then open the project on translate.wordpress.org.
 - [ ] Seed 3-5 high-volume locales (de_DE, es_ES, fr_FR, pt_BR, nl_NL) so the project has
       momentum before asking for volunteer translation editors.
 
@@ -128,7 +129,7 @@ Directory search saturates quickly at low install counts; Google is what breaks 
 - [ ] **Technical posts that only we can write** and that reinforce positioning: "Why your
       table of contents plugin is hurting Core Web Vitals", "Building a zero-JavaScript
       collapsible with `<details>`", "Heading anchors, `scroll-margin-top`, and sticky headers".
-- [ ] **Docs as SEO surface.** `docs/index.html` ships with the plugin and is linked from the
+- [ ] **Docs as SEO surface.** `src/docs/index.html` ships with the plugin and is linked from the
       plugin row. Publish the same content on the site with proper headings and internal links.
 - [ ] Target one keyword cluster per month, not ten. Measure with Search Console position
       changes, not traffic - traffic lags position by months at this scale.
@@ -165,7 +166,7 @@ At this size every support thread is a review candidate and a public quality sig
 
 - [ ] Respond to every wordpress.org thread within 24 hours, and mark resolved threads
       resolved - resolution rate is a documented ranking input.
-- [ ] Convert every recurring question into a readme FAQ entry and a `docs/index.html` section
+- [ ] Convert every recurring question into a readme FAQ entry and a `src/docs/index.html` section
       in the same release the question is asked.
 - [ ] Publish the fix in the very next biweekly release and reply in-thread with the version
       number. "Fixed in 1.13.0, released today" is the single most effective review request

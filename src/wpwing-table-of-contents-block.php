@@ -25,7 +25,7 @@ function wpwing_toc_register_block() {
 	add_filter( 'plugin_row_meta', 'wpwing_toc_plugin_meta', 10, 2 );
 	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wpwing_toc_plugin_action_links' );
 
-	register_block_type( __DIR__ . '/build', [
+	register_block_type( __DIR__ . '/assets/public', [
 		'render_callback' => 'wpwing_toc_render_callback',
 	] );
 }

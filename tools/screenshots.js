@@ -8,7 +8,7 @@ const { chromium } = require('playwright');
 const BASE_URL = process.env.WPWING_TOC_BASE_URL || 'https://toc.local';
 const REPO_ROOT = path.join(__dirname, '..');
 const OUT_DIR = path.join(REPO_ROOT, 'wporg-assets');
-const README_PATH = path.join(REPO_ROOT, 'readme.txt');
+const README_PATH = path.join(REPO_ROOT, 'src', 'readme.txt');
 const VIEWPORT = { width: 1280, height: 800 };
 
 function shotPath(file) {

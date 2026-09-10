@@ -1,4 +1,7 @@
 PLUGIN_SLUG = wpwing-table-of-contents-block
+SRC_DIR     = src
+DIST_DIR    = dist
+BUILD_DIR   = $(DIST_DIR)/$(PLUGIN_SLUG)
 # Must match the @playwright/test version in package.json - browsers are pinned per release.
 PLAYWRIGHT_IMAGE = mcr.microsoft.com/playwright:v1.62.1-noble
 
@@ -55,16 +58,48 @@ format: ## Format source files
 	npm run format
 .PHONY: format
 
-dist: ## Build the distributable plugin zip
-	npm run dist
+dist: clean-build build ## Build the distributable plugin zip into dist/
+	mkdir -p $(BUILD_DIR)
+	rsync -r --exclude-from=.distignore $(SRC_DIR)/ $(BUILD_DIR)/
+	cd $(DIST_DIR) && zip -qr $(PLUGIN_SLUG).zip $(PLUGIN_SLUG)/
+	rm -rf $(BUILD_DIR)
+	unzip -t $(DIST_DIR)/$(PLUGIN_SLUG).zip > /dev/null
+	@echo "Built: $(DIST_DIR)/$(PLUGIN_SLUG).zip"
 .PHONY: dist
+
+clean-build: ## Remove the staging build dir
+	rm -rf $(BUILD_DIR)
+.PHONY: clean-build
+
+clean: ## Remove the entire dist directory
+	rm -rf $(DIST_DIR)
+.PHONY: clean
+
+version: ## Bump version strings - usage: make version V=1.11.0
+	@[ -n "$(V)" ] || (echo "Usage: make version V=1.11.0" && exit 1)
+	sed -i "s/\\(Version:[[:space:]]*\\)[0-9][0-9.]*/\\1$(V)/" $(SRC_DIR)/$(PLUGIN_SLUG).php
+	sed -i "s/\\(Stable tag:[[:space:]]*\\)[0-9][0-9.]*/\\1$(V)/" $(SRC_DIR)/readme.txt
+	sed -i "s/\"version\": \".*\"/\"version\": \"$(V)\"/" package.json
+	sed -i "s/\"version\": \".*\"/\"version\": \"$(V)\"/" $(SRC_DIR)/assets/src/block.json
+	@echo "Version bumped to $(V)"
+.PHONY: version
+
+check: ## Verify version strings are consistent across all files
+	@V=$$(grep 'Version:' $(SRC_DIR)/$(PLUGIN_SLUG).php | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+' | head -1); \
+	echo "Checking version $$V ..."; \
+	errors=0; \
+	grep -q "\"version\": \"$$V\"" package.json                   || { echo "  FAIL: version in package.json"; errors=1; }; \
+	grep -q "\"version\": \"$$V\"" $(SRC_DIR)/assets/src/block.json || { echo "  FAIL: version in block.json"; errors=1; }; \
+	grep -qP "Stable tag:\\s+$$V" $(SRC_DIR)/readme.txt             || { echo "  FAIL: Stable tag in readme.txt"; errors=1; }; \
+	[ $$errors -eq 0 ] && echo "  All version strings match $$V" || exit 1
+.PHONY: check
 
 screenshots: ## Capture WordPress.org listing screenshots into wporg-assets/ and update readme.txt captions
 	$(MAKE) dev
 	docker compose --profile dev run --rm wpcli wp option update lwptoc_general '{"min":2,"depth":4,"hierarchical":true,"numeration":"decimalnested","title":"Contents","toggle":true,"smoothScroll":true,"smoothScrollOffset":40}' --format=json --allow-root
 	docker compose --profile dev run --rm wpcli wp option update lwptoc_autoInsert '{"enable":true,"position":"beforefirstheading","postTypes":["post"]}' --format=json --allow-root
 	docker run --rm --network host --add-host=toc.local:127.0.0.3 -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) node tools/screenshots.js; status=$$?; \
-	docker run --rm -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) chown -R $(shell id -u):$(shell id -g) wporg-assets readme.txt; \
+	docker run --rm -v $(CURDIR):/work -w /work $(PLAYWRIGHT_IMAGE) chown -R $(shell id -u):$(shell id -g) wporg-assets $(SRC_DIR)/readme.txt; \
 	docker compose --profile dev run --rm wpcli wp option delete lwptoc_general lwptoc_autoInsert --allow-root; \
 	exit $$status
 .PHONY: screenshots

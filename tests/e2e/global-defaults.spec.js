@@ -47,8 +47,8 @@ test('settings-page block defaults flow through to a block with no explicit attr
 		const firstHeading = page.locator('.entry-content :is(h2, h3, h4, h5, h6)[id]').first();
 		await expect(firstHeading).toHaveCSS('scroll-margin-top', '80px');
 
-		// Copy-link is hover-revealed; keyboard/touch users get it via :focus-visible instead (see
-		// doc/accessibility-audit.md), so force the click past Playwright's hover-visibility check.
+		// Copy-link is hover-revealed; keyboard/touch users get it via :focus-visible instead, so
+		// force the click past Playwright's hover-visibility check.
 		const firstRow = page.locator('.wpwing-toc-list li').first();
 		// Direct-child combinator: nested sub-headings are also <li> descendants of the first
 		// row and carry their own copy buttons, which a plain descendant selector would also match.

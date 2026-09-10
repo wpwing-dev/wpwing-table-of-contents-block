@@ -39,7 +39,7 @@ services:
             $$_SERVER['HTTPS'] = 'on';
         }
     volumes:
-      - .:/var/www/html/wp-content/plugins/wpwing-table-of-contents-block
+      - ./src:/var/www/html/wp-content/plugins/wpwing-table-of-contents-block
       - wp_data:/var/www/html
     healthcheck:
       test: ["CMD", "curl", "-sf", "http://localhost/wp-login.php"]
@@ -56,7 +56,7 @@ services:
       wordpress:
         condition: service_healthy
     volumes:
-      - .:/var/www/html/wp-content/plugins/wpwing-table-of-contents-block
+      - ./src:/var/www/html/wp-content/plugins/wpwing-table-of-contents-block
       - ./docker/wordpress:/docker/wordpress
       - wp_data:/var/www/html
     environment:

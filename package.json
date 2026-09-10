@@ -4,17 +4,18 @@
 	"description": "Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript.",
 	"author": "WPWing",
 	"license": "GPL-3.0-or-later",
-	"main": "build/index.js",
+	"main": "src/assets/public/index.js",
 	"scripts": {
-		"build": "wp-scripts build",
+		"build": "wp-scripts build --webpack-src-dir=src/assets/src --output-path=src/assets/public",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip",
-		"dist": "npm run build && rm -rf dist && mkdir -p dist/wpwing-table-of-contents-block && cp -r build docs readme.txt wpwing-table-of-contents-block.php dist/wpwing-table-of-contents-block/ && cd dist && zip -r wpwing-table-of-contents-block.zip wpwing-table-of-contents-block && rm -rf wpwing-table-of-contents-block",
-		"start": "wp-scripts start",
+		"start": "wp-scripts start --webpack-src-dir=src/assets/src --output-path=src/assets/public",
 		"test:e2e": "playwright test"
+	},
+	"overrides": {
+		"typescript": "^5.9.0"
 	},
 	"devDependencies": {
 		"@playwright/test": "1.62.1",

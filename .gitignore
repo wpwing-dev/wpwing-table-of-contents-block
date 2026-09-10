@@ -31,8 +31,8 @@ node_modules/
 
 # My Ignore file
 DOC/
-build/
 dist/
+/src/assets/public/
 .DS_Store
 package-lock.json
 

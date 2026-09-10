@@ -74,9 +74,36 @@ npm start
 | `npm run lint:css` | Lint CSS/SCSS files |
 | `npm run format` | Auto-format source files |
 | `npm run test:e2e` | Run the Playwright e2e suite against the `make dev` stack (start it first) |
-| `npm run dist` | Build, zip, and output to `dist/` |
+| `make dist` | Build, stage `src/` through `.distignore`, and zip into `dist/` |
+| `make version V=x.y.z` | Bump the version in all four files at once |
+| `make check` | Verify the version strings agree across all four files |
 
-The compiled build output goes to the `build/` directory. The `dist/` script produces a ready-to-upload `wpwing-table-of-contents-block.zip`.
+Compiled block assets go to `src/assets/public/` and are not committed. `make dist` produces a
+ready-to-upload `wpwing-table-of-contents-block.zip`.
+
+## Repository Layout
+
+The repository root holds tooling and configuration only. Everything that ships to
+WordPress.org lives in `src/`, which is exactly what gets zipped - the same layout used across
+WPWing plugin repositories.
+
+```
+src/                                   # the shippable plugin - nothing else ships
+  wpwing-table-of-contents-block.php   # plugin entry point
+  readme.txt                           # WordPress.org readme
+  docs/index.html                      # bundled user documentation
+  assets/src/                          # block source (JS, SCSS, block.json)
+  assets/public/                       # compiled block assets (generated, git-ignored)
+docs/                                  # internal planning docs (not shipped)
+docker/                                # local WordPress stack config
+tests/e2e/                             # Playwright specs
+tools/                                 # screenshot generator and other scripts
+wporg-assets/                          # WordPress.org listing screenshots
+dist/                                  # built plugin zip (generated)
+```
+
+`.distignore` controls what `make dist` strips out of `src/` when building the zip -
+currently `assets/src/`, source maps, and `.DS_Store`.
 
 ## Local Development (Docker)
 
@@ -88,7 +115,7 @@ echo "127.0.0.3 toc.local" | sudo tee -a /etc/hosts
 make dev
 ```
 
-The Docker stack starts MySQL, WordPress, Caddy, and WP-CLI. The repository is mounted directly into WordPress, and `make dev` builds the block assets before activating the plugin.
+The Docker stack starts MySQL, WordPress, Caddy, and WP-CLI. The repository's `src/` directory is mounted directly in as the plugin, and `make dev` builds the block assets before activating the plugin.
 
 - **Site:** https://toc.local
 - **Admin:** https://toc.local/wp-admin
@@ -122,7 +149,7 @@ Pull requests are welcome! To contribute:
 
 1. Fork this repository
 2. Create a feature branch (`git checkout -b feature/my-improvement`)
-3. Make your changes and run `npm run lint:js && npm run lint:css`
+3. Make your changes and run `npm run lint:js && npm run lint:css`, then `npm run test:e2e` against the `make dev` stack
 4. Submit a pull request against `master`
 
 For bug reports or feature requests, please use the [WordPress.org support forum](https://wordpress.org/support/plugin/wpwing-table-of-contents-block/).
