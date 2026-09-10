@@ -30,7 +30,7 @@ Automatically generate a clean, nested Table of Contents from your post headings
 - **Ordered or unordered** list output for semantic flexibility
 - **Toggle indentation** for deeply nested heading structures
 - **Optional built-in headline** - disable to write your own heading block
-- **Accessible markup** - semantic `<nav>` wrapper with `aria-label`, real buttons with correct ARIA states, and visible focus outlines; see [doc/accessibility-audit.md](doc/accessibility-audit.md)
+- **Accessible markup** - semantic `<nav>` wrapper with `aria-label`, real buttons with correct ARIA states, and visible focus outlines
 - **Wide & Full Width** alignment support
 - Compatible with **Rank Math**, **Yoast SEO**, **GeneratePress**, and **AMP plugins**
 
