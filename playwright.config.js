@@ -1,6 +1,6 @@
-const { defineConfig } = require('@playwright/test');
+const { defineConfig } = require( '@playwright/test' );
 
-module.exports = defineConfig({
+module.exports = defineConfig( {
 	testDir: 'tests/e2e',
 	// All specs share one WordPress instance (see docker/wordpress/setup.sh), and
 	// global-defaults.spec.js temporarily mutates site-wide settings - workers: 1 keeps that
@@ -12,6 +12,6 @@ module.exports = defineConfig({
 		ignoreHTTPSErrors: true,
 		// The copy-link button uses navigator.clipboard.writeText(), which needs this permission
 		// granted up front in a headless browser (there's no user gesture to prompt for it).
-		permissions: ['clipboard-write'],
+		permissions: [ 'clipboard-write' ],
 	},
-});
+} );

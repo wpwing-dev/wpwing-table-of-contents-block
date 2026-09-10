@@ -1,0 +1,19 @@
+{
+	"extends": "plugin:@wordpress/eslint-plugin/recommended",
+	"overrides": [
+		{
+			"files": [ "src/assets/src/**/*.js" ],
+			"rules": {
+				"camelcase": "off"
+			}
+		},
+		{
+			"files": [ "tools/**/*.js", "tests/**/*.js", "playwright.config.js" ],
+			"env": { "node": true },
+			"rules": {
+				"no-console": "off",
+				"import/no-extraneous-dependencies": "off"
+			}
+		}
+	]
+}

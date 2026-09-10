@@ -105,6 +105,19 @@ dist/                                  # built plugin zip (generated)
 `.distignore` controls what `make dist` strips out of `src/` when building the zip -
 currently `assets/src/`, source maps, and `.DS_Store`.
 
+### Linting
+
+`.eslintrc.json` extends the WordPress recommended config with two scoped exceptions:
+`camelcase` is off under `src/assets/src/` because block attribute names must match the
+snake_case keys in `block.json`, and `no-console` is off for the Node scripts in `tools/` and
+`tests/`. `.eslintignore` and `.stylelintignore` keep both linters off the generated
+`src/assets/public/` output.
+
+`typescript` is pinned to `^5.9.0` through an npm `overrides` entry. `@wordpress/scripts@27`
+depends on `@typescript-eslint@6`, which cannot read TypeScript 7 internals - without the pin,
+`npm run lint:js` dies with `Cannot read properties of undefined (reading 'Intrinsic')`. Remove
+the pin once `@wordpress/scripts` ships a `@typescript-eslint` that supports TypeScript 7.
+
 ## Local Development (Docker)
 
 ```bash
