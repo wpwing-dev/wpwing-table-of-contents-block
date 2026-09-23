@@ -1,0 +1,376 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Table of Contents (TOC) Block - Fast & SEO Friendly 1.10.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpwing-table-of-contents-block\n"
+"Last-Translator: WPWing <support@wpwing.com>\n"
+"Language-Team: Dutch <wpwing@example.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-23T05:25:09+00:00\n"
+"PO-Revision-Date: 2026-09-23 11:00:00+0000\n"
+"Language: nl_NL\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wpwing-table-of-contents-block\n"
+
+#. Plugin Name of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "Table of Contents (TOC) Block - Fast & SEO Friendly"
+msgstr "Inhoudsopgave (TOC) Blok - Snel & SEO-vriendelijk"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "https://wpwing.com/"
+msgstr "https://wpwing.com/"
+
+#. Description of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript."
+msgstr "Geautomatiseerd, ultrasnel inhoudsopgaveblok gebouwd om SEO en leesbaarheid te verbeteren zonder JavaScript aan de voorkant."
+
+#. Author of the plugin
+#: wpwing-table-of-contents-block.php
+#: wpwing-table-of-contents-block.php:277
+#: wpwing-table-of-contents-block.php:278
+msgid "WPWing"
+msgstr "WPWing"
+
+#: wpwing-table-of-contents-block.php:56
+msgid "Support"
+msgstr "Ondersteuning"
+
+#: wpwing-table-of-contents-block.php:57
+msgid "Write a review"
+msgstr "Schrijf een beoordeling"
+
+#: wpwing-table-of-contents-block.php:58
+msgid "Documentation"
+msgstr "Documentatie"
+
+#: wpwing-table-of-contents-block.php:66
+msgid "Settings"
+msgstr "Instellingen"
+
+#: wpwing-table-of-contents-block.php:244
+msgid "You are not allowed to do this."
+msgstr "Je hebt geen toestemming om dit te doen."
+
+#: wpwing-table-of-contents-block.php:290
+#: wpwing-table-of-contents-block.php:326
+msgid "Table of Contents Block"
+msgstr "Inhoudsopgaveblok"
+
+#: wpwing-table-of-contents-block.php:291
+msgid "TOC Block"
+msgstr "Inhoudsopgaveblok"
+
+#: wpwing-table-of-contents-block.php:320
+msgid "Before the first heading"
+msgstr "Vóór de eerste tussenkop"
+
+#: wpwing-table-of-contents-block.php:321
+msgid "After the first paragraph"
+msgstr "Na de eerste alinea"
+
+#: wpwing-table-of-contents-block.php:322
+msgid "Top of the content"
+msgstr "Bovenaan de inhoud"
+
+#: wpwing-table-of-contents-block.php:329
+msgid "Settings imported from LuckyWP Table of Contents."
+msgstr "Instellingen geïmporteerd uit LuckyWP Table of Contents."
+
+#: wpwing-table-of-contents-block.php:331
+msgid "No LuckyWP Table of Contents settings were found to import."
+msgstr "Geen instellingen van LuckyWP Table of Contents gevonden om te importeren."
+
+#: wpwing-table-of-contents-block.php:335
+msgid "Import settings"
+msgstr "Instellingen importeren"
+
+#: wpwing-table-of-contents-block.php:336
+msgid "LuckyWP Table of Contents settings were found on this site. Import its list style, title, minimum-headings threshold, and smooth-scroll settings into the defaults below."
+msgstr "Er zijn instellingen van LuckyWP Table of Contents gevonden. Importeer lijststijl, titel, minimum aantal tussenkoppen en instellingen voor vloeiend scrollen."
+
+#: wpwing-table-of-contents-block.php:340
+msgid "Import from LuckyWP Table of Contents"
+msgstr "Importeren uit LuckyWP Table of Contents"
+
+#: wpwing-table-of-contents-block.php:345
+msgid "Auto-insert"
+msgstr "Automatisch invoegen"
+
+#: wpwing-table-of-contents-block.php:346
+msgid "Show a Table of Contents automatically, without adding the block to each post. Posts that already contain a TOC block keep their own block and are skipped."
+msgstr "Toon automatisch een inhoudsopgave zonder het blok aan elk bericht toe te voegen. Berichten die al een inhoudsopgave bevatten, behouden hun eigen blok."
+
+#: wpwing-table-of-contents-block.php:349
+msgid "Enable for post types"
+msgstr "Inschakelen voor berichttypen"
+
+#: wpwing-table-of-contents-block.php:358
+msgid "No post type checked means auto-insert is off."
+msgstr "Geen berichttype aangevinkt betekent dat automatisch invoegen is uitgeschakeld."
+
+#: wpwing-table-of-contents-block.php:363
+msgid "Position"
+msgstr "Positie"
+
+#: wpwing-table-of-contents-block.php:373
+msgid "Minimum headings"
+msgstr "Minimale koppen"
+
+#: wpwing-table-of-contents-block.php:376
+msgid "Skip posts with fewer qualifying headings, so short posts stay clean."
+msgstr "Sla berichten met minder koppen over om korte berichten overzichtelijk te houden."
+
+#: wpwing-table-of-contents-block.php:380
+msgid "New block defaults"
+msgstr "Standaardwaarden voor nieuwe blokken"
+
+#: wpwing-table-of-contents-block.php:383
+msgid "Custom title"
+msgstr "Aangepaste titel"
+
+#: wpwing-table-of-contents-block.php:387
+msgid "Minimum and maximum levels"
+msgstr "Minimale en maximale niveaus"
+
+#: wpwing-table-of-contents-block.php:394
+msgid "Collapsible mode"
+msgstr "Inklapmodus"
+
+#: wpwing-table-of-contents-block.php:396
+msgid "Make new blocks collapsible"
+msgstr "Maak nieuwe blokken inklapbaar"
+
+#: wpwing-table-of-contents-block.php:398
+#: assets/public/index.js:1
+#: assets/src/edit.js:269
+msgid "JavaScript toggle"
+msgstr "JavaScript-schakelaar"
+
+#: wpwing-table-of-contents-block.php:399
+#: assets/public/index.js:1
+#: assets/src/edit.js:276
+msgid "Native HTML (zero JavaScript)"
+msgstr "Standaard HTML (nul JavaScript)"
+
+#: wpwing-table-of-contents-block.php:402
+msgid "Start collapsed"
+msgstr "Ingeklapt starten"
+
+#: wpwing-table-of-contents-block.php:407
+#: assets/public/index.js:1
+#: assets/src/edit.js:315
+msgid "List style"
+msgstr "Lijststijl"
+
+#: wpwing-table-of-contents-block.php:410
+msgid "Style preset"
+msgstr "Stijlinstelling"
+
+#: wpwing-table-of-contents-block.php:413
+#: assets/public/index.js:1
+#: assets/src/edit.js:224
+msgid "Default"
+msgstr "Standaard"
+
+#: wpwing-table-of-contents-block.php:414
+#: assets/public/index.js:1
+#: assets/src/edit.js:231
+msgid "Boxed"
+msgstr "Omlijst"
+
+#: wpwing-table-of-contents-block.php:419
+msgid "List markup"
+msgstr "Lijst-HTML"
+
+#: wpwing-table-of-contents-block.php:425
+#: assets/public/index.js:1
+#: assets/src/edit.js:326
+msgid "Bulleted"
+msgstr "Opsommingstekens"
+
+#: wpwing-table-of-contents-block.php:426
+#: assets/public/index.js:1
+#: assets/src/edit.js:333
+msgid "Numbered"
+msgstr "Genummerd"
+
+#: wpwing-table-of-contents-block.php:427
+#: assets/public/index.js:1
+#: assets/src/edit.js:340
+msgid "Hierarchical (1.1, 1.1.1)"
+msgstr "Hiërarchisch (1.1, 1.1.1)"
+
+#: wpwing-table-of-contents-block.php:430
+msgid "Remove nested indentation"
+msgstr "Geneste inspringing verwijderen"
+
+#: wpwing-table-of-contents-block.php:435
+msgid "Thresholds and filtering"
+msgstr "Drempels en filters"
+
+#: wpwing-table-of-contents-block.php:438
+#: assets/public/index.js:1
+#: assets/src/edit.js:153
+msgid "Minimum headings to show TOC"
+msgstr "Minimale tussenkoppen om inhoudsopgave te tonen"
+
+#: wpwing-table-of-contents-block.php:442
+msgid "Exclude headings containing"
+msgstr "Koppen uitsluiten die het volgende bevatten"
+
+#: wpwing-table-of-contents-block.php:445
+msgid "Comma-separated keywords. Headings containing any of them are skipped."
+msgstr "Door komma's gescheiden trefwoorden. Koppen met deze woorden worden overgeslagen."
+
+#: wpwing-table-of-contents-block.php:450
+msgid "Links"
+msgstr "Links"
+
+#: wpwing-table-of-contents-block.php:453
+#: wpwing-table-of-contents-block.php:879
+#: wpwing-table-of-contents-block.php:1144
+msgid "Back to top"
+msgstr "Terug naar boven"
+
+#: wpwing-table-of-contents-block.php:455
+msgid "Show a back-to-top link below the TOC"
+msgstr "Toon een \"Terug naar boven\"-link onder de inhoudsopgave"
+
+#: wpwing-table-of-contents-block.php:456
+msgid "Add a back-to-top link after each heading"
+msgstr "Voeg een \"Terug naar boven\"-link toe na elke tussenkop"
+
+#: wpwing-table-of-contents-block.php:460
+msgid "Copy link"
+msgstr "Link kopiëren"
+
+#: wpwing-table-of-contents-block.php:461
+msgid "Show a copy-link button on each entry"
+msgstr "Toon een knop om de link te kopiëren bij elk item"
+
+#: wpwing-table-of-contents-block.php:464
+msgid "URL format"
+msgstr "URL-formaat"
+
+#: wpwing-table-of-contents-block.php:465
+msgid "Use absolute URLs in TOC links"
+msgstr "Gebruik absolute URL's in de inhoudsopgave-links"
+
+#: wpwing-table-of-contents-block.php:469
+msgid "Scrolling"
+msgstr "Scrollen"
+
+#: wpwing-table-of-contents-block.php:472
+msgid "Smooth scroll"
+msgstr "Vloeiend scrollen"
+
+#: wpwing-table-of-contents-block.php:473
+msgid "Enable smooth scrolling to headings"
+msgstr "Vloeiend scrollen naar koppen inschakelen"
+
+#: wpwing-table-of-contents-block.php:476
+msgid "Scroll offset"
+msgstr "Scroll-verschuiving"
+
+#: wpwing-table-of-contents-block.php:478
+msgid "px"
+msgstr "px"
+
+#: wpwing-table-of-contents-block.php:479
+msgid "Keeps headings visible below sticky or fixed headers when jumping from the TOC."
+msgstr "Houdt koppen zichtbaar onder vaste headers bij het springen vanuit de inhoudsopgave."
+
+#: wpwing-table-of-contents-block.php:484
+msgid "Accessibility and SEO"
+msgstr "Toegankelijkheid en SEO"
+
+#: wpwing-table-of-contents-block.php:487
+msgid "Title and count"
+msgstr "Titel en aantal"
+
+#: wpwing-table-of-contents-block.php:489
+msgid "Hide the TOC title"
+msgstr "Titel van de inhoudsopgave verbergen"
+
+#: wpwing-table-of-contents-block.php:490
+msgid "Show a heading-count badge next to the title"
+msgstr "Toon een badge met het aantal koppen naast de titel"
+
+#: wpwing-table-of-contents-block.php:494
+msgid "Search snippets"
+msgstr "Zoekfragmenten"
+
+#: wpwing-table-of-contents-block.php:495
+msgid "Exclude TOC text from search result snippets"
+msgstr "Sluit tekst van de inhoudsopgave uit van zoekfragmenten"
+
+#: wpwing-table-of-contents-block.php:521
+#: wpwing-table-of-contents-block.php:1090
+msgid "Table of Contents"
+msgstr "Inhoudsopgave"
+
+#: wpwing-table-of-contents-block.php:530
+msgid "No content found. Save or update the post first."
+msgstr "Geen inhoud gevonden. Sla het bericht eerst op of werk het bij."
+
+#: wpwing-table-of-contents-block.php:550
+msgid "Add Heading blocks to your post and the TOC will appear here."
+msgstr "Voeg kopblokken toe aan je bericht en de inhoudsopgave verschijnt hier."
+
+#. translators: 1: current heading count, 2: required minimum
+#: wpwing-table-of-contents-block.php:570
+#, php-format
+msgid "TOC hidden: %1$d qualifying heading(s) found, minimum required is %2$d."
+msgstr "Inhoudsopgave verborgen: %1$d geschikte kop(pen) gevonden, minimum vereist is %2$d."
+
+#: wpwing-table-of-contents-block.php:1076
+msgid "Copy link to this section"
+msgstr "Kopieer link naar dit onderdeel"
+
+#. translators: %d: number of headings
+#: wpwing-table-of-contents-block.php:1096
+#, php-format
+msgid "%d heading"
+msgid_plural "%d headings"
+msgstr[0] "%d kop"
+msgstr[1] "%d koppen"
+
+#: wpwing-table-of-contents-block.php:1130
+msgid "Toggle Table of Contents"
+msgstr "Inhoudsopgave in-/uitklappen"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block title"
+msgid "Table Of Contents"
+msgstr "Inhoudsopgave"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "TOC"
+msgstr "TOC"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "Table of Contents"
+msgstr "Inhoudsopgave"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "WPWing"
+msgstr "WPWing"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block description"
+msgid "Automatically generates a fast, SEO-friendly table of contents from your headings."
+msgstr "Genereert automatisch een snelle, SEO-vriendelijke inhoudsopgave van je koppen."

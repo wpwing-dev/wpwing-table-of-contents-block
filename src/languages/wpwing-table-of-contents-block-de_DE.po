@@ -1,0 +1,376 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Table of Contents (TOC) Block - Fast & SEO Friendly 1.10.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpwing-table-of-contents-block\n"
+"Last-Translator: WPWing <support@wpwing.com>\n"
+"Language-Team: German <wpwing@example.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-23T05:25:09+00:00\n"
+"PO-Revision-Date: 2026-09-23 11:00:00+0000\n"
+"Language: de_DE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: wpwing-table-of-contents-block\n"
+
+#. Plugin Name of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "Table of Contents (TOC) Block - Fast & SEO Friendly"
+msgstr "Inhaltsverzeichnis (TOC) Block - Schnell & SEO-freundlich"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "https://wpwing.com/"
+msgstr "https://wpwing.com/"
+
+#. Description of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript."
+msgstr "Automatisierter, ultraschneller Inhaltsverzeichnis-Block zur Steigerung von SEO und Lesbarkeit mit null Frontend-JavaScript."
+
+#. Author of the plugin
+#: wpwing-table-of-contents-block.php
+#: wpwing-table-of-contents-block.php:277
+#: wpwing-table-of-contents-block.php:278
+msgid "WPWing"
+msgstr "WPWing"
+
+#: wpwing-table-of-contents-block.php:56
+msgid "Support"
+msgstr "Support"
+
+#: wpwing-table-of-contents-block.php:57
+msgid "Write a review"
+msgstr "Bewertung schreiben"
+
+#: wpwing-table-of-contents-block.php:58
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: wpwing-table-of-contents-block.php:66
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: wpwing-table-of-contents-block.php:244
+msgid "You are not allowed to do this."
+msgstr "Sie sind nicht berechtigt, dies zu tun."
+
+#: wpwing-table-of-contents-block.php:290
+#: wpwing-table-of-contents-block.php:326
+msgid "Table of Contents Block"
+msgstr "Inhaltsverzeichnis-Block"
+
+#: wpwing-table-of-contents-block.php:291
+msgid "TOC Block"
+msgstr "Inhaltsverzeichnis-Block"
+
+#: wpwing-table-of-contents-block.php:320
+msgid "Before the first heading"
+msgstr "Vor der ersten Überschrift"
+
+#: wpwing-table-of-contents-block.php:321
+msgid "After the first paragraph"
+msgstr "Nach dem ersten Absatz"
+
+#: wpwing-table-of-contents-block.php:322
+msgid "Top of the content"
+msgstr "Ganz oben im Inhalt"
+
+#: wpwing-table-of-contents-block.php:329
+msgid "Settings imported from LuckyWP Table of Contents."
+msgstr "Einstellungen aus LuckyWP Table of Contents importiert."
+
+#: wpwing-table-of-contents-block.php:331
+msgid "No LuckyWP Table of Contents settings were found to import."
+msgstr "Keine LuckyWP Table of Contents Einstellungen zum Importieren gefunden."
+
+#: wpwing-table-of-contents-block.php:335
+msgid "Import settings"
+msgstr "Einstellungen importieren"
+
+#: wpwing-table-of-contents-block.php:336
+msgid "LuckyWP Table of Contents settings were found on this site. Import its list style, title, minimum-headings threshold, and smooth-scroll settings into the defaults below."
+msgstr "LuckyWP Table of Contents Einstellungen wurden auf dieser Website gefunden. Übernehmen Sie Listenstil, Titel, Mindestanzahl an Überschriften und Einstellungen für sanftes Scrollen in die unten stehenden Standardwerte."
+
+#: wpwing-table-of-contents-block.php:340
+msgid "Import from LuckyWP Table of Contents"
+msgstr "Aus LuckyWP Table of Contents importieren"
+
+#: wpwing-table-of-contents-block.php:345
+msgid "Auto-insert"
+msgstr "Automatisches Einfügen"
+
+#: wpwing-table-of-contents-block.php:346
+msgid "Show a Table of Contents automatically, without adding the block to each post. Posts that already contain a TOC block keep their own block and are skipped."
+msgstr "Inhaltsverzeichnis automatisch anzeigen, ohne den Block zu jedem Beitrag hinzuzufügen. Beiträge, die bereits einen Inhaltsverzeichnis-Block enthalten, behalten ihren eigenen Block und werden übersprungen."
+
+#: wpwing-table-of-contents-block.php:349
+msgid "Enable for post types"
+msgstr "Für Beitragstypen aktivieren"
+
+#: wpwing-table-of-contents-block.php:358
+msgid "No post type checked means auto-insert is off."
+msgstr "Wenn kein Beitragstyp ausgewählt ist, ist das automatische Einfügen deaktiviert."
+
+#: wpwing-table-of-contents-block.php:363
+msgid "Position"
+msgstr "Position"
+
+#: wpwing-table-of-contents-block.php:373
+msgid "Minimum headings"
+msgstr "Mindestanzahl an Überschriften"
+
+#: wpwing-table-of-contents-block.php:376
+msgid "Skip posts with fewer qualifying headings, so short posts stay clean."
+msgstr "Beiträge mit weniger passenden Überschriften überspringen, damit kurze Beiträge übersichtlich bleiben."
+
+#: wpwing-table-of-contents-block.php:380
+msgid "New block defaults"
+msgstr "Standardwerte für neue Blöcke"
+
+#: wpwing-table-of-contents-block.php:383
+msgid "Custom title"
+msgstr "Individueller Titel"
+
+#: wpwing-table-of-contents-block.php:387
+msgid "Minimum and maximum levels"
+msgstr "Minimale und maximale Ebenen"
+
+#: wpwing-table-of-contents-block.php:394
+msgid "Collapsible mode"
+msgstr "Einklapp-Modus"
+
+#: wpwing-table-of-contents-block.php:396
+msgid "Make new blocks collapsible"
+msgstr "Neue Blöcke einklappbar machen"
+
+#: wpwing-table-of-contents-block.php:398
+#: assets/public/index.js:1
+#: assets/src/edit.js:269
+msgid "JavaScript toggle"
+msgstr "JavaScript-Umschalter"
+
+#: wpwing-table-of-contents-block.php:399
+#: assets/public/index.js:1
+#: assets/src/edit.js:276
+msgid "Native HTML (zero JavaScript)"
+msgstr "Natives HTML (null JavaScript)"
+
+#: wpwing-table-of-contents-block.php:402
+msgid "Start collapsed"
+msgstr "Eingeklappt starten"
+
+#: wpwing-table-of-contents-block.php:407
+#: assets/public/index.js:1
+#: assets/src/edit.js:315
+msgid "List style"
+msgstr "Listenstil"
+
+#: wpwing-table-of-contents-block.php:410
+msgid "Style preset"
+msgstr "Stil-Voreinstellung"
+
+#: wpwing-table-of-contents-block.php:413
+#: assets/public/index.js:1
+#: assets/src/edit.js:224
+msgid "Default"
+msgstr "Standard"
+
+#: wpwing-table-of-contents-block.php:414
+#: assets/public/index.js:1
+#: assets/src/edit.js:231
+msgid "Boxed"
+msgstr "Umrahmt"
+
+#: wpwing-table-of-contents-block.php:419
+msgid "List markup"
+msgstr "Listen-HTML"
+
+#: wpwing-table-of-contents-block.php:425
+#: assets/public/index.js:1
+#: assets/src/edit.js:326
+msgid "Bulleted"
+msgstr "Aufzählung"
+
+#: wpwing-table-of-contents-block.php:426
+#: assets/public/index.js:1
+#: assets/src/edit.js:333
+msgid "Numbered"
+msgstr "Nummeriert"
+
+#: wpwing-table-of-contents-block.php:427
+#: assets/public/index.js:1
+#: assets/src/edit.js:340
+msgid "Hierarchical (1.1, 1.1.1)"
+msgstr "Hierarchisch (1.1, 1.1.1)"
+
+#: wpwing-table-of-contents-block.php:430
+msgid "Remove nested indentation"
+msgstr "Verschachtelte Einrückung entfernen"
+
+#: wpwing-table-of-contents-block.php:435
+msgid "Thresholds and filtering"
+msgstr "Schwellenwerte und Filterung"
+
+#: wpwing-table-of-contents-block.php:438
+#: assets/public/index.js:1
+#: assets/src/edit.js:153
+msgid "Minimum headings to show TOC"
+msgstr "Mindestanzahl Überschriften für Inhaltsverzeichnis"
+
+#: wpwing-table-of-contents-block.php:442
+msgid "Exclude headings containing"
+msgstr "Überschriften ausschließen mit"
+
+#: wpwing-table-of-contents-block.php:445
+msgid "Comma-separated keywords. Headings containing any of them are skipped."
+msgstr "Kommagetrennte Schlüsselwörter. Überschriften, die eines davon enthalten, werden übersprungen."
+
+#: wpwing-table-of-contents-block.php:450
+msgid "Links"
+msgstr "Links"
+
+#: wpwing-table-of-contents-block.php:453
+#: wpwing-table-of-contents-block.php:879
+#: wpwing-table-of-contents-block.php:1144
+msgid "Back to top"
+msgstr "Nach oben"
+
+#: wpwing-table-of-contents-block.php:455
+msgid "Show a back-to-top link below the TOC"
+msgstr "Einen „Nach oben“-Link unter dem Inhaltsverzeichnis anzeigen"
+
+#: wpwing-table-of-contents-block.php:456
+msgid "Add a back-to-top link after each heading"
+msgstr "Einen „Nach oben“-Link nach jeder Überschrift einfügen"
+
+#: wpwing-table-of-contents-block.php:460
+msgid "Copy link"
+msgstr "Link kopieren"
+
+#: wpwing-table-of-contents-block.php:461
+msgid "Show a copy-link button on each entry"
+msgstr "Einen Button zum Kopieren des Links bei jedem Eintrag anzeigen"
+
+#: wpwing-table-of-contents-block.php:464
+msgid "URL format"
+msgstr "URL-Format"
+
+#: wpwing-table-of-contents-block.php:465
+msgid "Use absolute URLs in TOC links"
+msgstr "Absolute URLs in Inhaltsverzeichnis-Links verwenden"
+
+#: wpwing-table-of-contents-block.php:469
+msgid "Scrolling"
+msgstr "Scrollen"
+
+#: wpwing-table-of-contents-block.php:472
+msgid "Smooth scroll"
+msgstr "Sanftes Scrollen"
+
+#: wpwing-table-of-contents-block.php:473
+msgid "Enable smooth scrolling to headings"
+msgstr "Sanftes Scrollen zu Überschriften aktivieren"
+
+#: wpwing-table-of-contents-block.php:476
+msgid "Scroll offset"
+msgstr "Scroll-Versatz"
+
+#: wpwing-table-of-contents-block.php:478
+msgid "px"
+msgstr "px"
+
+#: wpwing-table-of-contents-block.php:479
+msgid "Keeps headings visible below sticky or fixed headers when jumping from the TOC."
+msgstr "Hält Überschriften unter fixierten Kopfzeilen sichtbar, wenn aus dem Inhaltsverzeichnis gesprungen wird."
+
+#: wpwing-table-of-contents-block.php:484
+msgid "Accessibility and SEO"
+msgstr "Barrierefreiheit und SEO"
+
+#: wpwing-table-of-contents-block.php:487
+msgid "Title and count"
+msgstr "Titel und Anzahl"
+
+#: wpwing-table-of-contents-block.php:489
+msgid "Hide the TOC title"
+msgstr "Titel des Inhaltsverzeichnisses ausblenden"
+
+#: wpwing-table-of-contents-block.php:490
+msgid "Show a heading-count badge next to the title"
+msgstr "Badge mit Anzahl der Überschriften neben dem Titel anzeigen"
+
+#: wpwing-table-of-contents-block.php:494
+msgid "Search snippets"
+msgstr "Such-Snippets"
+
+#: wpwing-table-of-contents-block.php:495
+msgid "Exclude TOC text from search result snippets"
+msgstr "Text des Inhaltsverzeichnisses von Suchergebnis-Snippets ausschließen"
+
+#: wpwing-table-of-contents-block.php:521
+#: wpwing-table-of-contents-block.php:1090
+msgid "Table of Contents"
+msgstr "Inhaltsverzeichnis"
+
+#: wpwing-table-of-contents-block.php:530
+msgid "No content found. Save or update the post first."
+msgstr "Kein Inhalt gefunden. Bitte speichern oder aktualisieren Sie zuerst den Beitrag."
+
+#: wpwing-table-of-contents-block.php:550
+msgid "Add Heading blocks to your post and the TOC will appear here."
+msgstr "Fügen Sie Ihrem Beitrag Überschrift-Blöcke hinzu und das Inhaltsverzeichnis erscheint hier."
+
+#. translators: 1: current heading count, 2: required minimum
+#: wpwing-table-of-contents-block.php:570
+#, php-format
+msgid "TOC hidden: %1$d qualifying heading(s) found, minimum required is %2$d."
+msgstr "Inhaltsverzeichnis ausgeblendet: %1$d passende Überschrift(en) gefunden, mindestens erforderlich sind %2$d."
+
+#: wpwing-table-of-contents-block.php:1076
+msgid "Copy link to this section"
+msgstr "Link zu diesem Abschnitt kopieren"
+
+#. translators: %d: number of headings
+#: wpwing-table-of-contents-block.php:1096
+#, php-format
+msgid "%d heading"
+msgid_plural "%d headings"
+msgstr[0] "%d Überschrift"
+msgstr[1] "%d Überschriften"
+
+#: wpwing-table-of-contents-block.php:1130
+msgid "Toggle Table of Contents"
+msgstr "Inhaltsverzeichnis umschalten"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block title"
+msgid "Table Of Contents"
+msgstr "Inhaltsverzeichnis"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "TOC"
+msgstr "TOC"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "Table of Contents"
+msgstr "Inhaltsverzeichnis"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "WPWing"
+msgstr "WPWing"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block description"
+msgid "Automatically generates a fast, SEO-friendly table of contents from your headings."
+msgstr "Erstellt automatisch ein schnelles, SEO-freundliches Inhaltsverzeichnis aus Ihren Überschriften."

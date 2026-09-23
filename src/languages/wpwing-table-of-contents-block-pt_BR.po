@@ -1,0 +1,376 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Table of Contents (TOC) Block - Fast & SEO Friendly 1.10.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpwing-table-of-contents-block\n"
+"Last-Translator: WPWing <support@wpwing.com>\n"
+"Language-Team: Portuguese (Brazil) <wpwing@example.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-23T05:25:09+00:00\n"
+"PO-Revision-Date: 2026-09-23 11:00:00+0000\n"
+"Language: pt_BR\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Domain: wpwing-table-of-contents-block\n"
+
+#. Plugin Name of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "Table of Contents (TOC) Block - Fast & SEO Friendly"
+msgstr "Bloco de Sumário (TOC) - Rápido e Otimizado para SEO"
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "https://wpwing.com/"
+msgstr "https://wpwing.com/"
+
+#. Description of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript."
+msgstr "Bloco de sumário automatizado e ultrarrápido criado para melhorar o SEO e a legibilidade com zero JavaScript no frontend."
+
+#. Author of the plugin
+#: wpwing-table-of-contents-block.php
+#: wpwing-table-of-contents-block.php:277
+#: wpwing-table-of-contents-block.php:278
+msgid "WPWing"
+msgstr "WPWing"
+
+#: wpwing-table-of-contents-block.php:56
+msgid "Support"
+msgstr "Suporte"
+
+#: wpwing-table-of-contents-block.php:57
+msgid "Write a review"
+msgstr "Escrever uma avaliação"
+
+#: wpwing-table-of-contents-block.php:58
+msgid "Documentation"
+msgstr "Documentação"
+
+#: wpwing-table-of-contents-block.php:66
+msgid "Settings"
+msgstr "Configurações"
+
+#: wpwing-table-of-contents-block.php:244
+msgid "You are not allowed to do this."
+msgstr "Você não tem permissão para fazer isso."
+
+#: wpwing-table-of-contents-block.php:290
+#: wpwing-table-of-contents-block.php:326
+msgid "Table of Contents Block"
+msgstr "Bloco de Sumário"
+
+#: wpwing-table-of-contents-block.php:291
+msgid "TOC Block"
+msgstr "Bloco TOC"
+
+#: wpwing-table-of-contents-block.php:320
+msgid "Before the first heading"
+msgstr "Antes do primeiro cabeçalho"
+
+#: wpwing-table-of-contents-block.php:321
+msgid "After the first paragraph"
+msgstr "Depois do primeiro parágrafo"
+
+#: wpwing-table-of-contents-block.php:322
+msgid "Top of the content"
+msgstr "No topo do conteúdo"
+
+#: wpwing-table-of-contents-block.php:329
+msgid "Settings imported from LuckyWP Table of Contents."
+msgstr "Configurações importadas do LuckyWP Table of Contents."
+
+#: wpwing-table-of-contents-block.php:331
+msgid "No LuckyWP Table of Contents settings were found to import."
+msgstr "Nenhuma configuração do LuckyWP Table of Contents foi encontrada para importar."
+
+#: wpwing-table-of-contents-block.php:335
+msgid "Import settings"
+msgstr "Importar configurações"
+
+#: wpwing-table-of-contents-block.php:336
+msgid "LuckyWP Table of Contents settings were found on this site. Import its list style, title, minimum-headings threshold, and smooth-scroll settings into the defaults below."
+msgstr "Configurações do LuckyWP Table of Contents foram encontradas neste site. Importe estilo de lista, título, limite mínimo de cabeçalhos e rolagem suave."
+
+#: wpwing-table-of-contents-block.php:340
+msgid "Import from LuckyWP Table of Contents"
+msgstr "Importar do LuckyWP Table of Contents"
+
+#: wpwing-table-of-contents-block.php:345
+msgid "Auto-insert"
+msgstr "Inserção automática"
+
+#: wpwing-table-of-contents-block.php:346
+msgid "Show a Table of Contents automatically, without adding the block to each post. Posts that already contain a TOC block keep their own block and are skipped."
+msgstr "Exibe um sumário automaticamente, sem precisar adicionar o bloco a cada post. Posts que já possuem um bloco TOC mantêm o seu próprio bloco e são ignorados."
+
+#: wpwing-table-of-contents-block.php:349
+msgid "Enable for post types"
+msgstr "Ativar para tipos de post"
+
+#: wpwing-table-of-contents-block.php:358
+msgid "No post type checked means auto-insert is off."
+msgstr "Nenhum tipo de post selecionado significa que a inserção automática está desligada."
+
+#: wpwing-table-of-contents-block.php:363
+msgid "Position"
+msgstr "Posição"
+
+#: wpwing-table-of-contents-block.php:373
+msgid "Minimum headings"
+msgstr "Mínimo de cabeçalhos"
+
+#: wpwing-table-of-contents-block.php:376
+msgid "Skip posts with fewer qualifying headings, so short posts stay clean."
+msgstr "Ignora posts com menos cabeçalhos elegíveis para manter posts curtos limpos."
+
+#: wpwing-table-of-contents-block.php:380
+msgid "New block defaults"
+msgstr "Padrões para novos blocos"
+
+#: wpwing-table-of-contents-block.php:383
+msgid "Custom title"
+msgstr "Título personalizado"
+
+#: wpwing-table-of-contents-block.php:387
+msgid "Minimum and maximum levels"
+msgstr "Níveis mínimo e máximo"
+
+#: wpwing-table-of-contents-block.php:394
+msgid "Collapsible mode"
+msgstr "Modo recolhível"
+
+#: wpwing-table-of-contents-block.php:396
+msgid "Make new blocks collapsible"
+msgstr "Tornar novos blocos recolhíveis"
+
+#: wpwing-table-of-contents-block.php:398
+#: assets/public/index.js:1
+#: assets/src/edit.js:269
+msgid "JavaScript toggle"
+msgstr "Alternador JavaScript"
+
+#: wpwing-table-of-contents-block.php:399
+#: assets/public/index.js:1
+#: assets/src/edit.js:276
+msgid "Native HTML (zero JavaScript)"
+msgstr "HTML nativo (zero JavaScript)"
+
+#: wpwing-table-of-contents-block.php:402
+msgid "Start collapsed"
+msgstr "Iniciar recolhido"
+
+#: wpwing-table-of-contents-block.php:407
+#: assets/public/index.js:1
+#: assets/src/edit.js:315
+msgid "List style"
+msgstr "Estilo da lista"
+
+#: wpwing-table-of-contents-block.php:410
+msgid "Style preset"
+msgstr "Estilo predefinido"
+
+#: wpwing-table-of-contents-block.php:413
+#: assets/public/index.js:1
+#: assets/src/edit.js:224
+msgid "Default"
+msgstr "Padrão"
+
+#: wpwing-table-of-contents-block.php:414
+#: assets/public/index.js:1
+#: assets/src/edit.js:231
+msgid "Boxed"
+msgstr "Em caixa"
+
+#: wpwing-table-of-contents-block.php:419
+msgid "List markup"
+msgstr "Marcação da lista"
+
+#: wpwing-table-of-contents-block.php:425
+#: assets/public/index.js:1
+#: assets/src/edit.js:326
+msgid "Bulleted"
+msgstr "Com marcadores"
+
+#: wpwing-table-of-contents-block.php:426
+#: assets/public/index.js:1
+#: assets/src/edit.js:333
+msgid "Numbered"
+msgstr "Numerada"
+
+#: wpwing-table-of-contents-block.php:427
+#: assets/public/index.js:1
+#: assets/src/edit.js:340
+msgid "Hierarchical (1.1, 1.1.1)"
+msgstr "Hierárquica (1.1, 1.1.1)"
+
+#: wpwing-table-of-contents-block.php:430
+msgid "Remove nested indentation"
+msgstr "Remover recuo aninhado"
+
+#: wpwing-table-of-contents-block.php:435
+msgid "Thresholds and filtering"
+msgstr "Limites e filtragem"
+
+#: wpwing-table-of-contents-block.php:438
+#: assets/public/index.js:1
+#: assets/src/edit.js:153
+msgid "Minimum headings to show TOC"
+msgstr "Mínimo de cabeçalhos para exibir o sumário"
+
+#: wpwing-table-of-contents-block.php:442
+msgid "Exclude headings containing"
+msgstr "Excluir cabeçalhos contendo"
+
+#: wpwing-table-of-contents-block.php:445
+msgid "Comma-separated keywords. Headings containing any of them are skipped."
+msgstr "Palavras-chave separadas por vírgula. Cabeçalhos que contenham qualquer uma delas serão ignorados."
+
+#: wpwing-table-of-contents-block.php:450
+msgid "Links"
+msgstr "Links"
+
+#: wpwing-table-of-contents-block.php:453
+#: wpwing-table-of-contents-block.php:879
+#: wpwing-table-of-contents-block.php:1144
+msgid "Back to top"
+msgstr "Voltar ao topo"
+
+#: wpwing-table-of-contents-block.php:455
+msgid "Show a back-to-top link below the TOC"
+msgstr "Exibir um link \"Volver ao topo\" abaixo do sumário"
+
+#: wpwing-table-of-contents-block.php:456
+msgid "Add a back-to-top link after each heading"
+msgstr "Adicionar um link \"Voltar ao topo\" após cada cabeçalho"
+
+#: wpwing-table-of-contents-block.php:460
+msgid "Copy link"
+msgstr "Copiar link"
+
+#: wpwing-table-of-contents-block.php:461
+msgid "Show a copy-link button on each entry"
+msgstr "Exibir um botão para copiar o link em cada item"
+
+#: wpwing-table-of-contents-block.php:464
+msgid "URL format"
+msgstr "Formato da URL"
+
+#: wpwing-table-of-contents-block.php:465
+msgid "Use absolute URLs in TOC links"
+msgstr "Usar URLs absolutas nos links do sumário"
+
+#: wpwing-table-of-contents-block.php:469
+msgid "Scrolling"
+msgstr "Rolagem"
+
+#: wpwing-table-of-contents-block.php:472
+msgid "Smooth scroll"
+msgstr "Rolagem suave"
+
+#: wpwing-table-of-contents-block.php:473
+msgid "Enable smooth scrolling to headings"
+msgstr "Ativar rolagem suave para cabeçalhos"
+
+#: wpwing-table-of-contents-block.php:476
+msgid "Scroll offset"
+msgstr "Deslocamento de rolagem"
+
+#: wpwing-table-of-contents-block.php:478
+msgid "px"
+msgstr "px"
+
+#: wpwing-table-of-contents-block.php:479
+msgid "Keeps headings visible below sticky or fixed headers when jumping from the TOC."
+msgstr "Mantém os cabeçalhos visíveis abaixo de barras de cabeçalho fixas ao navegar pelo sumário."
+
+#: wpwing-table-of-contents-block.php:484
+msgid "Accessibility and SEO"
+msgstr "Acessibilidade e SEO"
+
+#: wpwing-table-of-contents-block.php:487
+msgid "Title and count"
+msgstr "Título e contagem"
+
+#: wpwing-table-of-contents-block.php:489
+msgid "Hide the TOC title"
+msgstr "Ocultar o título do sumário"
+
+#: wpwing-table-of-contents-block.php:490
+msgid "Show a heading-count badge next to the title"
+msgstr "Exibir emblema com contagem de cabeçalhos ao lado do título"
+
+#: wpwing-table-of-contents-block.php:494
+msgid "Search snippets"
+msgstr "Fragmentos de busca"
+
+#: wpwing-table-of-contents-block.php:495
+msgid "Exclude TOC text from search result snippets"
+msgstr "Excluir o texto do sumário dos fragmentos de busca"
+
+#: wpwing-table-of-contents-block.php:521
+#: wpwing-table-of-contents-block.php:1090
+msgid "Table of Contents"
+msgstr "Sumário"
+
+#: wpwing-table-of-contents-block.php:530
+msgid "No content found. Save or update the post first."
+msgstr "Nenhum conteúdo encontrado. Salve ou atualize o post primeiro."
+
+#: wpwing-table-of-contents-block.php:550
+msgid "Add Heading blocks to your post and the TOC will appear here."
+msgstr "Adicione blocos de Cabeçalho ao seu post e o sumário aparecerá aqui."
+
+#. translators: 1: current heading count, 2: required minimum
+#: wpwing-table-of-contents-block.php:570
+#, php-format
+msgid "TOC hidden: %1$d qualifying heading(s) found, minimum required is %2$d."
+msgstr "Sumário oculto: %1$d cabeçalho(s) encontrado(s), o mínimo exigido é %2$d."
+
+#: wpwing-table-of-contents-block.php:1076
+msgid "Copy link to this section"
+msgstr "Copiar link para esta seção"
+
+#. translators: %d: number of headings
+#: wpwing-table-of-contents-block.php:1096
+#, php-format
+msgid "%d heading"
+msgid_plural "%d headings"
+msgstr[0] "%d cabeçalho"
+msgstr[1] "%d cabeçalhos"
+
+#: wpwing-table-of-contents-block.php:1130
+msgid "Toggle Table of Contents"
+msgstr "Alternar sumário"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block title"
+msgid "Table Of Contents"
+msgstr "Sumário"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "TOC"
+msgstr "TOC"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "Table of Contents"
+msgstr "Sumário"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "WPWing"
+msgstr "WPWing"
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block description"
+msgid "Automatically generates a fast, SEO-friendly table of contents from your headings."
+msgstr "Gera automaticamente um sumário rápido e amigável para SEO a partir dos seus cabeçalhos."
