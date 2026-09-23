@@ -71,3 +71,4 @@ Confirm the prompt when asked. The script will:
   Never delete files from a tag that does not exist on the server. Always update `trunk/` first and create the tag directly from `trunk/` (`svn cp trunk tags/<version>`).
 - **SVN authentication:**
   Subversion uses credentials cached in `~/.subversion/`. If prompted, provide your WordPress.org username and application password.
+
