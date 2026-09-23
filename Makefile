@@ -109,3 +109,11 @@ screenshots: ## Capture WordPress.org listing screenshots into wporg-assets/ and
 	docker compose --profile dev run --rm wpcli wp option delete lwptoc_general lwptoc_autoInsert --allow-root; \
 	exit $$status
 .PHONY: screenshots
+
+release-svn: ## Deploy release to WordPress.org SVN
+	bash tools/deploy-svn.sh
+.PHONY: release-svn
+
+release-svn-dry: ## Dry-run deploy to WordPress.org SVN (preview changes without committing)
+	bash tools/deploy-svn.sh --dry-run
+.PHONY: release-svn-dry
