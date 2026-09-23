@@ -2,7 +2,7 @@
 
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
-Tags:              TOC, Table of Contents, Navigation, SEO, Gutenberg Blocks
+Tags:              TOC, Table of Contents, table of contents block, anchor links, Gutenberg Blocks
 Stable tag:        1.10.0
 Requires at least: 5.8
 Tested up to:      7.1
@@ -10,7 +10,7 @@ Requires PHP:      7.1
 License:           GPL-3.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-3.0.html
 
-Instantly add an SEO-friendly, automated, and hyper-fast Table of Contents block to your posts and pages. Fully optimized for Gutenberg and Core Web Vitals.
+Automated table of contents (TOC) block for Gutenberg with no JavaScript by default. Generates smooth anchor links to boost SEO and readability.
 
 == Description ==
 
@@ -88,6 +88,9 @@ Yes. The block outputs a `nav` landmark around a real list, uses actual `button`
 
 = I'm using LuckyWP Table of Contents - can I switch without losing my settings? =
 Yes. Go to **WPWing > TOC Block** on this plugin. If LuckyWP's settings are still saved on your site, an **Import from LuckyWP Table of Contents** button appears there and copies over your list style, title text, minimum-headings threshold, and smooth-scroll offset in one click. Heading level range (min/max) isn't imported, since LuckyWP's depth setting is relative to each post and doesn't translate to a single sitewide value - set that one yourself.
+
+= Can I translate the Table of Contents block into my language? =
+Yes. The plugin is fully internationalized and translation-ready. It includes a complete POT template in the languages directory and comes pre-seeded with translations for German, Spanish, French, Portuguese (Brazil), and Dutch. Community translations can also be submitted through translate.wordpress.org.
 
 == Screenshots ==
 
