@@ -54,7 +54,7 @@ rsync -rc --delete --exclude-from=.distignore "${SRC_DIR}/" "${SVN_DIR}/trunk/"
 if [ -d "${WPORG_ASSETS_DIR}" ]; then
 	echo "Syncing assets to ${SVN_DIR}/assets/..."
 	mkdir -p "${SVN_DIR}/assets"
-	rsync -rc --delete "${WPORG_ASSETS_DIR}/" "${SVN_DIR}/assets/"
+	rsync -rc "${WPORG_ASSETS_DIR}/" "${SVN_DIR}/assets/"
 fi
 
 # 7. Update SVN tracking (handle removed and added files)
@@ -62,10 +62,10 @@ echo "Updating SVN tracking status..."
 cd "${SVN_DIR}"
 
 # Remove deleted files from SVN
-svn status trunk assets 2>/dev/null | grep '^\!' | awk '{print $2}' | xargs -r svn rm
+(svn status trunk assets 2>/dev/null | grep '^\!' || true) | awk '{print $2}' | xargs -r svn rm
 
 # Add newly created files to SVN
-svn status trunk assets 2>/dev/null | grep '^\?' | awk '{print $2}' | xargs -r svn add
+(svn status trunk assets 2>/dev/null | grep '^\?' || true) | awk '{print $2}' | xargs -r svn add
 
 # 8. Create tag from updated trunk
 if [ -d "tags/${VERSION}" ]; then
