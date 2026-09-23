@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, table of contents block, anchor links, Gutenberg Blocks
-Stable tag:        1.10.0
+Stable tag:        1.11.0
 Requires at least: 5.8
 Tested up to:      7.1
 Requires PHP:      7.1
@@ -104,6 +104,13 @@ Yes. The plugin is fully internationalized and translation-ready. It includes a 
 8. One-click settings import from LuckyWP Table of Contents
 
 == Changelog ==
+
+= 1.11.0 - 23/09/2026 =
+
+* New: Full internationalization support with translation template and seeded translations for German (de_DE), Spanish (es_ES), French (fr_FR), Portuguese (pt_BR), and Dutch (nl_NL).
+* Improvement: Readme tags and short description optimized for high-intent search terms.
+* Improvement: Added translator context notes to all formatted string counts and plural rules.
+* Fix: Added missing load_plugin_textdomain call during block initialization so custom locale packs in languages/ load reliably.
 
 = 1.10.0 - 09/09/2026 =
 
