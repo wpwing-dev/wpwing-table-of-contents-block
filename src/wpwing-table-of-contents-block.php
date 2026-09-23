@@ -1091,8 +1091,8 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 
 	$badge_html = '';
 	if ( $show_heading_count && $eligible_count > 0 ) {
-		/* translators: %d: number of headings */
 		$badge_html = '<span class="wpwing-toc-count">' . sprintf(
+			/* translators: %d: number of headings */
 			_n( '%d heading', '%d headings', $eligible_count, 'wpwing-table-of-contents-block' ),
 			$eligible_count
 		) . '</span>';

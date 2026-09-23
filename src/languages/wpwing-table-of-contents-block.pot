@@ -1,0 +1,611 @@
+# Copyright (C) 2026 WPWing
+# This file is distributed under the GPL-3.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Table of Contents (TOC) Block - Fast & SEO Friendly 1.10.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpwing-table-of-contents-block\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-23T05:25:09+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: wpwing-table-of-contents-block\n"
+
+#. Plugin Name of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "Table of Contents (TOC) Block - Fast & SEO Friendly"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "https://wpwing.com/"
+msgstr ""
+
+#. Description of the plugin
+#: wpwing-table-of-contents-block.php
+msgid "Automated, ultra-fast Table of Contents block built to boost SEO and readability with zero frontend JavaScript."
+msgstr ""
+
+#. Author of the plugin
+#: wpwing-table-of-contents-block.php
+#: wpwing-table-of-contents-block.php:277
+#: wpwing-table-of-contents-block.php:278
+msgid "WPWing"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:56
+msgid "Support"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:57
+msgid "Write a review"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:58
+msgid "Documentation"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:66
+msgid "Settings"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:244
+msgid "You are not allowed to do this."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:290
+#: wpwing-table-of-contents-block.php:326
+msgid "Table of Contents Block"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:291
+msgid "TOC Block"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:320
+msgid "Before the first heading"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:321
+msgid "After the first paragraph"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:322
+msgid "Top of the content"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:329
+msgid "Settings imported from LuckyWP Table of Contents."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:331
+msgid "No LuckyWP Table of Contents settings were found to import."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:335
+msgid "Import settings"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:336
+msgid "LuckyWP Table of Contents settings were found on this site. Import its list style, title, minimum-headings threshold, and smooth-scroll settings into the defaults below."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:340
+msgid "Import from LuckyWP Table of Contents"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:345
+msgid "Auto-insert"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:346
+msgid "Show a Table of Contents automatically, without adding the block to each post. Posts that already contain a TOC block keep their own block and are skipped."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:349
+msgid "Enable for post types"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:358
+msgid "No post type checked means auto-insert is off."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:363
+msgid "Position"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:373
+msgid "Minimum headings"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:376
+msgid "Skip posts with fewer qualifying headings, so short posts stay clean."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:380
+msgid "New block defaults"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:383
+msgid "Custom title"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:387
+msgid "Minimum and maximum levels"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:394
+msgid "Collapsible mode"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:396
+msgid "Make new blocks collapsible"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:398
+#: assets/public/index.js:1
+#: assets/src/edit.js:269
+msgid "JavaScript toggle"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:399
+#: assets/public/index.js:1
+#: assets/src/edit.js:276
+msgid "Native HTML (zero JavaScript)"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:402
+msgid "Start collapsed"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:407
+#: assets/public/index.js:1
+#: assets/src/edit.js:315
+msgid "List style"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:410
+msgid "Style preset"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:413
+#: assets/public/index.js:1
+#: assets/src/edit.js:224
+msgid "Default"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:414
+#: assets/public/index.js:1
+#: assets/src/edit.js:231
+msgid "Boxed"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:419
+msgid "List markup"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:425
+#: assets/public/index.js:1
+#: assets/src/edit.js:326
+msgid "Bulleted"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:426
+#: assets/public/index.js:1
+#: assets/src/edit.js:333
+msgid "Numbered"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:427
+#: assets/public/index.js:1
+#: assets/src/edit.js:340
+msgid "Hierarchical (1.1, 1.1.1)"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:430
+msgid "Remove nested indentation"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:435
+msgid "Thresholds and filtering"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:438
+#: assets/public/index.js:1
+#: assets/src/edit.js:153
+msgid "Minimum headings to show TOC"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:442
+msgid "Exclude headings containing"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:445
+msgid "Comma-separated keywords. Headings containing any of them are skipped."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:450
+msgid "Links"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:453
+#: wpwing-table-of-contents-block.php:879
+#: wpwing-table-of-contents-block.php:1144
+msgid "Back to top"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:455
+msgid "Show a back-to-top link below the TOC"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:456
+msgid "Add a back-to-top link after each heading"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:460
+msgid "Copy link"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:461
+msgid "Show a copy-link button on each entry"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:464
+msgid "URL format"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:465
+msgid "Use absolute URLs in TOC links"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:469
+msgid "Scrolling"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:472
+msgid "Smooth scroll"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:473
+msgid "Enable smooth scrolling to headings"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:476
+msgid "Scroll offset"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:478
+msgid "px"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:479
+msgid "Keeps headings visible below sticky or fixed headers when jumping from the TOC."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:484
+msgid "Accessibility and SEO"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:487
+msgid "Title and count"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:489
+msgid "Hide the TOC title"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:490
+msgid "Show a heading-count badge next to the title"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:494
+msgid "Search snippets"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:495
+msgid "Exclude TOC text from search result snippets"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:521
+#: wpwing-table-of-contents-block.php:1090
+msgid "Table of Contents"
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:530
+msgid "No content found. Save or update the post first."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:550
+msgid "Add Heading blocks to your post and the TOC will appear here."
+msgstr ""
+
+#. translators: 1: current heading count, 2: required minimum
+#: wpwing-table-of-contents-block.php:570
+#, php-format
+msgid "TOC hidden: %1$d qualifying heading(s) found, minimum required is %2$d."
+msgstr ""
+
+#: wpwing-table-of-contents-block.php:1076
+msgid "Copy link to this section"
+msgstr ""
+
+#. translators: %d: number of headings
+#: wpwing-table-of-contents-block.php:1096
+#, php-format
+msgid "%d heading"
+msgid_plural "%d headings"
+msgstr[0] ""
+msgstr[1] ""
+
+#: wpwing-table-of-contents-block.php:1130
+msgid "Toggle Table of Contents"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:59
+msgid "Content"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:63
+msgid "Custom Title"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:67
+msgid "Leave empty to use the default \"Table of Contents\" title."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:77
+msgid "Hide TOC Title"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:81
+msgid "Hide the title and add your own heading block above the TOC."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:91
+msgid "Minimum Level"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:95
+msgid "Start the TOC from this heading level."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:102
+msgid "H2 (show all)"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:118
+msgid "Maximum Level"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:122
+msgid "Stop including headings deeper than this level."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:129
+msgid "H6 (show all)"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:146
+msgid "Minimum level is deeper than maximum - the TOC will be empty."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:157
+msgid "Hide the TOC if the post has fewer qualifying headings than this number."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:169
+msgid "Show heading count"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:173
+msgid "Display the number of visible headings next to the TOC title. Has no effect when the title is hidden."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:186
+msgid "Heading count is hidden because the TOC title is disabled."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:193
+msgid "Exclude headings"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:197
+msgid "Comma-separated keywords. Headings containing these words are hidden from the TOC."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:209
+msgid "Display"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:213
+msgid "Style"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:217
+msgid "Choose a visual style for the TOC."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:243
+msgid "Collapsible"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:247
+msgid "Add a toggle button so readers can show or hide the TOC."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:258
+msgid "Collapse mode"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:262
+msgid "Use native HTML for a zero-JavaScript collapsible TOC."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:290
+msgid "Collapsed by default"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:294
+msgid "Start with the TOC list hidden until the reader expands it."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:308
+msgid "Without a TOC title, the toggle button will appear as an icon only. Consider adding a Custom Title in the Content panel."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:319
+msgid "Choose how TOC items are marked."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:355
+msgid "Flat list (no indent)"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:359
+msgid "Remove bullet points and indentation from the first level."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:371
+msgid "Links & Behavior"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:378
+msgid "Show \"Back to top\" link"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:382
+msgid "Add a link below the TOC that scrolls back to the top of the page."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:394
+msgid "Add per-section back to top links"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:398
+msgid "Inserts a \"↑ Back to top\" link after each heading in the post content."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:410
+msgid "Copy link button on hover"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:414
+msgid "Show a button beside each TOC item that copies a direct link to that section."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:424
+msgid "Enable smooth scrolling"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:428
+msgid "Adds css class \"smooth-scroll\" to links and enables scroll-behavior: smooth on the page."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:440
+msgid "Scroll offset (px)"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:444
+msgid "Leave space above headings when jumping from the TOC. Set this to your sticky header height so headings are not hidden behind it."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:456
+msgid "Hide TOC from search snippets"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:460
+msgid "Adds data-nosnippet so search engines do not use the TOC text in search result snippets."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:470
+msgid "Use absolute URLs"
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:474
+msgid "Include the full page URL in each anchor link. Useful when sharing direct links to sections."
+msgstr ""
+
+#: assets/public/index.js:1
+#: assets/src/edit.js:491
+msgid "Update table of contents"
+msgstr ""
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block title"
+msgid "Table Of Contents"
+msgstr ""
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "TOC"
+msgstr ""
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "Table of Contents"
+msgstr ""
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block keyword"
+msgid "WPWing"
+msgstr ""
+
+#: assets/public/block.json
+#: assets/src/block.json
+msgctxt "block description"
+msgid "Automatically generates a fast, SEO-friendly table of contents from your headings."
+msgstr ""
