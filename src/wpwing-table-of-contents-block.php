@@ -22,6 +22,7 @@
  * @since 1.0.0
  */
 function wpwing_toc_register_block() {
+	load_plugin_textdomain( 'wpwing-table-of-contents-block', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	add_filter( 'plugin_row_meta', 'wpwing_toc_plugin_meta', 10, 2 );
 	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'wpwing_toc_plugin_action_links' );
 
@@ -1090,6 +1091,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 
 	$badge_html = '';
 	if ( $show_heading_count && $eligible_count > 0 ) {
+		/* translators: %d: number of headings */
 		$badge_html = '<span class="wpwing-toc-count">' . sprintf(
 			_n( '%d heading', '%d headings', $eligible_count, 'wpwing-table-of-contents-block' ),
 			$eligible_count
