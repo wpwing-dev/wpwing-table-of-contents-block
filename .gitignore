@@ -39,3 +39,11 @@ package-lock.json
 # Playwright e2e output
 test-results/
 playwright-report/
+
+# Composer
+/vendor/
+composer.lock
+
+# Local WordPress.org SVN checkout
+/svn/
+
