@@ -50,6 +50,11 @@ lint-js: ## Lint JavaScript
 	npm run lint:js
 .PHONY: lint-js
 
+test-php: ## Run PHPUnit tests
+	composer install --no-interaction --quiet
+	vendor/bin/phpunit
+.PHONY: test-php
+
 lint-css: ## Lint CSS and SCSS
 	npm run lint:css
 .PHONY: lint-css

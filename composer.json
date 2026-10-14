@@ -1,0 +1,11 @@
+{
+	"name": "wpwing/wpwing-table-of-contents-block",
+	"description": "Dev tooling for the TOC Block plugin (PHPUnit only, nothing ships in the plugin zip).",
+	"license": "GPL-3.0-or-later",
+	"require-dev": {
+		"phpunit/phpunit": "^9.6"
+	},
+	"scripts": {
+		"test": "phpunit"
+	}
+}

@@ -40,6 +40,10 @@ package-lock.json
 test-results/
 playwright-report/
 
+# Composer
+/vendor/
+composer.lock
+
 # Local WordPress.org SVN checkout
 /svn/
 
