@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, table of contents block, anchor links, Gutenberg Blocks
-Stable tag:        1.11.0
+Stable tag:        1.12.0
 Requires at least: 5.8
 Tested up to:      7.1
 Requires PHP:      7.1
@@ -104,6 +104,12 @@ Yes. The plugin is fully internationalized and translation-ready. It includes a 
 8. One-click settings import from LuckyWP Table of Contents
 
 == Changelog ==
+
+= 1.12.0 - 14/10/2026 =
+
+* Improvement: Plugin PHP code split into focused modules under includes/ for easier maintenance. No behavior change.
+* New: WordPress Playground blueprint so the plugin can be tried live in the browser.
+* Dev: Added PHPUnit tests for heading, anchor and LuckyWP import logic.
 
 = 1.11.0 - 23/09/2026 =
 
