@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "wpwing/toc",
-	"version": "1.12.0",
+	"version": "1.13.0",
 	"title": "Table Of Contents",
 	"category": "widgets",
 	"keywords": [ "TOC", "Table of Contents", "WPWing" ],
@@ -97,6 +97,10 @@
 		"scroll_offset": {
 			"type": "integer",
 			"default": 0
+		},
+		"scrollspy": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"example": {},

@@ -1,4 +1,5 @@
 .wpwing-toc {
+	--wpwing-toc-active-color: var(--wp--preset--color--primary, #0073aa);
 
 	.wpwing-toc-list {
 		margin: 0.5em 0 0;
@@ -6,6 +7,15 @@
 
 		li {
 			margin: 0.25em 0;
+		}
+
+		a {
+			transition: color 0.15s ease, font-weight 0.15s ease;
+
+			&.is-active {
+				color: var(--wpwing-toc-active-color);
+				font-weight: 700;
+			}
 		}
 
 		&.wpwing-toc-list--flat {
@@ -171,3 +181,11 @@
 		text-decoration: underline;
 	}
 }
+
+@media (prefers-reduced-motion: reduce) {
+
+	.wpwing-toc .wpwing-toc-list a {
+		transition: none;
+	}
+}
+

@@ -41,6 +41,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		start_collapsed,
 		seo_nosnippet,
 		scroll_offset,
+		scrollspy,
 	} = attributes;
 
 	const levelError = Number( min_level ) > Number( max_level );
@@ -451,6 +452,20 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 						min={ 0 }
 						max={ 300 }
+					/>
+					<ToggleControl
+						label={ __(
+							'Highlight active heading (Scrollspy)',
+							'wpwing-table-of-contents-block'
+						) }
+						help={ __(
+							'Highlights the current section in the TOC as the reader scrolls.',
+							'wpwing-table-of-contents-block'
+						) }
+						checked={ scrollspy }
+						onChange={ () =>
+							setAttributes( { scrollspy: ! scrollspy } )
+						}
 					/>
 					<ToggleControl
 						label={ __(

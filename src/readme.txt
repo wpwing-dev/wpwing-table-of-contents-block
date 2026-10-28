@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, table of contents block, anchor links, Gutenberg Blocks
-Stable tag:        1.12.0
+Stable tag:        1.13.0
 Requires at least: 5.8
 Tested up to:      7.1
 Requires PHP:      7.1
@@ -35,6 +35,7 @@ Unlike plugins that lock basic layout settings behind a pro version, you get ful
 ### 🚀 Key Features At A Glance
 * **100% Automated:** Scans content instantly to generate accurate internal jump links.
 * **Auto-Insert:** Optionally show the TOC on posts, pages, or custom post types without adding the block - choose the position under WPWing > TOC Block. Placing the block manually in a post always overrides it.
+* **Scrollspy Highlight:** Highlight the current section in the TOC in real time as the reader scrolls.
 * **Pure Performance:** No frontend JavaScript unless you enable an interactive feature - fully optimized for page speed.
 * **Designed for Gutenberg:** Integrates natively into the WordPress block editor experience.
 * **Responsive Layouts:** Inherits theme styles fluidly for perfect rendering on mobile devices.
@@ -89,6 +90,9 @@ Yes. The block outputs a `nav` landmark around a real list, uses actual `button`
 = I'm using LuckyWP Table of Contents - can I switch without losing my settings? =
 Yes. Go to **WPWing > TOC Block** on this plugin. If LuckyWP's settings are still saved on your site, an **Import from LuckyWP Table of Contents** button appears there and copies over your list style, title text, minimum-headings threshold, and smooth-scroll offset in one click. Heading level range (min/max) isn't imported, since LuckyWP's depth setting is relative to each post and doesn't translate to a single sitewide value - set that one yourself.
 
+= How do I highlight the current heading as the reader scrolls (Scrollspy)? =
+Select the TOC block, open the **Links & Behavior** panel in the block sidebar, and toggle on **Highlight active heading (Scrollspy)**. You can also enable it globally under **WPWing > TOC Block** so all new and auto-inserted TOCs have it enabled by default. The active heading is tracked using a performant vanilla IntersectionObserver with zero external scripts.
+
 = Can I translate the Table of Contents block into my language? =
 Yes. The plugin is fully internationalized and translation-ready. It includes a complete POT template in the languages directory and comes pre-seeded with translations for German, Spanish, French, Portuguese (Brazil), and Dutch. Community translations can also be submitted through translate.wordpress.org.
 
@@ -104,6 +108,14 @@ Yes. The plugin is fully internationalized and translation-ready. It includes a 
 8. One-click settings import from LuckyWP Table of Contents
 
 == Changelog ==
+
+= 1.13.0 - 28/10/2026 =
+
+* New: Scrollspy active heading highlight - highlight the current section in the TOC in real time as readers scroll through your article.
+* New: Global scrollspy default - optionally enable active heading highlighting by default for all new blocks and auto-inserted TOCs from WPWing > TOC Block.
+* Improvement: Exposed CSS custom property `--wpwing-toc-active-color` to allow themes to easily customize the active heading highlight color.
+* Improvement: Respects `prefers-reduced-motion` to disable active transition effects for users requesting reduced motion.
+* Fix: Ensure linter and ignore configurations exclude local build and dependency artifacts for faster, cleaner builds.
 
 = 1.12.0 - 14/10/2026 =
 
