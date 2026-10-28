@@ -68,7 +68,7 @@ function wpwing_toc_sanitize_block_defaults( $input ) {
 		$allowed = [
 			'title_text', 'min_level', 'max_level', 'min_headings', 'collapsible', 'collapse_mode', 'start_collapsed', 'use_ol', 'remove_indent',
 			'style_preset', 'hierarchical_numbers', 'exclude_keywords', 'show_back_to_top', 'add_back_to_top', 'copy_anchor', 'add_smooth', 'scroll_offset',
-			'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet',
+			'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet', 'scrollspy',
 		];
 		$output  = [];
 		foreach ( $allowed as $key ) {
@@ -76,7 +76,7 @@ function wpwing_toc_sanitize_block_defaults( $input ) {
 				continue;
 			}
 			$value = $input[ $key ];
-			if ( in_array( $key, [ 'collapsible', 'start_collapsed', 'use_ol', 'remove_indent', 'hierarchical_numbers', 'show_back_to_top', 'add_back_to_top', 'copy_anchor', 'add_smooth', 'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet' ], true ) ) {
+			if ( in_array( $key, [ 'collapsible', 'start_collapsed', 'use_ol', 'remove_indent', 'hierarchical_numbers', 'show_back_to_top', 'add_back_to_top', 'copy_anchor', 'add_smooth', 'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet', 'scrollspy' ], true ) ) {
 				$output[ $key ] = (bool) $value;
 			} elseif ( in_array( $key, [ 'min_level', 'max_level', 'min_headings' ], true ) ) {
 				$output[ $key ] = max( 1, (int) $value );

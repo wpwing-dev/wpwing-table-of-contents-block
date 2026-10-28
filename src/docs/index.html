@@ -478,6 +478,11 @@
 						<td>Leaves this much space above a heading when jumping to it from the TOC (range 0-300). Set it to roughly the height of your sticky/fixed header so headings land below the header instead of hiding behind it. Pure CSS (<code>scroll-margin-top</code>).</td>
 					</tr>
 					<tr>
+						<td><strong>Highlight active heading (Scrollspy)</strong></td>
+						<td>Off</td>
+						<td>Highlights the current section in the TOC as the reader scrolls through the page. Uses a lightweight vanilla <code>IntersectionObserver</code>, respects <code>prefers-reduced-motion</code>, and exposes the <code>--wpwing-toc-active-color</code> CSS variable for theme customization.</td>
+					</tr>
+					<tr>
 						<td><strong>Hide TOC from search snippets</strong></td>
 						<td>Off</td>
 						<td>Adds the <code>data-nosnippet</code> attribute to the TOC so search engines don't use the list of headings as your search result snippet text.</td>
@@ -514,6 +519,10 @@
 				<div class="feature-card">
 					<h4>Theme-friendly</h4>
 					<p>The TOC ships with safe default list spacing and otherwise inherits your theme's typography, so it looks native everywhere - including RTL languages.</p>
+				</div>
+				<div class="feature-card">
+					<h4>Active heading color</h4>
+					<p>When scrollspy is enabled, the active link inherits <code>--wpwing-toc-active-color</code> (defaults to your theme's primary color). Override it with custom CSS to match your brand.</p>
 				</div>
 			</div>
 		</section>
@@ -688,6 +697,11 @@
 			<details>
 				<summary>My sticky header covers the heading when I click a TOC link. How do I fix it?</summary>
 				<p>Open the <strong>Links &amp; Behavior</strong> panel and set <strong>Scroll offset (px)</strong> to roughly the height of your sticky header. Headings will then land below the header instead of behind it. This is done with pure CSS - no JavaScript is added.</p>
+			</details>
+
+			<details>
+				<summary>How do I highlight the current heading as the reader scrolls (Scrollspy)?</summary>
+				<p>Select the TOC block, open the <strong>Links &amp; Behavior</strong> panel in the block sidebar, and toggle on <strong>Highlight active heading (Scrollspy)</strong>. You can also enable it globally under <strong>WPWing &gt; TOC Block</strong> so all new and auto-inserted TOCs have it enabled by default. The active heading is tracked using a performant vanilla IntersectionObserver with zero external scripts.</p>
 			</details>
 
 			<details>

@@ -19,6 +19,28 @@ function sanitize_title_with_dashes( $title ) {
 	return trim( preg_replace( '/[\s_-]+/', '-', $title ), '-' );
 }
 
+function sanitize_text_field( $str ) {
+	return trim( strip_tags( (string) $str ) );
+}
+
+function get_permalink() {
+	return 'http://example.com/post';
+}
+
+function get_block_wrapper_attributes( $extra = [] ) {
+	$attrs = [];
+	foreach ( $extra as $k => $v ) {
+		$attrs[] = $k . '="' . htmlspecialchars( (string) $v, ENT_QUOTES ) . '"';
+	}
+	return implode( ' ', $attrs );
+}
+
+function esc_attr( $t ) { return htmlspecialchars( (string) $t, ENT_QUOTES ); }
+function esc_html( $t ) { return htmlspecialchars( (string) $t, ENT_QUOTES ); }
+function esc_url( $u ) { return $u; }
+function __( $text ) { return $text; }
+function _n( $s, $p, $c ) { return $c === 1 ? $s : $p; }
+
 require_once WPWING_TOC_DIR . '/includes/settings.php';
 require_once WPWING_TOC_DIR . '/includes/importers/class-importer-luckywp.php';
 require_once WPWING_TOC_DIR . '/includes/render.php';

@@ -98,6 +98,10 @@ function wpwing_toc_render_callback( $attributes ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_frontend_script' );
 	}
 
+	if ( ! empty( $attributes['scrollspy'] ) && ! $is_backend ) {
+		add_action( 'wp_footer', 'wpwing_toc_print_scrollspy_script' );
+	}
+
 	return wpwing_toc_generate_toc( $headings_clean, $attributes );
 }
 
@@ -180,6 +184,123 @@ function wpwing_toc_print_frontend_script() {
 				});
 			});
 		});
+	})();
+	</script>
+	<?php
+}
+
+/**
+ * Print scrollspy (active heading highlight) script in the footer.
+ * Named function so add_action deduplicates it if multiple TOC blocks are on the page.
+ *
+ * @since 1.13.0
+ */
+function wpwing_toc_print_scrollspy_script() {
+	$offset = (int) wpwing_toc_scroll_offset();
+	?>
+	<script>
+	(function () {
+		if ( ! ('IntersectionObserver' in window) ) {
+			return;
+		}
+		var tocs = document.querySelectorAll('.wpwing-toc--scrollspy');
+		if ( ! tocs.length ) {
+			return;
+		}
+		var linkMap = {};
+		var headings = [];
+		tocs.forEach(function (toc) {
+			var links = toc.querySelectorAll('.wpwing-toc-list a[href^="#"]');
+			links.forEach(function (link) {
+				var raw = link.getAttribute('href').slice(1);
+				var id = decodeURIComponent(raw);
+				if ( ! id ) {
+					return;
+				}
+				if ( ! linkMap[id] ) {
+					linkMap[id] = [];
+					var el = document.getElementById(id) || document.getElementById(raw);
+					if ( el ) {
+						headings.push(el);
+					}
+				}
+				linkMap[id].push(link);
+			});
+		});
+		if ( ! headings.length ) {
+			return;
+		}
+		headings.sort(function (a, b) {
+			return (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+		});
+
+		var activeId = '';
+		function setActive(id) {
+			if ( id === activeId ) {
+				return;
+			}
+			activeId = id;
+			Object.keys(linkMap).forEach(function (key) {
+				var isActive = key === id;
+				linkMap[key].forEach(function (link) {
+					if ( isActive ) {
+						link.classList.add('is-active');
+					} else {
+						link.classList.remove('is-active');
+					}
+				});
+			});
+		}
+
+		var states = {};
+		var topMargin = <?php echo (int) $offset; ?>;
+		var rootMargin = '-' + topMargin + 'px 0px -70% 0px';
+
+		var observer = new IntersectionObserver(function (entries) {
+			entries.forEach(function (entry) {
+				states[entry.target.id] = {
+					isIntersecting: entry.isIntersecting,
+					top: entry.boundingClientRect.top
+				};
+			});
+
+			var current = '';
+			for ( var i = 0; i < headings.length; i++ ) {
+				var h = headings[i];
+				var s = states[h.id];
+				if ( s && s.isIntersecting ) {
+					current = h.id;
+					break;
+				}
+			}
+
+			if ( ! current ) {
+				for ( var j = headings.length - 1; j >= 0; j-- ) {
+					var hj = headings[j];
+					var sj = states[hj.id];
+					if ( sj && sj.top < (topMargin + 100) ) {
+						current = hj.id;
+						break;
+					}
+				}
+			}
+
+			if ( current ) {
+				setActive(current);
+			}
+		}, { rootMargin: rootMargin });
+
+		headings.forEach(function (h) {
+			observer.observe(h);
+		});
+
+		window.addEventListener('scroll', function () {
+			if ( window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 30 ) {
+				if ( headings.length ) {
+					setActive(headings[headings.length - 1].id);
+				}
+			}
+		}, { passive: true });
 	})();
 	</script>
 	<?php
@@ -411,6 +532,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	$absolute_url = $attributes['use_absolute_urls'] === true ? get_permalink() : '';
 	$link_class   = $attributes['add_smooth'] === true ? 'smooth-scroll' : '';
 	$flat_class   = ! empty( $attributes['remove_indent'] ) ? 'wpwing-toc-list--flat' : '';
+	$scrollspy    = ! empty( $attributes['scrollspy'] );
 
 	$collapsible      = ! empty( $attributes['collapsible'] );
 	$copy_anchor      = ! empty( $attributes['copy_anchor'] );
@@ -545,6 +667,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		$collapsible ? 'wpwing-toc--collapsible' : '',
 		$collapsible && ! empty( $attributes['start_collapsed'] ) ? 'wpwing-toc--start-collapsed' : '',
 		$copy_anchor ? 'wpwing-toc--copyable' : '',
+		$scrollspy ? 'wpwing-toc--scrollspy' : '',
 	] );
 
 	$extra_attributes = [

@@ -200,6 +200,13 @@ function wpwing_toc_render_settings_page() {
 		<h3><?php esc_html_e( 'Scrolling', 'wpwing-table-of-contents-block' ); ?></h3>
 		<table class="form-table" role="presentation">
 			<tr>
+				<th scope="row"><?php esc_html_e( 'Highlight active heading', 'wpwing-table-of-contents-block' ); ?></th>
+				<td>
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][scrollspy]" value="1" <?php checked( ! empty( $settings['block_defaults']['scrollspy'] ) ); ?> /> <?php esc_html_e( 'Highlight current section in TOC while scrolling (Scrollspy)', 'wpwing-table-of-contents-block' ); ?></label>
+					<p class="description"><?php esc_html_e( 'Highlights the current heading in the table of contents as the reader scrolls.', 'wpwing-table-of-contents-block' ); ?></p>
+				</td>
+			</tr>
+			<tr>
 				<th scope="row"><?php esc_html_e( 'Smooth scroll', 'wpwing-table-of-contents-block' ); ?></th>
 				<td><label><input type="checkbox" name="wpwing_toc_settings[block_defaults][add_smooth]" value="1" <?php checked( ! empty( $settings['block_defaults']['add_smooth'] ) ); ?> /> <?php esc_html_e( 'Enable smooth scrolling to headings', 'wpwing-table-of-contents-block' ); ?></label></td>
 			</tr>

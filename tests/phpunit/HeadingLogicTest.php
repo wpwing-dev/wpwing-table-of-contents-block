@@ -110,4 +110,33 @@ final class HeadingLogicTest extends TestCase {
 		$this->assertSame( 2, wpwing_toc_auto_insert_index( $blocks, 'after_first_paragraph' ) );
 		$this->assertSame( 0, wpwing_toc_auto_insert_index( [ [ 'blockName' => 'core/image' ] ], 'before_first_heading' ) );
 	}
+
+	public function test_sanitize_block_defaults_handles_scrollspy() {
+		$sanitized = wpwing_toc_sanitize_block_defaults( [ 'scrollspy' => 1 ] );
+		$this->assertTrue( $sanitized['scrollspy'] );
+
+		$sanitized = wpwing_toc_sanitize_block_defaults( [ 'scrollspy' => 0 ] );
+		$this->assertFalse( $sanitized['scrollspy'] );
+	}
+
+	public function test_generate_toc_adds_scrollspy_nav_class_when_enabled() {
+		$headings = [ '<h2>Section One</h2>', '<h2>Section Two</h2>' ];
+		$attrs = [
+			'min_level' => 2,
+			'max_level' => 6,
+			'use_ol' => false,
+			'use_absolute_urls' => false,
+			'add_smooth' => false,
+			'title_text' => 'TOC',
+			'no_title' => false,
+			'scrollspy' => true,
+		];
+		$html = wpwing_toc_generate_toc( $headings, $attrs );
+		$this->assertStringContainsString( 'wpwing-toc--scrollspy', $html );
+
+		$attrs['scrollspy'] = false;
+		$html_no_spy = wpwing_toc_generate_toc( $headings, $attrs );
+		$this->assertStringNotContainsString( 'wpwing-toc--scrollspy', $html_no_spy );
+	}
 }
+
