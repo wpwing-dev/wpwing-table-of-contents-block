@@ -207,6 +207,13 @@ function wpwing_toc_render_settings_page() {
 				</td>
 			</tr>
 			<tr>
+				<th scope="row"><?php esc_html_e( 'Sticky / Floating TOC', 'wpwing-table-of-contents-block' ); ?></th>
+				<td>
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][sticky]" value="1" <?php checked( ! empty( $settings['block_defaults']['sticky'] ) ); ?> /> <?php esc_html_e( 'Make TOC sticky when scrolling', 'wpwing-table-of-contents-block' ); ?></label>
+					<p class="description"><?php esc_html_e( 'Pins the TOC to the viewport when scrolling past it (automatically unpins on mobile screens).', 'wpwing-table-of-contents-block' ); ?></p>
+				</td>
+			</tr>
+			<tr>
 				<th scope="row"><?php esc_html_e( 'Smooth scroll', 'wpwing-table-of-contents-block' ); ?></th>
 				<td><label><input type="checkbox" name="wpwing_toc_settings[block_defaults][add_smooth]" value="1" <?php checked( ! empty( $settings['block_defaults']['add_smooth'] ) ); ?> /> <?php esc_html_e( 'Enable smooth scrolling to headings', 'wpwing-table-of-contents-block' ); ?></label></td>
 			</tr>

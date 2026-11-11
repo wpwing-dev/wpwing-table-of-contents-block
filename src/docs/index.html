@@ -483,6 +483,11 @@
 						<td>Highlights the current section in the TOC as the reader scrolls through the page. Uses a lightweight vanilla <code>IntersectionObserver</code>, respects <code>prefers-reduced-motion</code>, and exposes the <code>--wpwing-toc-active-color</code> CSS variable for theme customization.</td>
 					</tr>
 					<tr>
+						<td><strong>Sticky / Floating TOC</strong></td>
+						<td>Off</td>
+						<td>Keeps the TOC pinned in view as the reader scrolls down long articles. Powered by pure CSS (<code>position: sticky</code>) with internal overflow scrolling and zero frontend JavaScript. Automatically unpins on mobile viewports (under 782px) to preserve screen space. Reuses your configured <strong>Scroll offset</strong> (or 20px default) as its top sticky offset.</td>
+					</tr>
+					<tr>
 						<td><strong>Hide TOC from search snippets</strong></td>
 						<td>Off</td>
 						<td>Adds the <code>data-nosnippet</code> attribute to the TOC so search engines don't use the list of headings as your search result snippet text.</td>
@@ -658,10 +663,10 @@
 			<p>Useful hooks and markup details for theme and plugin authors.</p>
 
 			<h3>Markup</h3>
-			<p>The TOC renders as a semantic <code>&lt;nav class="wpwing-toc"&gt;</code> element with an <code>aria-label</code>, containing a <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code> with the class <code>wpwing-toc-list</code>. The Boxed style adds <code>wpwing-toc--boxed</code>; collapsible mode adds <code>wpwing-toc--collapsible</code>. Target these classes from your theme's stylesheet for custom styling.</p>
+			<p>The TOC renders as a semantic <code>&lt;nav class="wpwing-toc"&gt;</code> element with an <code>aria-label</code>, containing a <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code> with the class <code>wpwing-toc-list</code>. The Boxed style adds <code>wpwing-toc--boxed</code>; collapsible mode adds <code>wpwing-toc--collapsible</code>; sticky mode adds <code>wpwing-toc--sticky</code>. Target these classes from your theme's stylesheet for custom styling.</p>
 
 			<h3>Performance</h3>
-			<p>No JavaScript or CSS files are enqueued on the frontend beyond the block's own stylesheet. Smooth scrolling and scroll offset are inline CSS. Only the collapsible toggle, back-to-top links, and copy-link buttons print a few lines of inline script in the footer - and only when enabled.</p>
+			<p>No JavaScript or CSS files are enqueued on the frontend beyond the block's own stylesheet. Smooth scrolling, scroll offset, and sticky positioning are inline CSS. Only the collapsible toggle, back-to-top links, and copy-link buttons print a few lines of inline script in the footer - and only when enabled.</p>
 
 			<h3>SEO integrations</h3>
 			<p>The block registers itself as a table of contents with <strong>Rank Math</strong> (via the <code>rank_math/researches/toc_plugins</code> filter) and <strong>Yoast SEO</strong> (via <code>wpseo_table_of_contents_blocks</code>), so both plugins' content analysis recognizes it.</p>
@@ -702,6 +707,11 @@
 			<details>
 				<summary>How do I highlight the current heading as the reader scrolls (Scrollspy)?</summary>
 				<p>Select the TOC block, open the <strong>Links &amp; Behavior</strong> panel in the block sidebar, and toggle on <strong>Highlight active heading (Scrollspy)</strong>. You can also enable it globally under <strong>WPWing &gt; TOC Block</strong> so all new and auto-inserted TOCs have it enabled by default. The active heading is tracked using a performant vanilla IntersectionObserver with zero external scripts.</p>
+			</details>
+
+			<details>
+				<summary>How do I make the Table of Contents sticky / floating as readers scroll?</summary>
+				<p>Select the TOC block, open the <strong>Links &amp; Behavior</strong> panel in the block sidebar, and toggle on <strong>Sticky / Floating TOC</strong>. You can also turn it on sitewide under <strong>WPWing &gt; TOC Block</strong>. The floating behavior uses pure CSS <code>position: sticky</code> with no JavaScript overhead, reuses your configured scroll offset (or 20px default) for the top clearance, and automatically unpins on mobile viewports (under 782px) to prevent taking over small screens.</p>
 			</details>
 
 			<details>

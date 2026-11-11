@@ -101,6 +101,10 @@
 		"scrollspy": {
 			"type": "boolean",
 			"default": false
+		},
+		"sticky": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"example": {},

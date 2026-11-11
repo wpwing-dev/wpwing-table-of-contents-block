@@ -99,6 +99,18 @@
 		box-shadow: 0 0 0 1px rgba(128, 128, 128, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
 	}
 
+	// Sticky / floating TOC
+	&.wpwing-toc--sticky {
+
+		@media (min-width: 782px) {
+			position: sticky;
+			top: var(--wpwing-toc-sticky-top, 20px);
+			max-height: calc(100vh - var(--wpwing-toc-sticky-top, 20px) - 2rem);
+			overflow-y: auto;
+			z-index: 10;
+		}
+	}
+
 	// Collapsible header (title + toggle button row)
 	.wpwing-toc-header {
 		display: flex;
