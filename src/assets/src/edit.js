@@ -42,6 +42,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		seo_nosnippet,
 		scroll_offset,
 		scrollspy,
+		sticky,
 	} = attributes;
 
 	const levelError = Number( min_level ) > Number( max_level );
@@ -466,6 +467,18 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ () =>
 							setAttributes( { scrollspy: ! scrollspy } )
 						}
+					/>
+					<ToggleControl
+						label={ __(
+							'Sticky / Floating TOC',
+							'wpwing-table-of-contents-block'
+						) }
+						help={ __(
+							'Pins the TOC to the viewport when scrolling past it (unpins on mobile screens).',
+							'wpwing-table-of-contents-block'
+						) }
+						checked={ sticky }
+						onChange={ () => setAttributes( { sticky: ! sticky } ) }
 					/>
 					<ToggleControl
 						label={ __(

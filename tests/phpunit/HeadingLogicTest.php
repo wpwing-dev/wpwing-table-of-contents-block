@@ -119,6 +119,14 @@ final class HeadingLogicTest extends TestCase {
 		$this->assertFalse( $sanitized['scrollspy'] );
 	}
 
+	public function test_sanitize_block_defaults_handles_sticky() {
+		$sanitized = wpwing_toc_sanitize_block_defaults( [ 'sticky' => 1 ] );
+		$this->assertTrue( $sanitized['sticky'] );
+
+		$sanitized = wpwing_toc_sanitize_block_defaults( [ 'sticky' => 0 ] );
+		$this->assertFalse( $sanitized['sticky'] );
+	}
+
 	public function test_generate_toc_adds_scrollspy_nav_class_when_enabled() {
 		$headings = [ '<h2>Section One</h2>', '<h2>Section Two</h2>' ];
 		$attrs = [
@@ -138,5 +146,26 @@ final class HeadingLogicTest extends TestCase {
 		$html_no_spy = wpwing_toc_generate_toc( $headings, $attrs );
 		$this->assertStringNotContainsString( 'wpwing-toc--scrollspy', $html_no_spy );
 	}
+
+	public function test_generate_toc_adds_sticky_nav_class_when_enabled() {
+		$headings = [ '<h2>Section One</h2>', '<h2>Section Two</h2>' ];
+		$attrs = [
+			'min_level' => 2,
+			'max_level' => 6,
+			'use_ol' => false,
+			'use_absolute_urls' => false,
+			'add_smooth' => false,
+			'title_text' => 'TOC',
+			'no_title' => false,
+			'sticky' => true,
+		];
+		$html = wpwing_toc_generate_toc( $headings, $attrs );
+		$this->assertStringContainsString( 'wpwing-toc--sticky', $html );
+
+		$attrs['sticky'] = false;
+		$html_no_sticky = wpwing_toc_generate_toc( $headings, $attrs );
+		$this->assertStringNotContainsString( 'wpwing-toc--sticky', $html_no_sticky );
+	}
 }
+
 

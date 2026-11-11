@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, table of contents block, anchor links, Gutenberg Blocks
-Stable tag:        1.13.0
+Stable tag:        1.14.0
 Requires at least: 5.8
 Tested up to:      7.1
 Requires PHP:      7.1
@@ -36,6 +36,7 @@ Unlike plugins that lock basic layout settings behind a pro version, you get ful
 * **100% Automated:** Scans content instantly to generate accurate internal jump links.
 * **Auto-Insert:** Optionally show the TOC on posts, pages, or custom post types without adding the block - choose the position under WPWing > TOC Block. Placing the block manually in a post always overrides it.
 * **Scrollspy Highlight:** Highlight the current section in the TOC in real time as the reader scrolls.
+* **Sticky / Floating TOC:** Keep the table of contents visible as readers scroll down long articles, powered entirely by pure CSS position: sticky with zero JavaScript.
 * **Pure Performance:** No frontend JavaScript unless you enable an interactive feature - fully optimized for page speed.
 * **Designed for Gutenberg:** Integrates natively into the WordPress block editor experience.
 * **Responsive Layouts:** Inherits theme styles fluidly for perfect rendering on mobile devices.
@@ -93,6 +94,9 @@ Yes. Go to **WPWing > TOC Block** on this plugin. If LuckyWP's settings are stil
 = How do I highlight the current heading as the reader scrolls (Scrollspy)? =
 Select the TOC block, open the **Links & Behavior** panel in the block sidebar, and toggle on **Highlight active heading (Scrollspy)**. You can also enable it globally under **WPWing > TOC Block** so all new and auto-inserted TOCs have it enabled by default. The active heading is tracked using a performant vanilla IntersectionObserver with zero external scripts.
 
+= How do I make the Table of Contents sticky / floating as readers scroll? =
+Select the TOC block, open the **Links & Behavior** panel in the block sidebar, and toggle on **Sticky / Floating TOC**. You can also enable it globally under **WPWing > TOC Block** so all new and auto-inserted TOCs stick by default. The sticky behavior is implemented in pure CSS using position: sticky (with zero JavaScript) and automatically unpins on mobile screens (under 782px) to preserve reading space.
+
 = Can I translate the Table of Contents block into my language? =
 Yes. The plugin is fully internationalized and translation-ready. It includes a complete POT template in the languages directory and comes pre-seeded with translations for German, Spanish, French, Portuguese (Brazil), and Dutch. Community translations can also be submitted through translate.wordpress.org.
 
@@ -108,6 +112,14 @@ Yes. The plugin is fully internationalized and translation-ready. It includes a 
 8. One-click settings import from LuckyWP Table of Contents
 
 == Changelog ==
+
+= 1.14.0 - 11/11/2026 =
+
+* New: Sticky / floating TOC - keep the table of contents pinned in view as the reader scrolls down long articles.
+* New: Pure CSS sticky positioning - powered entirely by position: sticky with internal overflow scrolling and zero frontend JavaScript overhead.
+* New: Configurable top offset - automatically uses your configured scroll offset (or 20px default) to prevent overlapping fixed headers.
+* New: Mobile-friendly guard - unpins cleanly on screens narrower than 782px so the TOC never obstructs small mobile screens.
+* New: Global sticky default - enable sticky positioning globally under WPWing > TOC Block for all new blocks and auto-inserted TOCs.
 
 = 1.13.0 - 28/10/2026 =
 

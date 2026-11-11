@@ -94,6 +94,13 @@ function wpwing_toc_render_callback( $attributes ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_scroll_offset_style' );
 	}
 
+	if ( ! empty( $attributes['sticky'] ) && ! $is_backend ) {
+		if ( ! empty( $attributes['scroll_offset'] ) && (int) $attributes['scroll_offset'] > 0 ) {
+			wpwing_toc_scroll_offset( (int) $attributes['scroll_offset'] );
+		}
+		add_action( 'wp_footer', 'wpwing_toc_print_sticky_style' );
+	}
+
 	if ( ( ! empty( $attributes['collapsible'] ) && 'native' !== ( $attributes['collapse_mode'] ?? 'js' ) || ! empty( $attributes['show_back_to_top'] ) || ! empty( $attributes['add_back_to_top'] ) || ! empty( $attributes['copy_anchor'] ) ) && ! $is_backend ) {
 		add_action( 'wp_footer', 'wpwing_toc_print_frontend_script' );
 	}
@@ -135,6 +142,19 @@ function wpwing_toc_print_scroll_offset_style() {
 	if ( $offset > 0 ) {
 		echo '<style>h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]{scroll-margin-top:' . (int) $offset . 'px}</style>';
 	}
+}
+
+/**
+ * Print sticky TOC CSS in the footer when sticky mode is enabled on any TOC.
+ * Sets the top offset dynamically based on scroll offset.
+ * Named function so add_action deduplicates it if multiple TOC blocks are on the page.
+ *
+ * @since 1.14.0
+ */
+function wpwing_toc_print_sticky_style() {
+	$offset = wpwing_toc_scroll_offset();
+	$top    = ( $offset > 0 ) ? (int) $offset : 20;
+	echo '<style>.wpwing-toc.wpwing-toc--sticky{--wpwing-toc-sticky-top:' . (int) $top . 'px;}</style>';
 }
 
 /**
@@ -533,6 +553,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	$link_class   = $attributes['add_smooth'] === true ? 'smooth-scroll' : '';
 	$flat_class   = ! empty( $attributes['remove_indent'] ) ? 'wpwing-toc-list--flat' : '';
 	$scrollspy    = ! empty( $attributes['scrollspy'] );
+	$sticky       = ! empty( $attributes['sticky'] );
 
 	$collapsible      = ! empty( $attributes['collapsible'] );
 	$copy_anchor      = ! empty( $attributes['copy_anchor'] );
@@ -668,6 +689,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		$collapsible && ! empty( $attributes['start_collapsed'] ) ? 'wpwing-toc--start-collapsed' : '',
 		$copy_anchor ? 'wpwing-toc--copyable' : '',
 		$scrollspy ? 'wpwing-toc--scrollspy' : '',
+		$sticky ? 'wpwing-toc--sticky' : '',
 	] );
 
 	$extra_attributes = [
