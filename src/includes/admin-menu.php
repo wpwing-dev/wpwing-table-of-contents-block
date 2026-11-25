@@ -143,6 +143,9 @@ function wpwing_toc_render_settings_page() {
 					<select id="wpwing-toc-default-style" name="wpwing_toc_settings[block_defaults][style_preset]">
 						<option value="default" <?php selected( $settings['block_defaults']['style_preset'] ?? 'default', 'default' ); ?>><?php esc_html_e( 'Default', 'wpwing-table-of-contents-block' ); ?></option>
 						<option value="boxed" <?php selected( $settings['block_defaults']['style_preset'] ?? 'default', 'boxed' ); ?>><?php esc_html_e( 'Boxed', 'wpwing-table-of-contents-block' ); ?></option>
+						<option value="minimal" <?php selected( $settings['block_defaults']['style_preset'] ?? 'default', 'minimal' ); ?>><?php esc_html_e( 'Minimalist', 'wpwing-table-of-contents-block' ); ?></option>
+						<option value="card" <?php selected( $settings['block_defaults']['style_preset'] ?? 'default', 'card' ); ?>><?php esc_html_e( 'Modern Card', 'wpwing-table-of-contents-block' ); ?></option>
+						<option value="dark" <?php selected( $settings['block_defaults']['style_preset'] ?? 'default', 'dark' ); ?>><?php esc_html_e( 'Dark Mode', 'wpwing-table-of-contents-block' ); ?></option>
 					</select>
 				</td>
 			</tr>
@@ -232,7 +235,9 @@ function wpwing_toc_render_settings_page() {
 				<th scope="row"><?php esc_html_e( 'Title and count', 'wpwing-table-of-contents-block' ); ?></th>
 				<td>
 					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][no_title]" value="1" <?php checked( ! empty( $settings['block_defaults']['no_title'] ) ); ?> /> <?php esc_html_e( 'Hide the TOC title', 'wpwing-table-of-contents-block' ); ?></label><br />
-					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][show_heading_count]" value="1" <?php checked( ! empty( $settings['block_defaults']['show_heading_count'] ) ); ?> /> <?php esc_html_e( 'Show a heading-count badge next to the title', 'wpwing-table-of-contents-block' ); ?></label>
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][show_heading_count]" value="1" <?php checked( ! empty( $settings['block_defaults']['show_heading_count'] ) ); ?> /> <?php esc_html_e( 'Show a heading-count badge next to the title', 'wpwing-table-of-contents-block' ); ?></label><br />
+					<label><input type="checkbox" name="wpwing_toc_settings[block_defaults][show_reading_time]" value="1" <?php checked( ! empty( $settings['block_defaults']['show_reading_time'] ) ); ?> /> <?php esc_html_e( 'Show estimated reading time next to the title', 'wpwing-table-of-contents-block' ); ?></label><br />
+					<label style="margin-inline-start: 1.5em;"><?php esc_html_e( 'Reading speed:', 'wpwing-table-of-contents-block' ); ?> <input type="number" name="wpwing_toc_settings[block_defaults][reading_time_wpm]" min="50" max="500" step="10" style="width: 70px;" value="<?php echo esc_attr( $settings['block_defaults']['reading_time_wpm'] ?? 200 ); ?>" /> <?php esc_html_e( 'words per minute', 'wpwing-table-of-contents-block' ); ?></label>
 				</td>
 			</tr>
 			<tr>

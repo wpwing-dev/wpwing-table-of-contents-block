@@ -68,7 +68,7 @@ function wpwing_toc_sanitize_block_defaults( $input ) {
 		$allowed = [
 			'title_text', 'min_level', 'max_level', 'min_headings', 'collapsible', 'collapse_mode', 'start_collapsed', 'use_ol', 'remove_indent',
 			'style_preset', 'hierarchical_numbers', 'exclude_keywords', 'show_back_to_top', 'add_back_to_top', 'copy_anchor', 'add_smooth', 'scroll_offset',
-			'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet', 'scrollspy', 'sticky',
+			'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet', 'scrollspy', 'sticky', 'numbering_style', 'show_reading_time', 'reading_time_wpm',
 		];
 		$output  = [];
 		foreach ( $allowed as $key ) {
@@ -76,16 +76,20 @@ function wpwing_toc_sanitize_block_defaults( $input ) {
 				continue;
 			}
 			$value = $input[ $key ];
-			if ( in_array( $key, [ 'collapsible', 'start_collapsed', 'use_ol', 'remove_indent', 'hierarchical_numbers', 'show_back_to_top', 'add_back_to_top', 'copy_anchor', 'add_smooth', 'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet', 'scrollspy', 'sticky' ], true ) ) {
+			if ( in_array( $key, [ 'collapsible', 'start_collapsed', 'use_ol', 'remove_indent', 'hierarchical_numbers', 'show_back_to_top', 'add_back_to_top', 'copy_anchor', 'add_smooth', 'no_title', 'use_absolute_urls', 'show_heading_count', 'seo_nosnippet', 'scrollspy', 'sticky', 'show_reading_time' ], true ) ) {
 				$output[ $key ] = (bool) $value;
 			} elseif ( in_array( $key, [ 'min_level', 'max_level', 'min_headings' ], true ) ) {
 				$output[ $key ] = max( 1, (int) $value );
+			} elseif ( 'reading_time_wpm' === $key ) {
+				$output[ $key ] = max( 50, min( 500, (int) $value ) );
 			} elseif ( 'scroll_offset' === $key ) {
 				$output[ $key ] = max( 0, (int) $value );
 			} elseif ( 'collapse_mode' === $key ) {
 				$output[ $key ] = in_array( $value, [ 'js', 'native' ], true ) ? $value : 'js';
 			} elseif ( 'style_preset' === $key ) {
-				$output[ $key ] = in_array( $value, [ 'default', 'boxed' ], true ) ? $value : 'default';
+				$output[ $key ] = in_array( $value, [ 'default', 'boxed', 'minimal', 'card', 'dark' ], true ) ? $value : 'default';
+			} elseif ( 'numbering_style' === $key ) {
+				$output[ $key ] = in_array( $value, [ 'decimal', 'hierarchical', 'roman', 'alpha', 'padded' ], true ) ? $value : 'decimal';
 			} else {
 				$output[ $key ] = sanitize_text_field( $value );
 			}

@@ -3,7 +3,7 @@
 Contributors:      wpwing, voboghure
 Donate link:       https://wpwing.com/
 Tags:              TOC, Table of Contents, table of contents block, anchor links, Gutenberg Blocks
-Stable tag:        1.14.0
+Stable tag:        1.15.0
 Requires at least: 5.8
 Tested up to:      7.1
 Requires PHP:      7.1
@@ -37,6 +37,9 @@ Unlike plugins that lock basic layout settings behind a pro version, you get ful
 * **Auto-Insert:** Optionally show the TOC on posts, pages, or custom post types without adding the block - choose the position under WPWing > TOC Block. Placing the block manually in a post always overrides it.
 * **Scrollspy Highlight:** Highlight the current section in the TOC in real time as the reader scrolls.
 * **Sticky / Floating TOC:** Keep the table of contents visible as readers scroll down long articles, powered entirely by pure CSS position: sticky with zero JavaScript.
+* **Reading Time Badge:** Show estimated article reading time computed server-side with customizable reading speeds and zero frontend JavaScript.
+* **Expanded Numbering Styles:** Choose from bulleted, numbered, hierarchical (1.1, 1.1.1), Roman numerals (I, II, III), alphabet (A, B, C), or zero-padded decimals (01, 02, 03).
+* **Versatile Style Presets:** Choose from Default, Boxed, Minimalist, Modern Card, and Dark Mode presets.
 * **Pure Performance:** No frontend JavaScript unless you enable an interactive feature - fully optimized for page speed.
 * **Designed for Gutenberg:** Integrates natively into the WordPress block editor experience.
 * **Responsive Layouts:** Inherits theme styles fluidly for perfect rendering on mobile devices.
@@ -97,6 +100,12 @@ Select the TOC block, open the **Links & Behavior** panel in the block sidebar, 
 = How do I make the Table of Contents sticky / floating as readers scroll? =
 Select the TOC block, open the **Links & Behavior** panel in the block sidebar, and toggle on **Sticky / Floating TOC**. You can also enable it globally under **WPWing > TOC Block** so all new and auto-inserted TOCs stick by default. The sticky behavior is implemented in pure CSS using position: sticky (with zero JavaScript) and automatically unpins on mobile screens (under 782px) to preserve reading space.
 
+= How do I show estimated reading time in the Table of Contents? =
+Select the TOC block, open the **Content** panel in the block sidebar, and toggle on **Show reading time**. You can adjust your preferred reading speed (default: 200 words per minute). The reading time is calculated on the server at render time with zero frontend JavaScript and appears cleanly next to the title. You can also enable it globally from **WPWing > TOC Block**.
+
+= What visual presets and numbering styles are available? =
+Under the **Display** panel in the block sidebar, the **Style** selector includes Default, Boxed, Minimalist (clean border accent), Modern Card (elevated shadow), and Dark Mode. The **List style** selector supports Bulleted, Numbered, Hierarchical (1.1, 1.1.1), Roman numerals (I, II, III), Alphabet (A, B, C), and Zero-padded decimals (01, 02, 03).
+
 = Can I translate the Table of Contents block into my language? =
 Yes. The plugin is fully internationalized and translation-ready. It includes a complete POT template in the languages directory and comes pre-seeded with translations for German, Spanish, French, Portuguese (Brazil), and Dutch. Community translations can also be submitted through translate.wordpress.org.
 
@@ -112,6 +121,15 @@ Yes. The plugin is fully internationalized and translation-ready. It includes a 
 8. One-click settings import from LuckyWP Table of Contents
 
 == Changelog ==
+
+= 1.15.0 - 25/11/2026 =
+
+* New: Estimated reading time - display an article reading time badge next to the TOC title, calculated server-side with zero frontend JavaScript overhead.
+* New: Configurable reading speed - customize the words-per-minute threshold (default: 200 WPM) per block and globally from WPWing > TOC Block.
+* New: Expanded numbering styles - choose from Roman numerals (I, II, III), Alphabet (A, B, C), and Zero-padded decimals (01, 02, 03) alongside standard bulleted, ordered, and hierarchical formats.
+* New: Expanded visual presets - select from Default, Boxed, Minimalist (accent left border), Modern Card (elevated card shadow), and Dark Mode presets.
+* Improvement: Smart editor notice warns if reading time or heading count badges are enabled while the TOC title is hidden.
+* Improvement: Seeded global defaults for reading time, reading speed, and visual presets in WPWing > TOC Block.
 
 = 1.14.0 - 11/11/2026 =
 

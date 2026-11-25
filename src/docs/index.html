@@ -390,6 +390,16 @@
 						<td>Displays the number of visible headings as a badge next to the TOC title (e.g. "8 headings"). Has no effect when the title is hidden.</td>
 					</tr>
 					<tr>
+						<td><strong>Show reading time</strong></td>
+						<td>Off</td>
+						<td>Displays estimated article reading time as a badge next to the TOC title (e.g. "5 min read"). Calculated on the server with zero frontend JavaScript based on your customizable words-per-minute speed.</td>
+					</tr>
+					<tr>
+						<td><strong>Reading speed (wpm)</strong></td>
+						<td>200</td>
+						<td>Reading speed in words per minute (range 50-500) used to calculate the estimated reading time.</td>
+					</tr>
+					<tr>
 						<td><strong>Exclude headings</strong></td>
 						<td>Empty</td>
 						<td>Comma-separated keywords. Any heading whose text contains one of these words (case-insensitive) is hidden from the TOC and skipped by per-section back-to-top links. Example: <code>conclusion, faq</code>.</td>
@@ -412,7 +422,10 @@
 						<td>Default</td>
 						<td>
 							<strong>Default</strong> - a plain list that inherits your theme's styling.<br><br>
-							<strong>Boxed</strong> - wraps the TOC in a subtle bordered box with padding, so it stands out from the article without any custom CSS.
+							<strong>Boxed</strong> - wraps the TOC in a subtle bordered box with padding.<br><br>
+							<strong>Minimalist</strong> - clean borderless design with an accent indicator line.<br><br>
+							<strong>Modern Card</strong> - elevated card container with soft drop shadow and subtle border.<br><br>
+							<strong>Dark Mode</strong> - high-contrast dark theme ready for dark layouts.
 						</td>
 					</tr>
 					<tr>
@@ -431,7 +444,10 @@
 						<td>
 							<strong>Bulleted</strong> - a standard unordered list.<br>
 							<strong>Numbered</strong> - an ordered list; each nesting level restarts at 1.<br>
-							<strong>Hierarchical (1.1, 1.1.1)</strong> - prefixes each entry with numbers reflecting the heading structure, like a book outline.
+							<strong>Hierarchical (1.1, 1.1.1)</strong> - prefixes each entry with numbers reflecting the heading structure, like a book outline.<br>
+							<strong>Roman numerals (I, II, III)</strong> - uppercase Roman numeral prefixes.<br>
+							<strong>Alphabet (A, B, C)</strong> - uppercase alphabetic letters.<br>
+							<strong>Zero-padded (01, 02, 03)</strong> - two-digit zero-padded numbers.
 						</td>
 					</tr>
 					<tr>
@@ -712,6 +728,11 @@
 			<details>
 				<summary>How do I make the Table of Contents sticky / floating as readers scroll?</summary>
 				<p>Select the TOC block, open the <strong>Links &amp; Behavior</strong> panel in the block sidebar, and toggle on <strong>Sticky / Floating TOC</strong>. You can also turn it on sitewide under <strong>WPWing &gt; TOC Block</strong>. The floating behavior uses pure CSS <code>position: sticky</code> with no JavaScript overhead, reuses your configured scroll offset (or 20px default) for the top clearance, and automatically unpins on mobile viewports (under 782px) to prevent taking over small screens.</p>
+			</details>
+
+			<details>
+				<summary>How do I display estimated reading time?</summary>
+				<p>In the block sidebar's <strong>Content</strong> panel, turn on <strong>Show reading time</strong>. You can adjust your expected words-per-minute speed. The reading time is calculated on the server at render time with zero frontend JavaScript and appears as a badge next to the title.</p>
 			</details>
 
 			<details>

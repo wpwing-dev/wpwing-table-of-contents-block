@@ -548,7 +548,12 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	$list = '';
 
 	$hierarchical = ! empty( $attributes['hierarchical_numbers'] );
-	$listtype     = ( $attributes['use_ol'] === true && ! $hierarchical ) ? 'ol' : 'ul';
+	$numbering_style = isset( $attributes['numbering_style'] ) ? $attributes['numbering_style'] : ( $hierarchical ? 'hierarchical' : 'decimal' );
+	if ( $hierarchical ) {
+		$numbering_style = 'hierarchical';
+	}
+	$custom_numbers = in_array( $numbering_style, [ 'hierarchical', 'roman', 'alpha', 'padded' ], true );
+	$listtype     = ( $attributes['use_ol'] === true && ! $custom_numbers ) ? 'ol' : 'ul';
 	$absolute_url = $attributes['use_absolute_urls'] === true ? get_permalink() : '';
 	$link_class   = $attributes['add_smooth'] === true ? 'smooth-scroll' : '';
 	$flat_class   = ! empty( $attributes['remove_indent'] ) ? 'wpwing-toc-list--flat' : '';
@@ -565,6 +570,8 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	$min_level          = (int) $attributes['min_level'];
 	$max_level          = (int) $attributes['max_level'];
 	$show_heading_count = ! empty( $attributes['show_heading_count'] );
+	$show_reading_time  = ! empty( $attributes['show_reading_time'] );
+	$reading_time_wpm   = isset( $attributes['reading_time_wpm'] ) ? max( 50, (int) $attributes['reading_time_wpm'] ) : 200;
 	$exclude_keywords   = array_filter( array_map( 'trim', explode( ',', isset( $attributes['exclude_keywords'] ) ? $attributes['exclude_keywords'] : '' ) ) );
 	$seen               = [];
 
@@ -638,7 +645,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 		}
 
 		$number_html = '';
-		if ( $hierarchical ) {
+		if ( $custom_numbers ) {
 			$level              = count( $depth_stack );
 			$counters[ $level ] = isset( $counters[ $level ] ) ? $counters[ $level ] + 1 : 1;
 			foreach ( array_keys( $counters ) as $lvl ) {
@@ -646,11 +653,24 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 					unset( $counters[ $lvl ] );
 				}
 			}
-			$parts = [];
-			for ( $lvl = 1; $lvl <= $level; $lvl++ ) {
-				$parts[] = isset( $counters[ $lvl ] ) ? $counters[ $lvl ] : 1;
+
+			if ( 'hierarchical' === $numbering_style ) {
+				$parts = [];
+				for ( $lvl = 1; $lvl <= $level; $lvl++ ) {
+					$parts[] = isset( $counters[ $lvl ] ) ? $counters[ $lvl ] : 1;
+				}
+				$num_str = implode( '.', $parts );
+			} elseif ( 'roman' === $numbering_style ) {
+				$num_str = wpwing_toc_integer_to_roman( $counters[ $level ] ) . '.';
+			} elseif ( 'alpha' === $numbering_style ) {
+				$num_str = wpwing_toc_integer_to_alpha( $counters[ $level ] ) . '.';
+			} elseif ( 'padded' === $numbering_style ) {
+				$num_str = sprintf( '%02d.', $counters[ $level ] );
+			} else {
+				$num_str = $counters[ $level ] . '.';
 			}
-			$number_html = '<span class="wpwing-toc-number" aria-hidden="true">' . esc_html( implode( '.', $parts ) ) . '</span> ';
+
+			$number_html = '<span class="wpwing-toc-number" aria-hidden="true">' . esc_html( $num_str ) . '</span> ';
 		}
 
 		$copy_html = '';
@@ -674,17 +694,34 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 
 	$badge_html = '';
 	if ( $show_heading_count && $eligible_count > 0 ) {
-		$badge_html = '<span class="wpwing-toc-count">' . sprintf(
+		$badge_html .= '<span class="wpwing-toc-count">' . sprintf(
 			/* translators: %d: number of headings */
 			_n( '%d heading', '%d headings', $eligible_count, 'wpwing-table-of-contents-block' ),
 			$eligible_count
 		) . '</span>';
 	}
 
+	if ( $show_reading_time ) {
+		$post_obj = get_post();
+		$post_raw = ( $post_obj && ! empty( $post_obj->post_content ) ) ? $post_obj->post_content : '';
+		if ( empty( $post_raw ) && ! empty( $content ) ) {
+			$post_raw = $content;
+		}
+		$clean_text  = wp_strip_all_tags( $post_raw );
+		$word_count  = str_word_count( $clean_text );
+		$read_minutes = max( 1, (int) ceil( $word_count / $reading_time_wpm ) );
+
+		$badge_html .= '<span class="wpwing-toc-reading-time">' . sprintf(
+			/* translators: %d: estimated reading time in minutes */
+			_n( '%d min read', '%d min read', $read_minutes, 'wpwing-table-of-contents-block' ),
+			$read_minutes
+		) . '</span>';
+	}
+
 	// Build nav class list
 	$nav_classes = array_filter( [
 		'wpwing-toc',
-		'boxed' === $style_preset ? 'wpwing-toc--boxed' : '',
+		'default' !== $style_preset ? 'wpwing-toc--' . sanitize_html_class( $style_preset ) : '',
 		$collapsible ? 'wpwing-toc--collapsible' : '',
 		$collapsible && ! empty( $attributes['start_collapsed'] ) ? 'wpwing-toc--start-collapsed' : '',
 		$copy_anchor ? 'wpwing-toc--copyable' : '',
@@ -721,7 +758,7 @@ function wpwing_toc_generate_toc( $headings, $attributes ) {
 	}
 
 	$list_id_attr = $list_id ? ' id="' . esc_attr( $list_id ) . '"' : '';
-	$numbered_class = $hierarchical ? 'wpwing-toc-list--numbered' : '';
+	$numbered_class = $custom_numbers ? 'wpwing-toc-list--numbered' : '';
 	$list_classes   = array_filter( [ 'wpwing-toc-list', $flat_class, $numbered_class ] );
 	$html .= "<{$listtype} class=\"" . esc_attr( implode( ' ', $list_classes ) ) . "\"{$list_id_attr}>{$list}</{$listtype}>";
 
@@ -755,6 +792,64 @@ function wpwing_toc_sanitize_string( $string ) {
 	$urlencoded = urlencode( $sanitized_string );
 
 	return $urlencoded;
+}
+
+/**
+ * Convert an integer to Roman numerals.
+ *
+ * @since 1.15.0
+ * @param int $num
+ * @return string
+ */
+function wpwing_toc_integer_to_roman( $num ) {
+	$num = (int) $num;
+	if ( $num <= 0 ) {
+		return (string) $num;
+	}
+	$map = [
+		'M'  => 1000,
+		'CM' => 900,
+		'D'  => 500,
+		'CD' => 400,
+		'C'  => 100,
+		'XC' => 90,
+		'L'  => 50,
+		'XL' => 40,
+		'X'  => 10,
+		'IX' => 9,
+		'V'  => 5,
+		'IV' => 4,
+		'I'  => 1,
+	];
+	$res = '';
+	foreach ( $map as $roman => $val ) {
+		while ( $num >= $val ) {
+			$res .= $roman;
+			$num -= $val;
+		}
+	}
+	return $res;
+}
+
+/**
+ * Convert an integer to alphabet index (1 -> A, 2 -> B, ..., 26 -> Z, 27 -> AA).
+ *
+ * @since 1.15.0
+ * @param int $num
+ * @return string
+ */
+function wpwing_toc_integer_to_alpha( $num ) {
+	$num = (int) $num;
+	if ( $num <= 0 ) {
+		return (string) $num;
+	}
+	$alpha = '';
+	while ( $num > 0 ) {
+		$rem   = ( $num - 1 ) % 26;
+		$alpha = chr( 65 + $rem ) . $alpha;
+		$num   = (int) ( ( $num - 1 ) / 26 );
+	}
+	return $alpha;
 }
 
 // When add_back_to_top is enabled, print a #top anchor at the start of the body for no-JS fallback.
