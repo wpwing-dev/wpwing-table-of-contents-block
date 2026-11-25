@@ -14,6 +14,7 @@ async function resetBlockDefaults( page, baseURL ) {
 		'show_back_to_top',
 		'scrollspy',
 		'sticky',
+		'show_reading_time',
 	] ) {
 		const checkbox = page.locator(
 			`input[name="wpwing_toc_settings[block_defaults][${ name }]"]`

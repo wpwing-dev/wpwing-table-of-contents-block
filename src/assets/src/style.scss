@@ -24,11 +24,19 @@
 		}
 	}
 
-	.wpwing-toc-count {
+	.wpwing-toc-count,
+	.wpwing-toc-reading-time {
 		font-size: 0.8em;
 		font-weight: 400;
-		opacity: 0.6;
+		opacity: 0.7;
 		margin-inline-start: 0.5em;
+		display: inline-block;
+	}
+
+	.wpwing-toc-reading-time::before {
+		content: "⏱ ";
+		font-size: 0.9em;
+		opacity: 0.8;
 	}
 
 	// Hierarchical numbering markers are injected as text.
@@ -97,6 +105,50 @@
 		padding: 1.25em 1.5em;
 		border-radius: 4px;
 		box-shadow: 0 0 0 1px rgba(128, 128, 128, 0.3), 0 1px 3px rgba(0, 0, 0, 0.08);
+	}
+
+	// Minimalist preset
+	&.wpwing-toc--minimal {
+		padding: 0.75em 1.25em;
+		border-inline-start: 3px solid var(--wpwing-toc-active-color, currentcolor);
+		background: transparent;
+	}
+
+	// Modern Card preset
+	&.wpwing-toc--card {
+		padding: 1.5em 1.75em;
+		border-radius: 8px;
+		background: #fff;
+		border: 1px solid rgba(0, 0, 0, 0.08);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+	}
+
+	// Dark Mode preset
+	&.wpwing-toc--dark {
+		padding: 1.25em 1.5em;
+		border-radius: 6px;
+		background: #1e1e1e;
+		color: #f0f0f0;
+		border: 1px solid #333;
+
+		a {
+			color: #e0e0e0;
+
+			&:hover,
+			&:focus {
+				color: #fff;
+			}
+
+			&.is-active {
+				color: #38bdf8;
+			}
+		}
+
+		.wpwing-toc-count,
+		.wpwing-toc-reading-time {
+			opacity: 0.8;
+			color: #bbb;
+		}
 	}
 
 	// Sticky / floating TOC

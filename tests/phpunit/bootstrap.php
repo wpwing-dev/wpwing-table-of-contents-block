@@ -27,6 +27,20 @@ function get_permalink() {
 	return 'http://example.com/post';
 }
 
+function get_post() {
+	return null;
+}
+
+function wp_strip_all_tags( $text ) {
+	return strip_tags( (string) $text );
+}
+
+function sanitize_html_class( $class, $fallback = '' ) {
+	$sanitized = preg_replace( '|%[a-fA-F0-9][a-fA-F0-9]|', '', $class );
+	$sanitized = preg_replace( '/[^A-Za-z0-9_-]/', '', $sanitized );
+	return $sanitized ?: $fallback;
+}
+
 function get_block_wrapper_attributes( $extra = [] ) {
 	$attrs = [];
 	foreach ( $extra as $k => $v ) {

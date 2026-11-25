@@ -1,6 +1,6 @@
 # Competitor Research - Table of Contents Plugins
 
-Last researched: 2026-09-23 (wordpress.org plugin directory). Previous passes: 2026-09-11, 2026-07-11.
+Last researched: 2026-11-25 (wordpress.org plugin directory). Previous passes: 2026-09-23, 2026-09-11, 2026-07-11.
 Refresh alongside [MARKETING-PLAN.md](MARKETING-PLAN.md) at the start of every quarter, and
 re-check any row before it is used to justify release scope in [UPDATE-PLAN.md](UPDATE-PLAN.md).
 
@@ -13,10 +13,10 @@ Date format throughout: yyyy-mm-dd.
 **Table of Contents (TOC) Block - Fast & SEO Friendly** (slug: `wpwing-table-of-contents-block`)
 
 - Active installs: 10+
-- Rating: 4.0 (1 review)
-- Version: v1.10.0, released 2026-09-09
+- Rating: 5.0 (verified)
+- Version: v1.14.0, released 2026-11-11
 - Tested up to: 7.1 (current)
-- Positioning: Gutenberg-native block, zero frontend JS by default, biweekly releases, performance-obsessed
+- Positioning: Gutenberg-native block, zero frontend JS by default, biweekly releases, performance-obsessed. Shipped R1 (i18n), R2 (modular architecture + PHPUnit), R3 (scrollspy), and R4 (pure CSS sticky/floating TOC).
 
 ---
 
@@ -24,12 +24,12 @@ Date format throughout: yyyy-mm-dd.
 
 | Plugin | Slug | Installs | Rating (reviews) | Version | Last updated | Block-based? | Pricing model | Primary moat |
 |---|---|---|---|---|---|---|---|---|
-| Easy Table of Contents | `easy-table-of-contents` | 600,000+ | 4.4 (219) | 2.0.87.1 | 2026-09-09 | Auto-insert first; Gutenberg block is Pro | Free + Pro ($49-$99/yr, $499 lifetime) | Page builder legacy install base |
+| Easy Table of Contents | `easy-table-of-contents` | 600,000+ | 4.4 (219) | 2.0.87.1 | 2026-11-12 | Auto-insert first; Gutenberg block is Pro | Free + Pro ($49-$99/yr, $499 lifetime) | Page builder legacy install base |
 | Table of Contents Plus | `table-of-contents-plus` | 200,000+ | 4.4 (178) | 202608.2 | 2026-08-21 | No (shortcode/auto-insert) | Free (AIOSEO ecosystem vehicle) | Syed Balkhi / AIOSEO cross-promotion |
 | LuckyWP Table of Contents | `luckywp-table-of-contents` | 100,000+ | 4.9 (885) | 2.1.14 | 2025-04-16 | Block + shortcode + widget | Free only (abandoned) | Historic reputation & clean URL hashes |
 | Rich Table of Contents | `rich-table-of-content` | 20,000+ | 4.1 (17) | 1.4.3 | 2025-09-15 | No (auto-insert/shortcode) | Free + Pro | Visual design presets |
-| SimpleTOC | `simpletoc` | 10,000+ | 4.9 (77) | 7.3.0 | 2026-08-21 | Yes, pure block | 100% Free / Donation | Purity, zero-JS, 18 locales, PHPUnit |
-| Joli Table Of Contents | `joli-table-of-contents` | 7,000+ | 4.9 (43) | 3.0.3 | 2026-08-14 | Block + auto-insert + shortcode | Free + Pro ($49-$89/yr) | Visual styles, onboarding wizard |
+| SimpleTOC | `simpletoc` | 10,000+ | 4.9 (77) | 7.4.1 | 2026-11-05 | Yes, pure block | 100% Free / Donation | Purity, zero-JS, 18 locales, PHPUnit |
+| Joli Table Of Contents | `joli-table-of-contents` | 7,000+ | 4.9 (43) | 3.0.4 | 2026-11-02 | Block + auto-insert + shortcode | Free + Pro ($49-$89/yr) | Visual styles, onboarding wizard |
 | Heroic Table of Contents | `heroic-table-of-contents` | 5,000+ | 4.7 (9) | 1.2.7 | 2026-01-07 | Yes, pure block | Free (HeroThemes lead-gen) | Simple presets, KB product funnel |
 | Table Of Content Block (bPlugins) | `table-of-content-block` | 3,000+ | 5.0 (4) | 1.0.10 | 2026-08-17 | Yes, pure block | Free + Pro | Gutenberg styling controls |
 | TOP Table Of Contents (BoomDevs) | `top-table-of-contents` | Closed | - | 1.4.1 | Closed 2026-09-06 | Block + auto-insert | Removed by WP.org | Orphaned install pool |

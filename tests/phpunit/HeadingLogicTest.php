@@ -166,6 +166,67 @@ final class HeadingLogicTest extends TestCase {
 		$html_no_sticky = wpwing_toc_generate_toc( $headings, $attrs );
 		$this->assertStringNotContainsString( 'wpwing-toc--sticky', $html_no_sticky );
 	}
+
+	public function test_integer_to_roman_and_alpha() {
+		$this->assertSame( 'I', wpwing_toc_integer_to_roman( 1 ) );
+		$this->assertSame( 'IV', wpwing_toc_integer_to_roman( 4 ) );
+		$this->assertSame( 'IX', wpwing_toc_integer_to_roman( 9 ) );
+		$this->assertSame( 'XIV', wpwing_toc_integer_to_roman( 14 ) );
+
+		$this->assertSame( 'A', wpwing_toc_integer_to_alpha( 1 ) );
+		$this->assertSame( 'B', wpwing_toc_integer_to_alpha( 2 ) );
+		$this->assertSame( 'Z', wpwing_toc_integer_to_alpha( 26 ) );
+		$this->assertSame( 'AA', wpwing_toc_integer_to_alpha( 27 ) );
+	}
+
+	public function test_generate_toc_custom_numbering_styles() {
+		$headings = [ '<h2>Section One</h2>', '<h2>Section Two</h2>' ];
+		$base_attrs = [
+			'min_level' => 2,
+			'max_level' => 6,
+			'use_ol' => false,
+			'use_absolute_urls' => false,
+			'add_smooth' => false,
+			'title_text' => 'TOC',
+			'no_title' => false,
+		];
+
+		// Roman
+		$attrs = array_merge( $base_attrs, [ 'numbering_style' => 'roman' ] );
+		$html = wpwing_toc_generate_toc( $headings, $attrs );
+		$this->assertStringContainsString( 'I.', $html );
+		$this->assertStringContainsString( 'II.', $html );
+
+		// Alpha
+		$attrs = array_merge( $base_attrs, [ 'numbering_style' => 'alpha' ] );
+		$html = wpwing_toc_generate_toc( $headings, $attrs );
+		$this->assertStringContainsString( 'A.', $html );
+		$this->assertStringContainsString( 'B.', $html );
+
+		// Padded
+		$attrs = array_merge( $base_attrs, [ 'numbering_style' => 'padded' ] );
+		$html = wpwing_toc_generate_toc( $headings, $attrs );
+		$this->assertStringContainsString( '01.', $html );
+		$this->assertStringContainsString( '02.', $html );
+	}
+
+	public function test_generate_toc_reading_time_and_presets() {
+		$headings = [ '<h2>Section One</h2>', '<h2>Section Two</h2>' ];
+		$attrs = [
+			'min_level' => 2,
+			'max_level' => 6,
+			'use_ol' => false,
+			'use_absolute_urls' => false,
+			'add_smooth' => false,
+			'title_text' => 'TOC',
+			'no_title' => false,
+			'show_reading_time' => true,
+			'style_preset' => 'card',
+		];
+		$html = wpwing_toc_generate_toc( $headings, $attrs );
+		$this->assertStringContainsString( 'wpwing-toc--card', $html );
+		$this->assertStringContainsString( 'wpwing-toc-reading-time', $html );
+	}
 }
 
 

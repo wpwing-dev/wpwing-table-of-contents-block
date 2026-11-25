@@ -5,7 +5,7 @@
 	"version": "1.14.0",
 	"title": "Table Of Contents",
 	"category": "widgets",
-	"keywords": [ "TOC", "Table of Contents", "WPWing" ],
+	"keywords": ["TOC", "Table of Contents", "WPWing"],
 	"icon": "list-view",
 	"description": "Automatically generates a fast, SEO-friendly table of contents from your headings.",
 	"attributes": {
@@ -47,7 +47,7 @@
 		},
 		"collapse_mode": {
 			"type": "string",
-			"enum": [ "js", "native" ],
+			"enum": ["js", "native"],
 			"default": "js"
 		},
 		"style_preset": {
@@ -105,11 +105,24 @@
 		"sticky": {
 			"type": "boolean",
 			"default": false
+		},
+		"numbering_style": {
+			"type": "string",
+			"enum": ["decimal", "hierarchical", "roman", "alpha", "padded"],
+			"default": "decimal"
+		},
+		"show_reading_time": {
+			"type": "boolean",
+			"default": false
+		},
+		"reading_time_wpm": {
+			"type": "integer",
+			"default": 200
 		}
 	},
 	"example": {},
 	"supports": {
-		"align": [ "wide", "full" ],
+		"align": ["wide", "full"],
 		"color": {
 			"background": true,
 			"text": true

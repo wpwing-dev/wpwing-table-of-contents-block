@@ -43,12 +43,17 @@ export default function Edit( { attributes, setAttributes } ) {
 		scroll_offset,
 		scrollspy,
 		sticky,
+		numbering_style,
+		show_reading_time,
+		reading_time_wpm,
 	} = attributes;
 
 	const levelError = Number( min_level ) > Number( max_level );
 
 	let listStyle = 'bullet';
-	if ( hierarchical_numbers ) {
+	if ( numbering_style && numbering_style !== 'decimal' ) {
+		listStyle = numbering_style;
+	} else if ( hierarchical_numbers ) {
 		listStyle = 'hierarchical';
 	} else if ( use_ol ) {
 		listStyle = 'ordered';
@@ -183,14 +188,46 @@ export default function Edit( { attributes, setAttributes } ) {
 							} )
 						}
 					/>
-					{ show_heading_count && no_title && (
-						<Notice status="info" isDismissible={ false }>
-							{ __(
-								'Heading count is hidden because the TOC title is disabled.',
+					<ToggleControl
+						label={ __(
+							'Show reading time',
+							'wpwing-table-of-contents-block'
+						) }
+						help={ __(
+							'Display estimated article reading time next to the TOC title.',
+							'wpwing-table-of-contents-block'
+						) }
+						checked={ show_reading_time }
+						onChange={ () =>
+							setAttributes( {
+								show_reading_time: ! show_reading_time,
+							} )
+						}
+					/>
+					{ show_reading_time && (
+						<RangeControl
+							label={ __(
+								'Reading speed (words per minute)',
 								'wpwing-table-of-contents-block'
 							) }
-						</Notice>
+							value={ reading_time_wpm || 200 }
+							onChange={ ( value ) =>
+								setAttributes( { reading_time_wpm: value } )
+							}
+							min={ 50 }
+							max={ 500 }
+							step={ 10 }
+						/>
 					) }
+					{ ( show_heading_count || show_reading_time ) &&
+						no_title && (
+							<Notice status="info" isDismissible={ false }>
+								{ __(
+									'Heading count and reading time badges are hidden because the TOC title is disabled.',
+									'wpwing-table-of-contents-block'
+								) }
+							</Notice>
+						) }
 					<TextControl
 						label={ __(
 							'Exclude headings',
@@ -235,6 +272,27 @@ export default function Edit( { attributes, setAttributes } ) {
 									'wpwing-table-of-contents-block'
 								),
 								value: 'boxed',
+							},
+							{
+								label: __(
+									'Minimalist',
+									'wpwing-table-of-contents-block'
+								),
+								value: 'minimal',
+							},
+							{
+								label: __(
+									'Modern Card',
+									'wpwing-table-of-contents-block'
+								),
+								value: 'card',
+							},
+							{
+								label: __(
+									'Dark Mode',
+									'wpwing-table-of-contents-block'
+								),
+								value: 'dark',
 							},
 						] }
 						onChange={ ( value ) =>
@@ -345,13 +403,39 @@ export default function Edit( { attributes, setAttributes } ) {
 								),
 								value: 'hierarchical',
 							},
+							{
+								label: __(
+									'Roman numerals (I, II, III)',
+									'wpwing-table-of-contents-block'
+								),
+								value: 'roman',
+							},
+							{
+								label: __(
+									'Alphabet (A, B, C)',
+									'wpwing-table-of-contents-block'
+								),
+								value: 'alpha',
+							},
+							{
+								label: __(
+									'Zero-padded (01, 02, 03)',
+									'wpwing-table-of-contents-block'
+								),
+								value: 'padded',
+							},
 						] }
-						onChange={ ( value ) =>
+						onChange={ ( value ) => {
+							let style = value;
+							if ( value === 'bullet' || value === 'ordered' ) {
+								style = 'decimal';
+							}
 							setAttributes( {
 								use_ol: value === 'ordered',
 								hierarchical_numbers: value === 'hierarchical',
-							} )
-						}
+								numbering_style: style,
+							} );
+						} }
 					/>
 					<ToggleControl
 						label={ __(

@@ -31,9 +31,9 @@ Research context and competitor intelligence are documented in [COMPETITORS.md](
 | R0 | 2026-09-09 | v1.10.0 | Q3 2026 | **Shipped.** LuckyWP settings importer, WPWing shared admin menu | Migration wedge |
 | R1 | 2026-09-23 | v1.11.0 | Q4 2026 | i18n foundation: `languages/`, `.pot`, translate.wordpress.org, keyword pass | Credibility & SEO |
 | R2 | 2026-10-14 | v1.12.0 | Q4 2026 | Code split into `includes/` + PHPUnit for parser + Playground live preview | Architecture & Testing |
-| R3 | 2026-10-28 | v1.13.0 | Q4 2026 | **Scrollspy / active heading highlight** (free, opt-in `IntersectionObserver`) | Pro feature parity |
-| R4 | 2026-11-11 | v1.14.0 | Q4 2026 | **Sticky / floating TOC** (CSS-only `position: sticky`, mobile guard) | Pro feature parity |
-| R5 | 2026-11-25 | v1.15.0 | Q4 2026 | Reading time + numbering styles (Roman, alpha, padded) + dark presets | User experience |
+| R3 | 2026-10-28 | v1.13.0 | Q4 2026 | **Shipped.** Scrollspy / active heading highlight (free, opt-in `IntersectionObserver`) | Pro feature parity |
+| R4 | 2026-11-11 | v1.14.0 | Q4 2026 | **Shipped.** Sticky / floating TOC (CSS-only `position: sticky`, mobile guard) | Pro feature parity |
+| R5 | 2026-11-25 | v1.15.0 | Q4 2026 | **Current Release.** Reading time + numbering styles (Roman, alpha, padded) + style presets | User experience |
 | R6 | 2026-12-09 | v1.15.1 | Q4 2026 | **Patch window** - compatibility sweep across block and classic themes | Stability buffer |
 | R7 | 2026-12-23 | v1.16.0 | Q4 2026 | Rich TOC importer on generalized import layer + migration landing pages | Migration wedge |
 | - | 2027-01-06 | - | Q1 2027 | **Holiday freeze - no release** (support coverage only) | Team buffer |
@@ -100,7 +100,7 @@ The number-one requested user feature, commercialized by Joli and Easy TOC. Deli
 - Respect `prefers-reduced-motion` and expose CSS custom properties (`--wpwing-toc-active-color`) for theme integration.
 - e2e verification: handles nested headings, auto-inserted TOCs, and posts with excluded headings.
 
-### R4 - 2026-11-11 - v1.14.0: Sticky / floating TOC
+### R4 - 2026-11-11 - v1.14.0: Sticky / floating TOC (Shipped)
 A major Pro differentiator at Easy TOC ($49/yr) and Joli ($49/yr). Implemented with **zero JavaScript**.
 - Pure CSS `position: sticky` with configurable top offset (reusing existing `scroll_offset` attribute).
 - Max-height calculation with internal overflow scrolling (`overflow-y: auto`) to protect long TOCs from exceeding viewport height.
@@ -108,8 +108,9 @@ A major Pro differentiator at Easy TOC ($49/yr) and Joli ($49/yr). Implemented w
 - Works across manual blocks, auto-inserted content, and inside Group/Column wrappers.
 
 ### R5 - 2026-11-25 - v1.15.0: Reading time and expanded numbering styles
+Directly counters Easy TOC's paywalled Read Time feature and out-classes SimpleTOC's static styling.
 - Numbering styles extending `hierarchical_numbers`: Roman numerals (I, II, III), alphabet (A, B, C), and zero-padded decimal (01, 02, 03) via pure CSS counters.
-- Estimated reading time calculation (configurable words-per-minute, calculated on raw post content) displayed optionally in the TOC header badge.
+- Estimated reading time calculation (configurable words-per-minute, calculated on raw post content) displayed optionally in the TOC header badge with zero frontend JavaScript.
 - Editor guardrails: warning notice if reading time or heading count badges are active with the header title hidden.
 - Style presets expansion: introduce clean minimalist, boxed border, modern card, and dark-mode-ready presets with verified color contrast.
 
